@@ -1,82 +1,42 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Media Gallery</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-    }
-    
-    h1 {
-      text-align: center;
-      margin: 40px 0;
-      color: #333;
-    }
-    
-    #gallery {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 30px;
-      background-color: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    h2 {
-      margin: 20px 0;
-      color: #333;
-    }
-    
-    .media-section {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-    }
-    
-    .media-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 10px;
-      background-color: #f9f9f9;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    .media-item img,
-    .media-item video,
-    .media-item embed {
-      max-width: 100%;
-      height: auto;
-    }
-    
-    .media-title {
-      margin-top: 10px;
-      color: #555;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-  <h1>Media Gallery</h1>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Media Gallery</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-  <div id="gallery">
-    <!-- Images -->
-    <h2>Images</h2>
-    <div id="image-gallery" class="media-section"></div>
-    
-    <!-- Videos -->
-    <h2>Videos</h2>
-    <div id="video-gallery" class="media-section"></div>
-    
-    <!-- PDFs -->
-    <h2>PDFs</h2>
-    <div id="pdf-gallery" class="media-section"></div>
-  </div>
+  <body>
+    <header>
+      <h1 class="text-center my-4">Media Gallery</h1>
+    </header>
 
-  <script src="index.js"></script>
-</body>
+    <main>
+      <div id="gallery"></div>
+      
+      <div id="loading-spinner" class="spinner">
+        <div class="spinner-border" role="status">
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      
+      <h1 class="footer-text">Copyright © Aykhan Ahmadzada 2023 - <a href="https://aykhan.net">aykhan.net</a></h1>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="index.js"></script>
+  </body>
 </html>

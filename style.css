@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css2?family=REM:wght@300&display=swap");
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url("file:///C:/Users/Hafiz/AppData/Local/Temp/Rar$DRa712.6330/vecteezy_abstract-dark-background-with-line-grid-gradient-color_13755473.jpg"); /* Replace 'your-image-url.jpg' with the URL of your background image */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+body * {
+  font-family: "REM", sans-serif;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+}
+
+.folder-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+  border: 2px solid white;
+  border-radius: 20px;
+  position: relative;
+}
+
+.card {
+  cursor: pointer;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.folder-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  border-bottom: 2px solid white; /* Adjust the border width as needed */
+  padding: 10px;
+}
+
+.content-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.asset-name {
+  font-size: 17px;
+  padding: 10px;
+  color: white;
+  height: 40px;
+}
+
+.assets-container {
+  gap: 20px;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.asset-card {
+  background-color: transparent;
+  width: auto;
+  border: 2px solid white;
+  border-radius: 15px;
+  font-weight: bold;
+}
+
+.img-fluid {
+  max-height: 400px;
+  max-width: 350px;
+  width: auto;
+  height: auto;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 95% !important;
+  align-self: center;
+}
+
+.asset-count {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+}
+
+.spinner-border {
+  color: white;
+}
+
+#loading-spinner{
+    margin-bottom: 20px;
+}
+
+footer {
+  width: 95%;
+  border: 2px solid white;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-text {
+  color: white;
+  padding: 15px;
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  text-align: center;
+  margin: 0px;
+}
