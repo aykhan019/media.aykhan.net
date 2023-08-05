@@ -42,7 +42,7 @@
   }
 
   function createAssetCardHTML(asset) {
-    const assetURL = asset.download_url;
+    const assetURL = asset.html_url.replace("https://github.com/Drongo-J/media.aykhan.net/blob/master", "https://media.aykhan.net");
     let assetHTML;
 
     if (asset.name.endsWith(".mp4")) {
@@ -51,7 +51,7 @@
           <div class="card-body text-center">
             <div class='content-container'>
               <video controls class="img-fluid">
-                <source src="${assetURL}" type="video/mp4">
+                <source id="${id}" src="${assetURL}" type="video/mp4">
               </video>
             </div>
             <p class="asset-name">${asset.name}</p>
@@ -62,7 +62,7 @@
       <div class="card asset-card animate__animated animate__zoomIn" onclick="redirectToImage('${assetURL}')">
         <div class="card-body text-center">
           <div class='content-container'>
-            <img src="${assetURL}" alt="${asset.name}" class="img-fluid">
+            <img src="https://media.aykhan.net/assets/gifs/loading.gif" onload="changeSource('${assetURL}', this)" alt="${asset.name}" class="img-fluid" />
           </div>
           <p class="asset-name">${asset.name
             .split(".")[0]
@@ -72,6 +72,10 @@
     }
 
     return assetHTML;
+  }
+  
+  function changeSource(url,img){
+    img.src = url;
   }
 
   function displayAssets(assets) {
@@ -92,8 +96,6 @@
           <h1 class='asset-count'>${groupedAssets[folder].length}</h2>
         </div>
       `;
-
-      console.log(groupedAssets[folder].length);
 
       galleryDiv.insertAdjacentHTML("beforeend", folderContainerHTML);
     });
