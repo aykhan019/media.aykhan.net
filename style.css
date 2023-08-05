@@ -4,7 +4,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url("file:///C:/Users/Hafiz/AppData/Local/Temp/Rar$DRa712.6330/vecteezy_abstract-dark-background-with-line-grid-gradient-color_13755473.jpg"); /* Replace 'your-image-url.jpg' with the URL of your background image */
+  background-image: url("https://media.aykhan.net/assets/images/media-aykhan-net-bg-image.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -47,7 +47,7 @@ h1 {
   font-weight: bold;
   text-align: center;
   color: white;
-  border-bottom: 2px solid white; /* Adjust the border width as needed */
+  border-bottom: 2px solid white;
   padding: 10px;
 }
 
