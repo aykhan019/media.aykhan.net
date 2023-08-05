@@ -16,6 +16,7 @@
           item.name.endsWith(".jpg") ||
           item.name.endsWith(".jpeg") ||
           item.name.endsWith(".gif") ||
+          item.name.endsWith(".svg") ||
           item.name.endsWith(".mp4"))
       );
     });
