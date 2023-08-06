@@ -4,7 +4,8 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url("https://media.aykhan.net/assets/images/media-aykhan-net-bg-image.jpg");
+  background-color: #353442;
+  /* background-image: url("https://media.aykhan.net/assets/images/media-aykhan-net-bg-image.jpg"); */
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
