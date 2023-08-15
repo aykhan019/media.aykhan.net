@@ -90,38 +90,18 @@
   
     Object.keys(groupedAssets).forEach((folder, index) => {
       const folderContainerHTML = `
-        <div class="folder-container">
-          <div class="accordion" id="folderAccordion${index}">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="heading${index}">
-                <button
-                  class="accordion-button"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapse${index}"
-                  aria-expanded="false"
-                  aria-controls="collapse${index}"
-                >
-                  ${createFolderTitleHTML(folder)}
-                  <span class="asset-count">${groupedAssets[folder].length}</span>
-                </button>
-              </h2>
-              <div
-                id="collapse${index}"
-                class="accordion-collapse collapse"
-                aria-labelledby="heading${index}"
-                data-bs-parent="#folderAccordion${index}"
-              >
-                <div class="accordion-body d-flex flex-wrap animate__animated animate__fadeIn assets-container">
-                  ${groupedAssets[folder].map((asset) => createAssetCardHTML(asset)).join("")}
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="folder-container">
+        ${createFolderTitleHTML(folder)}
+        <div class="d-flex flex-wrap animate__animated animate__fadeIn assets-container">
+          ${groupedAssets[folder]
+            .map((asset) => createAssetCardHTML(asset))
+            .join("")}
         </div>
-      `;
-  
-      accordionContainer.insertAdjacentHTML("beforeend", folderContainerHTML);
+        <h1 class='asset-count'>${groupedAssets[folder].length}</h2>
+      </div>
+    `;
+
+    galleryDiv.insertAdjacentHTML("beforeend", folderContainerHTML);
     });
   
     document.getElementById("loading-spinner").style.display = "none";
