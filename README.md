@@ -30,8 +30,4 @@ Contributions to this repository are welcome! If you have media assets that you 
 
 The media files in this repository are generally under my ownership and usage, as they are intended for use specifically on [aykhan.net](https://aykhan.net). If you have any specific inquiries about their use, feel free to contact me directly.
 
-## Contact
-
-If you have any questions, want to collaborate, or simply want to get in touch, feel free to reach out to me through the contact information provided on [aykhan.net](https://aykhan.net).
-
 Thank you for visiting my media repository and exploring the media assets that make [aykhan.net](https://aykhan.net) a vibrant and engaging platform!
