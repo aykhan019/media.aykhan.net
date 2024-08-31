@@ -1,8 +1,20 @@
+  const token = process.env.GITHUB_ASSET_TOKEN;
+
   // Function to fetch the content of a directory using the GitHub API
   async function getDirectoryContents(path) {
     const response = await fetch(
-      `https://api.github.com/repos/Drongo-J/media.aykhan.net/contents/${path}`
-    );
+      `https://api.github.com/repos/aykhan019/media.aykhan.net/contents/${path}`, 
+      {
+          headers: {
+              'Authorization': `token ${token}`,
+              'Accept': 'application/vnd.github.v3+json'
+          }
+      }
+  );
+  
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
     const data = await response.json();
     return data;
   }
@@ -43,7 +55,7 @@
   }
 
   function createAssetCardHTML(asset) {
-    const assetURL = asset.html_url.replace("https://github.com/Drongo-J/media.aykhan.net/blob/master", "https://media.aykhan.net");
+    const assetURL = asset.html_url.replace("https://github.com/aykhan019/media.aykhan.net/blob/master", "https://media.aykhan.net");
     let assetHTML;
 
     if (asset.name.endsWith(".mp4")) {
