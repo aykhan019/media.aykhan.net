@@ -1,0 +1,692 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Module 1: Introduction to Machine Learning</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(249, 228, 188, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="30a4c51d-6fc2-4d70-b5c8-2711b42f48c0" class="page sans"><header><img class="page-cover-image" src="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/photo-1485827404703-89b55fcc595e.jpeg" style="object-position:center 43.879999999999995%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/science_gray.svg"/></div><h1 class="page-title">Module 1: Introduction to Machine Learning</h1><p class="page-description"></p></header><div class="page-body"><h2 id="93881b12-0c78-4c8e-b154-4cad4093562c" class="">What is Machine Learning?</h2><p id="f491cc9c-ef9a-40fc-888b-240999d99b7f" class="">Machine Learning is a subfield of computer science that gives computers the ability to learn from data without being explicitly programmed. It involves the development of algorithms that can recognize patterns, make decisions, and improve themselves over time.</p><h2 id="7c1141fc-2ab0-4923-987a-a12c508b10cb" class="">How Does Machine Learning Work?</h2><p id="ef17070f-305b-41d2-9980-e86e4164e11b" class="">Machine Learning algorithms, inspired by the human learning process, iteratively learn from data. These algorithms allow computers to discover hidden insights and patterns within large datasets. The models created through Machine Learning can assist in a variety of tasks, such as object recognition, text summarization, recommendation systems, and more.</p><p id="8f6780ab-42df-4e4d-aaee-2c3967bbbc01" class="">
+</p><figure id="8fc22ef3-9530-48a4-9e35-38ec55233525" class="image"><a href="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/Untitled.png"><img style="width:708px" src="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/Untitled.png"/></a></figure><p id="e1eb82e4-8d58-4623-a571-c9bc95cddc5f" class="">
+</p><h2 id="a4a51e1e-09f7-4c7b-9ead-164266d13321" class="">Major Machine Learning Techniques</h2><hr id="84337a11-008c-4507-b21f-9f135a90cbe5"/><p id="a4e35c53-a93d-4d28-9003-4a02183773fc" class=""><strong>Regression</strong></p><ul id="4902d8d5-1bbb-407b-bf26-3570dcd410d9" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: A method used to predict continuous values (e.g., prices, temperatures) based on input features.<ul id="79c54e5e-cda7-48a9-b638-6c96c46bf7fe" class="bulleted-list"><li style="list-style-type:circle"><strong>Scenario</strong>: House Price Prediction</li></ul><ul id="b218ca9e-519f-495d-8925-edcff53890ba" class="bulleted-list"><li style="list-style-type:circle"><strong>Description</strong>: A real estate company wants to predict house prices based on features like size, number of bedrooms, and location. They use a linear regression model.</li></ul><ul id="984da308-cea5-4112-822f-c8617a005e65" class="bulleted-list"><li style="list-style-type:circle"><strong>Data</strong>:<ul id="805f946a-933c-45c9-bf6f-a27cc266dc60" class="bulleted-list"><li style="list-style-type:square">Size (square feet)</li></ul><ul id="443a3994-1d8d-4bb3-b9c4-d5b76b4a412c" class="bulleted-list"><li style="list-style-type:square">Number of bedrooms</li></ul><ul id="055d41f4-feba-4df1-ad99-b200c2ea7062" class="bulleted-list"><li style="list-style-type:square">Location (neighborhood)</li></ul><ul id="476f4dff-dab2-4ac8-9fa4-8d3db3fcdb02" class="bulleted-list"><li style="list-style-type:square">Age of the house</li></ul><ul id="bcc50c96-3f45-4fe7-9c67-b451c4cb3868" class="bulleted-list"><li style="list-style-type:square">Historical sale prices</li></ul></li></ul><ul id="79e99cac-9de7-4a3d-af41-625c46784841" class="bulleted-list"><li style="list-style-type:circle"><strong>Outcome</strong>: The model predicts the price of a house given its features.</li></ul><ul id="a6d06cb0-187b-4330-918e-c2742c906371" class="bulleted-list"><li style="list-style-type:circle"><strong>Benefit</strong>: Helps the company set competitive prices and assists buyers in making informed decisions.</li></ul></li></ul><hr id="5f4ce187-093f-45fa-a3bc-55a70ed89dff"/><p id="9f1026b0-3aa5-4c62-87af-7f7aa4987fb1" class=""><strong>Classification</strong></p><ul id="28102d5f-b84b-4bc9-89cb-c086c76e2646" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: A method used to predict categories or labels (e.g., spam or not spam) based on input features.<ul id="fd990852-08f2-4269-89b6-47be1e84a12d" class="bulleted-list"><li style="list-style-type:circle"><strong>Scenario</strong>: Email Spam Detection</li></ul><ul id="87ccb7fb-4845-49b3-a119-5fd110221b4a" class="bulleted-list"><li style="list-style-type:circle"><strong>Description</strong>: An email service provider wants to filter out spam emails. They use a logistic regression or decision tree classifier.</li></ul><ul id="e536e07b-3b44-4d9b-822b-28ffaf3b2c2c" class="bulleted-list"><li style="list-style-type:circle"><strong>Data</strong>:<ul id="f0bd6cd3-8b11-4df6-a5dc-8d400e3d1324" class="bulleted-list"><li style="list-style-type:square">Email content (text)</li></ul><ul id="eea8895b-88dc-45c3-a6dd-66f48cd4161e" class="bulleted-list"><li style="list-style-type:square">Metadata (sender address, frequency of keywords)</li></ul><ul id="35ac4d3f-2d36-4aba-80ef-bbff0425aa36" class="bulleted-list"><li style="list-style-type:square">Label (spam or not spam)</li></ul></li></ul><ul id="5415c349-5ff2-4b75-9af5-d95517e1a4f0" class="bulleted-list"><li style="list-style-type:circle"><strong>Outcome</strong>: The model classifies emails as either spam or not spam.</li></ul><ul id="f7dc2deb-5979-4f4d-8823-b9c7680d4bfd" class="bulleted-list"><li style="list-style-type:circle"><strong>Benefit</strong>: Reduces the number of spam emails reaching users&#x27; inboxes, improving user experience.</li></ul></li></ul><hr id="bc77722b-c907-42c3-8121-54802ddfe85f"/><p id="73f0c9a0-9e47-4c6c-9652-fdb47c575cf6" class=""><strong>Clustering</strong></p><ul id="1d176116-d76e-4522-969b-820685277090" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: A method used to group similar data points together without predefined categories.<ul id="12f97050-afc2-4682-83d8-a65491730307" class="bulleted-list"><li style="list-style-type:circle"><strong>Scenario</strong>: Customer Segmentation</li></ul><ul id="01c755e4-76d5-4d57-bbe8-bfb5ffa6fe4f" class="bulleted-list"><li style="list-style-type:circle"><strong>Description</strong>: An e-commerce company segments its customers based on purchasing behavior using the K-means clustering algorithm.</li></ul><ul id="0bae4d8d-42b0-41f7-89b8-27ed84b3b7bc" class="bulleted-list"><li style="list-style-type:circle"><strong>Data</strong>:<ul id="3f1ec31c-cea1-4bc0-a9f1-c6a2d3617298" class="bulleted-list"><li style="list-style-type:square">Customer Age</li></ul><ul id="c2f80f84-cac0-41e1-b1a8-caad0ca37563" class="bulleted-list"><li style="list-style-type:square">Annual Income</li></ul><ul id="312f1bc2-ea83-4cee-8aac-974a08145024" class="bulleted-list"><li style="list-style-type:square">Spending Score</li></ul></li></ul><ul id="f16a5b9d-0743-4e36-838a-43416aaecba0" class="bulleted-list"><li style="list-style-type:circle"><strong>Outcome</strong>: Customers are grouped into clusters with similar behaviors.</li></ul><ul id="a8b86f47-e13f-480e-bc79-691b06c68727" class="bulleted-list"><li style="list-style-type:circle"><strong>Benefit</strong>: Allows for targeted marketing strategies.</li></ul></li></ul><hr id="b1bb7618-bb5e-4d0b-a0af-50d2d6b8be76"/><p id="e467f7ce-61a2-46e5-8c11-3744ba02c8e2" class=""><strong>Association Rule Learning</strong></p><ul id="b8c8df6a-b83e-4fb8-b01c-a75fd23efbbb" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: A method used to find relationships between items in large datasets.<ul id="28f2ebc9-ec58-4630-ba05-149f1f41901c" class="bulleted-list"><li style="list-style-type:circle"><strong>Scenario</strong>: Market Basket Analysis</li></ul><ul id="d5b70df5-ff7e-4c7c-b203-018da57dadd7" class="bulleted-list"><li style="list-style-type:circle"><strong>Description</strong>: A grocery store identifies items frequently bought together using the Apriori algorithm.</li></ul><ul id="1f92ac16-4844-4a95-b346-86b5ceed72d4" class="bulleted-list"><li style="list-style-type:circle"><strong>Data</strong>:<ul id="cae5debb-106f-44c9-9822-b11af3bf0a8c" class="bulleted-list"><li style="list-style-type:square">Transaction ID</li></ul><ul id="78085294-668a-4693-8587-c6ffde18747a" class="bulleted-list"><li style="list-style-type:square">List of items purchased</li></ul></li></ul><ul id="a43c27df-c424-423e-a614-f7c70cc5257a" class="bulleted-list"><li style="list-style-type:circle"><strong>Outcome</strong>: Rules like {Bread, Butter} → {Milk} are discovered.</li></ul><ul id="595f837b-8c7c-4c43-8b39-2edd3d3ce8ba" class="bulleted-list"><li style="list-style-type:circle"><strong>Benefit</strong>: Optimizes product placement and promotions.</li></ul></li></ul><hr id="73f690c1-671b-44b3-b623-bb14f5870a01"/><p id="69e14a26-e78d-433f-8a0a-c9483f4fd059" class=""><strong>Anomaly Detection</strong></p><ul id="b8f2c185-deb9-47b7-8ec3-032a3f3385e4" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: A method used to identify unusual patterns that do not conform to expected behavior.<ul id="38d416d0-de05-4b64-8a24-9d18fce9404d" class="bulleted-list"><li style="list-style-type:circle"><strong>Scenario</strong>: Fraud Detection</li></ul><ul id="b18c4f7e-a4c2-4d38-ba67-fc75f34d6b88" class="bulleted-list"><li style="list-style-type:circle"><strong>Description</strong>: A bank wants to detect fraudulent transactions. They use anomaly detection techniques.</li></ul><ul id="2bc9a57e-dc46-4e59-a1b1-8168f9ecddc9" class="bulleted-list"><li style="list-style-type:circle"><strong>Data</strong>:<ul id="a4a3422c-656f-4fc6-8d42-67d7c8cdd5fd" class="bulleted-list"><li style="list-style-type:square">Transaction amount</li></ul><ul id="7f3e3acb-c1e1-45d7-b6d3-aa4048bb10e2" class="bulleted-list"><li style="list-style-type:square">Transaction location</li></ul><ul id="b5a09a42-4f0f-4848-a86e-cd51be6cb659" class="bulleted-list"><li style="list-style-type:square">Time of transaction</li></ul><ul id="f7075fed-3bb7-4027-8832-b30f74f0995d" class="bulleted-list"><li style="list-style-type:square">Historical transaction data</li></ul></li></ul><ul id="39b9d8ef-acb9-4e78-965e-bab9c8873266" class="bulleted-list"><li style="list-style-type:circle"><strong>Outcome</strong>: The model flags suspicious transactions.</li></ul><ul id="8dae64ba-a91a-44bb-8af8-697dfa937769" class="bulleted-list"><li style="list-style-type:circle"><strong>Benefit</strong>: Helps prevent fraud and protects customers.</li></ul></li></ul><hr id="a51be0ed-579a-4850-8eed-e8343b1b2664"/><p id="b19b9175-e471-4d35-9332-886e9c463499" class=""><strong>Sequence Mining</strong></p><ul id="70aa81b9-651d-45fc-a18c-eb6cc98ca8ae" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: A method used to discover patterns in sequential data.<ul id="22dc647d-ca17-447a-813d-889c3efbfcfd" class="bulleted-list"><li style="list-style-type:circle"><strong>Scenario</strong>: Customer Purchase Patterns</li></ul><ul id="c819cf52-d20f-49a9-afbe-fd59a34e53b9" class="bulleted-list"><li style="list-style-type:circle"><strong>Description</strong>: An online retailer wants to find patterns in the sequence of items customers purchase. They use sequence mining techniques.</li></ul><ul id="4a6b5aea-808e-4166-b89a-96ce4e7236fe" class="bulleted-list"><li style="list-style-type:circle"><strong>Data</strong>:<ul id="1551b8f9-cb58-4ad6-8f5b-537a8e6506ca" class="bulleted-list"><li style="list-style-type:square">Transaction sequences</li></ul><ul id="bf5a75c4-9710-4274-8f44-6624d7cf9099" class="bulleted-list"><li style="list-style-type:square">Items purchased in order</li></ul></li></ul><ul id="afb7e6b5-9462-45b3-8852-9b1e0a828dbf" class="bulleted-list"><li style="list-style-type:circle"><strong>Outcome</strong>: Patterns like customers often buying a phone case after purchasing a phone are discovered.</li></ul><ul id="b6176c46-e7f8-4954-930b-670156116b91" class="bulleted-list"><li style="list-style-type:circle"><strong>Benefit</strong>: Helps in creating better marketing strategies.</li></ul></li></ul><hr id="644b6874-75b0-4c1d-a5e0-ad29710d8d9e"/><p id="c0af0744-41df-4b3f-bea6-04a0ef5b8b71" class=""><strong>Dimensionality Reduction</strong></p><ul id="63039c4c-3768-4d53-acc7-1aa0abdb5367" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: A method used to reduce the number of input variables in a dataset.<ul id="d8fc2238-9ba0-439f-b3a4-44e5288b5751" class="bulleted-list"><li style="list-style-type:circle"><strong>Scenario</strong>: Data Visualization</li></ul><ul id="cc55605d-1067-46cc-b2e0-e21dc6ad3161" class="bulleted-list"><li style="list-style-type:circle"><strong>Description</strong>: A data scientist wants to visualize high-dimensional data. They use Principal Component Analysis (PCA).</li></ul><ul id="610a379f-dd43-4b69-ac91-183cb568c443" class="bulleted-list"><li style="list-style-type:circle"><strong>Data</strong>:<ul id="d02274ed-008b-4691-b631-8aabc2f682ae" class="bulleted-list"><li style="list-style-type:square">Multidimensional data points</li></ul></li></ul><ul id="e9d032b3-2db5-4f97-8838-b93ee6cd1d63" class="bulleted-list"><li style="list-style-type:circle"><strong>Outcome</strong>: The data is reduced to two or three principal components for visualization.</li></ul><ul id="b7fb6c98-6cac-4f35-916d-3abadec55dcc" class="bulleted-list"><li style="list-style-type:circle"><strong>Benefit</strong>: Helps in understanding data structure and identifying patterns.</li></ul></li></ul><hr id="1317f06a-d807-4f8a-b86e-0729f5416896"/><p id="bfa06f82-30ef-4be3-bd4b-6305007b09ca" class=""><strong>Recommendation Systems</strong></p><ul id="fa1bc4b1-df65-4a34-be49-95c11727f3c5" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: A method used to suggest items to users based on various factors.<ul id="33ab2a82-93ed-4d28-8abd-0a91ebdd87c3" class="bulleted-list"><li style="list-style-type:circle"><strong>Scenario</strong>: Movie Recommendations</li></ul><ul id="148b0177-80c2-4720-bcc2-6c908c93d42f" class="bulleted-list"><li style="list-style-type:circle"><strong>Description</strong>: A streaming service wants to recommend movies to its users. They use a recommendation system.</li></ul><ul id="77c023cb-8813-47a6-98b9-ca52de9d9780" class="bulleted-list"><li style="list-style-type:circle"><strong>Data</strong>:<ul id="b0a1cfb1-0ada-477e-b248-dddf3f61c07a" class="bulleted-list"><li style="list-style-type:square">User viewing history</li></ul><ul id="0f6869a7-a4b7-4a94-9efb-3f5c40424366" class="bulleted-list"><li style="list-style-type:square">Movie ratings</li></ul><ul id="247135b6-b3d5-4187-af1f-02b273132533" class="bulleted-list"><li style="list-style-type:square">Genre preferences</li></ul></li></ul><ul id="aa88323f-726d-400b-9075-3bd9629cdede" class="bulleted-list"><li style="list-style-type:circle"><strong>Outcome</strong>: The system suggests movies that users are likely to enjoy.</li></ul><ul id="dbcf5f5b-80a3-4754-ba51-13165f9e5acf" class="bulleted-list"><li style="list-style-type:circle"><strong>Benefit</strong>: Enhances user experience and increases engagement.</li></ul></li></ul><hr id="89fc1f60-f4a1-4583-9ac4-5e7bed984631"/><figure id="b463efb5-07fd-4472-8c39-20448678dac0" class="image"><a href="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/Untitled%201.png"><img style="width:850px" src="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/Untitled%201.png"/></a></figure><h3 id="7f7afa72-cfd6-4a13-bf0d-cfd34379678b" class="">Note</h3><p id="712be098-221f-4f49-a9f0-733f9cfaeaa3" class="">Sequence mining identifies patterns based on the order of events, while association rule learning focuses on identifying co-occurrence patterns without considering the order of items.</p><p id="fff34575-a838-80d9-b51c-ff9b37a2c582" class="">
+</p><hr id="23400f0f-44f0-4eaa-8cdb-b8ded3a5933b"/><h2 id="a69c1330-0e72-45ca-b430-0b9f93103c3f" class="">Understanding Artificial Intelligence, Machine Learning, and Deep Learning</h2><p id="9ca50a43-f417-4793-91b6-39e5abee14e6" class="">Artificial Intelligence (AI), Machine Learning (ML), and Deep Learning (DL) are often used interchangeably but refer to distinct concepts in the realm of computer science:</p><ul id="0a3f3149-82af-4d0d-8488-be7d218b2b97" class="bulleted-list"><li style="list-style-type:disc"><strong>Artificial Intelligence (AI)</strong> encompasses the broad goal of simulating human intelligence in machines. It includes fields like computer vision, natural language processing, creativity, and summarization.</li></ul><ul id="e1869200-cf3c-4c3d-8976-4edcda97b36d" class="bulleted-list"><li style="list-style-type:disc"><strong>Machine Learning (ML)</strong> is a subset of AI that focuses on algorithms and statistical models that enable computers to perform tasks without explicit programming. ML involves learning from data and examples to improve performance on specific tasks.</li></ul><ul id="ccd1f2a2-893b-49bf-9b94-d2241aaf09f1" class="bulleted-list"><li style="list-style-type:disc"><strong>Deep Learning (DL)</strong> represents a specialized area within ML that involves algorithms inspired by the structure and function of the human brain&#x27;s neural networks. DL enables computers to learn from large amounts of data and make decisions autonomously.</li></ul><p id="e62553c1-1058-49e0-8f35-f5041ba73cfa" class="">In summary:</p><ul id="88e5b234-de8e-4040-b555-f2cbd3a6763e" class="bulleted-list"><li style="list-style-type:disc"><strong>AI</strong> aims to make machines intelligent across various domains.</li></ul><ul id="586109ad-fbe6-4377-ae49-00d5b00778a0" class="bulleted-list"><li style="list-style-type:disc"><strong>ML</strong> provides the statistical tools for machines to learn from data and improve over time.</li></ul><ul id="76db056b-256c-43a3-a80d-51316b035ea5" class="bulleted-list"><li style="list-style-type:disc"><strong>DL</strong> utilizes deep neural networks to achieve high levels of automation and performance in tasks like image and speech recognition.</li></ul><p id="6c7adcfa-08c9-4e97-a40a-82cb92f09285" class="">
+</p><hr id="df9fad29-8d10-47ea-ad4d-41225deda86b"/><h2 id="c37bc2d1-04f8-483e-a1eb-32015596738f" class="">Introduction to Python for Machine Learning</h2><p id="e84d38c6-c7ea-4e6f-9f3f-b19a9cee735b" class="">Python is a popular and powerful general-purpose programming language that has emerged as the preferred language among data scientists. Writing machine learning algorithms using Python is highly effective, especially with numerous pre-implemented modules and libraries available.</p><h3 id="d8403f37-9e1c-4b02-9fc6-1c0eaa18c0bc" class="">Key Python Packages for Machine Learning</h3><ol type="1" id="b0ba2a1a-65f7-423f-9c5c-531d4a8b06de" class="numbered-list" start="1"><li><strong>NumPy</strong>: A math library for working with N-dimensional arrays. It enables efficient computation and is superior for tasks involving arrays, dictionaries, functions, datatypes, and image processing.</li></ol><ol type="1" id="f112c46b-dece-4709-9365-98fa8575bec5" class="numbered-list" start="2"><li><strong>SciPy</strong>: A collection of numerical algorithms and domain-specific toolboxes, including signal processing, optimization, and statistics. Ideal for scientific and high-performance computation.</li></ol><ol type="1" id="78c95fce-ddfc-4af1-9ef3-ab50273c64f6" class="numbered-list" start="3"><li><strong>Matplotlib</strong>: A popular plotting package providing both 2D and 3D plotting capabilities. Essential for visualizing data in real-world problem-solving.</li></ol><ol type="1" id="f90f5d50-8fb6-42f6-a10e-2e1648732a49" class="numbered-list" start="4"><li><strong>Pandas</strong>: A high-level library offering high-performance, easy-to-use data structures and functions for data importing, manipulation, and analysis, particularly for numerical tables and time series.</li></ol><ol type="1" id="c081b945-0f0a-4851-9de9-e2d951016290" class="numbered-list" start="5"><li><strong>SciKit Learn</strong>: A comprehensive library of machine learning algorithms and tools. It integrates well with NumPy and SciPy and simplifies the implementation of machine learning models.</li></ol><h3 id="e66de323-ce34-4b67-8212-0534cb8b252b" class=""><strong>SciKit Learn</strong> </h3><p id="9bbb3110-3eaa-479d-858c-ba833cbdd06c" class="">SciKit Learn is a comprehensive machine learning library that integrates seamlessly with NumPy and SciPy. It simplifies the implementation of machine learning models through several streamlined steps:</p><ul id="fcce2b81-9f1a-4cc9-bb95-c18f23db3a6d" class="bulleted-list"><li style="list-style-type:disc"><strong>Pre-processing</strong>: Standardizing datasets to handle outliers and varying scales, transforming raw feature vectors into suitable forms for modeling.</li></ul><ul id="f46906cd-8776-45d6-8068-3a19469e76f7" class="bulleted-list"><li style="list-style-type:disc"><strong>Train-Test Split</strong>: Dividing datasets into training and testing subsets to validate model performance.</li></ul><ul id="657f9946-f8c9-4562-a378-7b40bb1f501d" class="bulleted-list"><li style="list-style-type:disc"><strong>Building and Training Models</strong>: Initializing and configuring algorithms, such as support vector classification, and fitting them to training data.</li></ul><ul id="f5fdfcff-0708-44a0-8550-ccd8209860e7" class="bulleted-list"><li style="list-style-type:disc"><strong>Making Predictions</strong>: Using the test data to evaluate the model’s performance.</li></ul><ul id="8a789fc8-a722-4af6-969a-62fc8f76e89e" class="bulleted-list"><li style="list-style-type:disc"><strong>Evaluation</strong>: Assessing accuracy with metrics like a confusion matrix, visualizing model performance.</li></ul><ul id="6c77207b-933e-4fb6-ab6b-4a5a95d375c0" class="bulleted-list"><li style="list-style-type:disc"><strong>Model Exporting</strong>: Saving trained models for future use, enabling easy deployment.</li></ul><p id="d79dd1a5-d1dd-4a07-a82c-2d5645b61443" class="">A typical workflow with SciKit Learn involves pre-processing the data, splitting it into training and testing sets, building and training a classifier, making predictions, evaluating the model, and saving it for future use.</p><figure id="e4c1c6b7-e18e-428a-9386-814d4081415d" class="image"><a href="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/Untitled%202.png"><img style="width:2122px" src="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/Untitled%202.png"/></a></figure><hr id="f9409d3f-56f7-47f5-ad92-3516312d0bb2"/><figure id="f55232d6-0b3b-4379-b63b-2372a59a3c46" class="image"><a href="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/Untitled%203.png"><img style="width:1841px" src="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/Untitled%203.png"/></a></figure><hr id="64bf2f9c-c9c6-4283-922e-910d09909e09"/><figure id="c9944e54-2051-496c-bddd-41cdf58f7af2" class="image"><a href="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/Untitled%204.png"><img style="width:720px" src="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/Untitled%204.png"/></a></figure><p id="6b48f01e-680e-483a-a9c3-9fd2da36afea" class="">
+</p><p id="91027959-14f9-40c1-9d3c-0318b5128c2c" class="">Understanding and leveraging these packages, especially SciKit Learn, simplifies the machine learning process and reduces the amount of coding required compared to using pure Python or other individual packages.</p><p id="70d72229-474b-491f-b103-9116779befdc" class="">
+</p><hr id="a0766f8d-ecf7-41f7-bc53-655ece851cb0"/><h2 id="e2b235f9-0ab8-488f-88c3-3cd8814721fc" class=""><strong>Supervised vs Unsupervised Algorithms</strong></h2><p id="93c26ba7-209a-43c3-bc95-4653389b94b0" class="">Understanding the difference between supervised and unsupervised learning is fundamental in machine learning.</p><h3 id="a9ce4ce6-a2c4-435f-855f-dae73cb32c88" class=""><strong>Supervised Learning</strong></h3><p id="5497506a-cb0b-4fc4-bd98-24377790cf01" class="">Supervised learning involves teaching a machine learning model using a labeled dataset. This means the model is trained on data where the input features and the output labels are known. For example, in a cancer dataset, features like clump thickness and cell size (attributes) are used to predict if a cell is malignant or benign (label). The goal is to predict future instances based on this training.</p><ul id="152dd2a4-1333-46e3-aee1-993852adddf7" class="bulleted-list"><li style="list-style-type:disc"><strong>Types of Supervised Learning</strong>:<ul id="3e1c455f-0509-4da6-8ade-39ce5223a30b" class="bulleted-list"><li style="list-style-type:circle"><strong>Classification</strong>: Predicts discrete class labels. For example, classifying emails as spam or not spam.</li></ul><ul id="4c5f5c61-1cc1-4dd0-bafb-59bdf93ee2f0" class="bulleted-list"><li style="list-style-type:circle"><strong>Regression</strong>: Predicts continuous values. For example, predicting the CO2 emission of a car based on its engine size and number of cylinders.</li></ul></li></ul><figure id="5ebaca23-6363-4bc6-b31d-887f6316bd46" class="image"><a href="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/Untitled%205.png"><img style="width:1000px" src="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/Untitled%205.png"/></a></figure><h3 id="8bad3724-1123-4d98-ab7b-253d99014ff8" class=""><strong>Unsupervised Learning</strong></h3><p id="71da93cc-6939-48d1-aedb-1b83a2fcba24" class="">Unsupervised learning involves training a model on data without labeled responses. The model tries to learn the underlying structure of the data on its own.</p><ul id="31d25ab7-93bb-47a1-9b28-9c17bea609e3" class="bulleted-list"><li style="list-style-type:disc"><strong>Common Unsupervised Learning Techniques</strong>:<ul id="f8d1b683-7e9f-4e54-9424-fdd0e05af07c" class="bulleted-list"><li style="list-style-type:circle"><strong>Clustering</strong>: Grouping data points into clusters based on their similarity. It is widely used for customer segmentation, organizing music genres, etc.</li></ul><ul id="585e8e81-1aad-4160-8e2e-cd23a24da777" class="bulleted-list"><li style="list-style-type:circle"><strong>Dimensionality Reduction</strong>: Reducing the number of features in the data to simplify the model and make the classification easier.</li></ul><ul id="6214511a-e27c-4195-bb92-4de6fd5348d0" class="bulleted-list"><li style="list-style-type:circle"><strong>Market Basket Analysis</strong>: Identifying items that frequently co-occur in transactions.</li></ul><ul id="86d03ef8-a5f4-43c5-824c-069f432f5983" class="bulleted-list"><li style="list-style-type:circle"><strong>Density Estimation</strong>: Exploring the data to find some underlying structure.</li></ul></li></ul><figure id="61e290d2-114f-4159-be72-413b581b97bf" class="image"><a href="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/Untitled%206.png"><img style="width:708px" src="Module%201%20Introduction%20to%20Machine%20Learning%2030a4c51d6fc24d70b5c82711b42f48c0/Untitled%206.png"/></a></figure><p id="68b66e79-ae45-4ccd-b715-012c03d9216b" class="">
+</p><h3 id="247b44d9-4eed-415d-aef1-7ce816df115a" class=""><strong>Key Differences Between Supervised and Unsupervised</strong></h3><ul id="d23c6813-f42e-4f7b-9087-96f0b1e0e366" class="bulleted-list"><li style="list-style-type:disc"><strong>Data</strong>:<ul id="ee797c2b-e66d-4d9d-983c-cbf3cbc567a5" class="bulleted-list"><li style="list-style-type:circle">Supervised Learning: Uses labeled data.</li></ul><ul id="81ecd30a-50f0-46c4-94ab-e3368b88c467" class="bulleted-list"><li style="list-style-type:circle">Unsupervised Learning: Uses unlabeled data.</li></ul></li></ul><ul id="0a91827a-d0f3-41b4-ae3b-7bc1a019e13f" class="bulleted-list"><li style="list-style-type:disc"><strong>Techniques</strong>:<ul id="27d6215f-2e02-40bf-830b-80f6d05e5981" class="bulleted-list"><li style="list-style-type:circle">Supervised Learning: Includes classification and regression.</li></ul><ul id="1ec0e85d-cc56-4897-bfe3-b898f3f6d182" class="bulleted-list"><li style="list-style-type:circle">Unsupervised Learning: Includes clustering, dimensionality reduction, market basket analysis, and density estimation.</li></ul></li></ul><ul id="dc25eeec-062e-4cea-bbcf-921f7eb7ff7f" class="bulleted-list"><li style="list-style-type:disc"><strong>Outcome Control</strong>:<ul id="ab872389-1ae6-4387-a5e9-e89160d3e63b" class="bulleted-list"><li style="list-style-type:circle">Supervised Learning: More controllable environment due to labeled data.</li></ul><ul id="844b2be2-5f91-440d-b800-41f24ce2a367" class="bulleted-list"><li style="list-style-type:circle">Unsupervised Learning: Less controllable, model draws conclusions from the data without predefined labels.</li></ul></li></ul><p id="fc3c83c4-e4d3-43b9-ad7c-832cd2765faf" class=""><strong>Recap</strong></p><p id="5a3bce7c-e1c0-481f-a68b-564aacbcb066" class="">The main distinction between supervised and unsupervised learning is that supervised learning uses labeled data to train models, while unsupervised learning uses unlabeled data, allowing the model to find hidden patterns or intrinsic structures. Supervised learning methods are more straightforward in terms of evaluation and control compared to the often complex algorithms and less predictable outcomes in unsupervised learning.</p><p id="91802027-f9bd-49c7-aa08-b677c877aad9" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

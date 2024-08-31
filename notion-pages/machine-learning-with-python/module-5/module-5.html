@@ -1,0 +1,747 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Module 5: Clustering</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(249, 228, 188, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="659f214a-e190-44ea-8898-5c7fbd6c1b9c" class="page sans"><header><img class="page-cover-image" src="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/IMG-20240629-WA0008.jpg" style="object-position:center 44.49999999999999%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/science_gray.svg"/></div><h1 class="page-title">Module 5: Clustering</h1><p class="page-description"></p></header><div class="page-body"><h1 id="c4a70229-8ec9-4d7b-8bbc-6d2992729715" class="">Clustering: An Introduction</h1><h2 id="2ddaeca2-d58e-45a8-ba01-06b07d2d120d" class="">Overview of Clustering</h2><p id="29a155de-7d54-4600-83b0-cfad6e237cb1" class="">Clustering is an unsupervised learning technique used to group similar data points into clusters based on their characteristics. This method is commonly applied in various domains to segment data, identify patterns, and make predictions.</p><figure id="74301a9c-617a-452b-ba16-49edef6be9ea" class="image"><a href="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/image.png"><img style="width:708px" src="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/image.png"/></a></figure><figure id="fff34575-a838-80f7-9f6f-e4f2d3a3a8d6" class="image"><a href="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/image%201.png"><img style="width:708px" src="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/image%201.png"/></a></figure><h2 id="aa37f2ce-1634-4110-a5df-cf80ff34fd0e" class="">Applications of Clustering</h2><ol type="1" id="6a1478c1-d3ec-4b39-b2e3-14013a538bf6" class="numbered-list" start="1"><li><strong>Customer Segmentation</strong>:<ul id="a64d83aa-658e-4b36-8d98-2b887bd1cba7" class="bulleted-list"><li style="list-style-type:disc">Clustering is widely used for customer segmentation in marketing. It helps businesses to group customers based on demographic or behavioral similarities, allowing for targeted marketing strategies.</li></ul><ul id="ac1aacd2-7a46-41f8-9436-557b52276286" class="bulleted-list"><li style="list-style-type:disc">Example: Segmenting customers into groups such as high-profit low-risk, young educated, and middle-income customers.</li></ul></li></ol><ol type="1" id="e65e7f73-1d5c-424c-9f0f-d498c552be1f" class="numbered-list" start="2"><li><strong>Recommendation Systems</strong>:<ul id="4ca51ebf-6bb9-48a7-91aa-f9ca5e7b33b4" class="bulleted-list"><li style="list-style-type:disc">Used to find groups of similar items or users. This information can be used for collaborative filtering to recommend products or content, such as books or movies.</li></ul></li></ol><ol type="1" id="74f9ad23-b913-4561-87f5-b8533e70140c" class="numbered-list" start="3"><li><strong>Banking</strong>:<ul id="7647a397-3f83-4fa3-beb2-9335e5905dfe" class="bulleted-list"><li style="list-style-type:disc">Clustering is used to identify normal transaction patterns, detect fraudulent credit card activities, and categorize customers based on loyalty or likelihood to churn.</li></ul></li></ol><ol type="1" id="a6d90127-ac48-4740-8943-985333284f10" class="numbered-list" start="4"><li><strong>Insurance</strong>:<ul id="651c6618-8af2-4fe7-9923-521d019cc0ef" class="bulleted-list"><li style="list-style-type:disc">Helps in fraud detection during claims analysis and evaluating insurance risks for different customer segments.</li></ul></li></ol><ol type="1" id="709c02bc-79e8-40fb-a0b0-12e784948d6c" class="numbered-list" start="5"><li><strong>Publication Media</strong>:<ul id="05522296-826d-414c-ad73-0efa5524cf78" class="bulleted-list"><li style="list-style-type:disc">Used to auto-categorize and tag news articles for better recommendation systems.</li></ul></li></ol><ol type="1" id="1ef95d86-1392-4b0e-9734-440e78505f9e" class="numbered-list" start="6"><li><strong>Medicine</strong>:<ul id="d13e74b3-eef7-4f7d-8f4d-4f9897168d3d" class="bulleted-list"><li style="list-style-type:disc">Clustering patients based on similar characteristics to identify effective medical therapies or grouping genes with similar expression patterns.</li></ul></li></ol><h1 id="6ac198ba-1bcd-44f6-9017-5a4907c002e4" class="">Clustering Algorithms</h1><ul id="45bce82f-78c1-4fa0-b2e9-c435c44bc0d8" class="bulleted-list"><li style="list-style-type:disc">K-Means</li></ul><ul id="4be1e2bf-c87b-434f-b6a4-3d2fc09c916f" class="bulleted-list"><li style="list-style-type:disc">K-Medians</li></ul><ul id="c2b47bce-9359-43f1-a447-5afb25084af2" class="bulleted-list"><li style="list-style-type:disc">Fuzzy c-Means</li></ul><ul id="e0637bda-923e-4a6f-be17-a526b22a8962" class="bulleted-list"><li style="list-style-type:disc">Agglomerative</li></ul><ul id="5e9e6551-0a9d-4520-9514-682d93f31762" class="bulleted-list"><li style="list-style-type:disc">Divisive</li></ul><ul id="8d401e3a-7d9b-49b0-8054-0575d741a38d" class="bulleted-list"><li style="list-style-type:disc">DBSCAN</li></ul><h2 id="9f5e202c-550e-427f-a5cb-03668f38dc37" class="">Types of Clustering Algorithms</h2><ol type="1" id="d168c851-2a9d-4270-98c2-c9c00aa705c4" class="numbered-list" start="1"><li><strong>Partition-based Clustering</strong>:<ul id="be7d1d4e-5a2a-4898-a405-1644728cfc46" class="bulleted-list"><li style="list-style-type:disc">Algorithms such as <strong>K-Means</strong>, <strong>K-Medians</strong>, and <strong>Fuzzy c-Means</strong> produce sphere-like clusters.</li></ul><ul id="149fe10e-5211-4983-9a7e-ebef84b31626" class="bulleted-list"><li style="list-style-type:disc">Efficient for medium to large-sized datasets.</li></ul></li></ol><ol type="1" id="ba83c405-b299-43ee-9225-0bf5bbc07816" class="numbered-list" start="2"><li><strong>Hierarchical Clustering</strong>:<ul id="c34a40cd-256d-4f9a-9af0-a8526b19f6b0" class="bulleted-list"><li style="list-style-type:disc">Produces trees of clusters using algorithms like <strong>Agglomerative</strong> and <strong>Divisive</strong>.</li></ul><ul id="9e3a6a8a-cd58-4773-8926-bd3cd0921b63" class="bulleted-list"><li style="list-style-type:disc">Best suited for small-sized datasets.</li></ul></li></ol><ol type="1" id="3d5e2e12-aa56-49a5-9c80-9d1c28050ac6" class="numbered-list" start="3"><li><strong>Density-based Clustering</strong>:<ul id="980a5ee4-7002-4f0d-8ce2-4d25d2b72ba1" class="bulleted-list"><li style="list-style-type:disc">Creates arbitrary-shaped clusters with algorithms such as <strong>DBSCAN (Density-Based Spatial Clustering of Applications with Noise)</strong>.</li></ul><ul id="5573f54e-e157-4583-883a-7e6682a8d5d2" class="bulleted-list"><li style="list-style-type:disc">Useful for spatial data or noisy datasets.</li></ul></li></ol><figure id="141b3606-f2c0-414e-9dc4-60b9422ec7dc" class="image"><a href="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/image%202.png"><img style="width:708px" src="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/image%202.png"/></a></figure><h2 id="939ca3bf-a591-4267-bace-4553854f1085" class="">Differences Between Clustering and Classification</h2><ul id="3b395bd9-96ab-4e26-a0f7-ff07ee4c9a74" class="bulleted-list"><li style="list-style-type:disc"><strong>Clustering</strong>:<ul id="6b092764-03d4-44d5-bd81-d4de4cfff77b" class="bulleted-list"><li style="list-style-type:circle">Unsupervised learning.</li></ul><ul id="bb7f5033-42ff-491f-b349-cd17a23997f4" class="bulleted-list"><li style="list-style-type:circle">Groups similar data points into clusters without predefined labels.</li></ul></li></ul><ul id="0a5667ee-af08-45c8-b378-90d812776881" class="bulleted-list"><li style="list-style-type:disc"><strong>Classification</strong>:<ul id="f615868c-8ae8-45f5-9b72-240588585e59" class="bulleted-list"><li style="list-style-type:circle">Supervised learning.</li></ul><ul id="365e0821-1e9a-4984-a4ed-45a202c4b8bf" class="bulleted-list"><li style="list-style-type:circle">Predicts categorical labels for data points using labeled training data.</li></ul></li></ul><h2 id="038a2a74-34bd-4876-b8e4-8bead7d73d1d" class="">Purposes of Clustering</h2><ol type="1" id="de95de96-4772-4c2b-91f9-0e1d802521c4" class="numbered-list" start="1"><li><strong>Exploratory Data Analysis</strong>: To understand the structure of data.</li></ol><ol type="1" id="1a2d1293-8ebd-4c0a-875e-465453ff2f75" class="numbered-list" start="2"><li><strong>Summary Generation/Scale Reduction</strong>: To simplify large datasets.</li></ol><ol type="1" id="51307405-9948-417e-9c17-cae2a3882ec5" class="numbered-list" start="3"><li><strong>Outlier Detection</strong>: Especially useful for fraud detection or noise removal.</li></ol><ol type="1" id="a1b03de5-0011-453f-9ff3-bcb6b44b5e48" class="numbered-list" start="4"><li><strong>Finding Duplicates</strong>: To identify and remove redundant data points.</li></ol><ol type="1" id="7a8e7184-c192-440d-98ea-4a7664fa82a5" class="numbered-list" start="5"><li><strong>Pre-processing</strong>: Used as a preparatory step for other data mining tasks or predictions.</li></ol><h2 id="6f5321c1-fb1b-446e-9230-e8114cccc3e1" class="">Conclusion</h2><p id="bff05585-80c7-4e18-8a3d-f98efe349b3f" class="">Clustering is a powerful technique with a wide range of applications across different industries. From customer segmentation to fraud detection, it helps in identifying patterns and making data-driven decisions. Various clustering algorithms can be chosen based on the dataset&#x27;s characteristics and the specific application in mind.</p><hr id="955b527c-271b-4746-9e8b-3d9c3a7cf17f"/><h1 id="a71d0d8c-05a7-49a3-866d-d8b0eacd2425" class="">K-Means Clustering</h1><h2 id="9da6fa3b-64a1-4c63-b15c-1b99c63b13d0" class="">Introduction</h2><p id="e74c60e8-a6c6-4619-8320-7d9b38df8c65" class="">K-Means Clustering is an unsupervised learning algorithm used for partitioning a dataset into distinct groups or clusters based on similarity. It is widely used for customer segmentation and other applications.</p><h2 id="412fbdf0-06d3-4991-86e7-ce267d5ef6a9" class="">Key Concepts</h2><ul id="4bdf15de-bb2a-4d1d-ac44-bd955a7abe5c" class="bulleted-list"><li style="list-style-type:disc"><strong>Customer Segmentation</strong>: Dividing a customer base into groups with similar characteristics.</li></ul><ul id="45ebc08b-37d0-4e24-bd09-60a679a35d1c" class="bulleted-list"><li style="list-style-type:disc"><strong>Partitioning Clustering</strong>: K-Means is a type of partitioning clustering that divides data into K non-overlapping clusters.</li></ul><figure id="42bc6931-35bb-4a7c-ad13-85dbeb7ba646" class="image"><a href="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/image%203.png"><img style="width:1725px" src="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/image%203.png"/></a></figure><h2 id="ffce5330-2d84-4209-bcba-2d0019fb32ad" class="">Steps in K-Means Clustering</h2><ol type="1" id="74388f4b-4d91-46f7-b0dd-d95ce2371904" class="numbered-list" start="1"><li><strong>Initialization</strong><ul id="9a3d0310-8394-4244-a4a7-88d618e21c1d" class="bulleted-list"><li style="list-style-type:disc">Randomly select K initial centroids from the dataset or create K random points as centroids.</li></ul></li></ol><ol type="1" id="6388849a-afb4-4f5d-bea5-4cbd080619d0" class="numbered-list" start="2"><li><strong>Assignment</strong><ul id="9fd78fbc-3dfc-4954-a3cd-f8497869dd84" class="bulleted-list"><li style="list-style-type:disc">Assign each data point to the nearest centroid based on a distance metric (e.g., Euclidean distance).</li></ul><ul id="a8845c46-815a-484a-b5eb-0913ad5f42d9" class="bulleted-list"><li style="list-style-type:disc">Create a distance matrix where each row represents the distance of a data point from each centroid.</li></ul></li></ol><ol type="1" id="aed905ed-c86f-4b34-83e0-9bb9391a28f4" class="numbered-list" start="3"><li><strong>Update</strong><ul id="d8e35912-d2f9-422d-b0bf-e570e938163a" class="bulleted-list"><li style="list-style-type:disc">Recalculate the centroids by taking the mean of all data points assigned to each centroid.</li></ul></li></ol><ol type="1" id="6423353d-181c-4ff5-9758-857f0b4819b8" class="numbered-list" start="4"><li><strong>Iteration</strong><ul id="03ac3822-526d-4299-9294-852dd13cbe98" class="bulleted-list"><li style="list-style-type:disc">Repeat the assignment and update steps until the centroids no longer move or the changes are minimal.</li></ul></li></ol><figure id="32b55adb-43a9-40c0-a611-cfa22c22d8f5" class="image"><a href="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/image%204.png"><img style="width:708px" src="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/image%204.png"/></a></figure><h2 id="26e05af1-fc60-4da1-9228-a061a07ab724" class="">Distance Metrics</h2><ul id="0efcdeed-b35d-4fa2-8975-deccd229a4cc" class="bulleted-list"><li style="list-style-type:disc"><strong>Euclidean Distance</strong>: Commonly used to measure the distance between data points.</li></ul><ul id="bda96f4b-0b3a-4cbb-9792-89200c02d386" class="bulleted-list"><li style="list-style-type:disc">Other metrics: Cosine similarity, Manhattan distance, Minkowski distance, etc., depending on the data type and domain.</li></ul><h2 id="7bc0f637-40a3-4905-aef4-0517b4256f62" class="">Convergence</h2><ul id="0ab8faee-cdd1-47e2-87cc-2abdd2182948" class="bulleted-list"><li style="list-style-type:disc"><strong>Heuristic Algorithm</strong>: K-Means converges to a local optimum rather than a global optimum.</li></ul><ul id="f35294d6-d9d2-4dfe-9df1-8ad056af1e9d" class="bulleted-list"><li style="list-style-type:disc"><strong>Multiple Runs</strong>: To avoid local optima, the algorithm is often run multiple times with different initial centroids.</li></ul><h2 id="48ac258d-5c72-4ecf-983b-dca748714288" class="">Applications</h2><ul id="d49f5cd4-4f94-4a9d-9b25-73ac46f71cf7" class="bulleted-list"><li style="list-style-type:disc">Customer segmentation in marketing.</li></ul><ul id="ad00c3ff-a074-4cc7-a2e6-85c5143629f4" class="bulleted-list"><li style="list-style-type:disc">Identifying buying patterns in retail.</li></ul><ul id="e9f077ce-708f-4b0b-a9fd-eaaabca64d7e" class="bulleted-list"><li style="list-style-type:disc">Fraud detection in banking.</li></ul><ul id="058e39cf-d8ae-4f27-83ed-d9615fc4d4a3" class="bulleted-list"><li style="list-style-type:disc">Categorizing news articles in media.</li></ul><ul id="ee46b5b3-3ef9-4c6c-b0f3-a4da55c9573d" class="bulleted-list"><li style="list-style-type:disc">Characterizing patient behavior in medicine.</li></ul><h2 id="e7060d12-26ef-4680-93ac-33651eadd712" class="">Code Example</h2><p id="7c6b3a9a-af8c-4b69-8e9a-8baac41aa862" class="">Here&#x27;s a basic example of how to implement K-Means Clustering using Python&#x27;s <code>scikit-learn</code> library:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8069e0aa-c183-4398-a2c1-a787a50beb77" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import numpy as np
+import pandas as pd
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+# Sample data
+data = {
+    &#x27;Age&#x27;: [25, 30, 35, 40, 45, 50, 55, 60, 65, 70],
+    &#x27;Income&#x27;: [40000, 45000, 50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000]
+}
+df = pd.DataFrame(data)
+
+# Standardize the data
+scaler = StandardScaler()
+scaled_df = scaler.fit_transform(df)
+
+# K-Means Clustering
+kmeans = KMeans(n_clusters=3, random_state=0).fit(scaled_df)
+df[&#x27;Cluster&#x27;] = kmeans.labels_
+
+# Plotting
+plt.scatter(df[&#x27;Age&#x27;], df[&#x27;Income&#x27;], c=df[&#x27;Cluster&#x27;], cmap=&#x27;viridis&#x27;)
+plt.xlabel(&#x27;Age&#x27;)
+plt.ylabel(&#x27;Income&#x27;)
+plt.title(&#x27;K-Means Clustering&#x27;)
+plt.show()</code></pre><p id="49ba1dd3-ccd3-47bb-a1ef-c990f15fcbc1" class=""><strong>Output:</strong></p><figure id="d1c7764f-f382-4267-9982-2e5404a66ec7" class="image"><a href="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/Figure_1.png"><img style="width:640px" src="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/Figure_1.png"/></a></figure><h2 id="00dbf274-c8cb-4b61-829c-81a8f4fe0b50" class="">Explanation</h2><ol type="1" id="afc2443b-1adc-45ab-aa1e-68e325ddcca1" class="numbered-list" start="1"><li><strong>Import Libraries</strong>: Necessary libraries are imported.</li></ol><ol type="1" id="6a6ba01d-221b-4ee8-8275-b5966690053e" class="numbered-list" start="2"><li><strong>Sample Data</strong>: A sample dataset with &#x27;Age&#x27; and &#x27;Income&#x27; is created.</li></ol><ol type="1" id="a9bd2092-100e-43f2-8d07-9a10d3e026b4" class="numbered-list" start="3"><li><strong>Standardize Data</strong>: Features are standardized using <code>StandardScaler</code>.</li></ol><ol type="1" id="21f483f7-3a8a-494e-99b9-29bc82307899" class="numbered-list" start="4"><li><strong>Fit K-Means Model</strong>: The K-Means model is created with 3 clusters and fitted to the standardized data.</li></ol><ol type="1" id="2ab4516a-ddd2-42ad-844a-47f773b56f60" class="numbered-list" start="5"><li><strong>Plot Results</strong>: A scatter plot visualizes the clustering result.</li></ol><h2 id="91db6925-2742-496c-81c7-6f3f335e62c4" class="">Conclusion</h2><p id="1a75fad2-60b2-4f78-aa9a-0c38c7046d25" class="">K-Means Clustering is a powerful tool for discovering groups within data, but its performance and results can be sensitive to the initial conditions. It is crucial to understand the dataset and choose the right distance metrics for effective clustering.</p><hr id="6266ad66-cdce-468f-b69b-dcf6cf8e7add"/><h1 id="88aec55f-1739-4549-880e-49a01c2a8e44" class="">K-Means Clustering: Characteristics and Accuracy</h1><h2 id="b57a8b84-e560-4d17-82a1-d6a02c725970" class="">Introduction</h2><p id="df279521-1f71-491b-891c-879ea290bdf0" class="">K-Means clustering is a partition-based clustering algorithm used to partition a dataset into K non-overlapping subsets or clusters. It works in an unsupervised manner, grouping data based on the similarity of samples. K-Means aims to minimize the intra-cluster variance while maximizing the inter-cluster distances.</p><h2 id="5fde29a2-fe0b-4681-9683-ab1df1b4ec36" class="">Algorithm Overview</h2><ol type="1" id="cedbc139-3a1c-4ba5-a9ee-3aa44fe9346e" class="numbered-list" start="1"><li><strong>Initialization</strong>:<ul id="3ae28ccf-252e-44f6-b20f-097e4fef6726" class="bulleted-list"><li style="list-style-type:disc">Randomly place K centroids, one for each cluster.</li></ul></li></ol><ol type="1" id="93c4b5e6-a85d-4588-b4be-bdfd4b696dc2" class="numbered-list" start="2"><li><strong>Assignment</strong>:<ul id="536f196b-e06e-4529-a99e-2c3cd2bbcefd" class="bulleted-list"><li style="list-style-type:disc">Assign each data point to the nearest centroid based on a distance metric (typically Euclidean distance).</li></ul></li></ol><ol type="1" id="f3df9370-b993-41c9-b37a-280d1eace9d3" class="numbered-list" start="3"><li><strong>Update</strong>:<ul id="d0524698-0eb7-414d-a73a-029e530d53f0" class="bulleted-list"><li style="list-style-type:disc">Recalculate the centroids by computing the mean of all points assigned to each cluster.</li></ul></li></ol><ol type="1" id="2b441dac-4829-4883-85d4-4d3e7678443b" class="numbered-list" start="4"><li><strong>Repeat</strong>:<ul id="cc8c759f-8ee8-4abc-a7f2-25bcc72099a6" class="bulleted-list"><li style="list-style-type:disc">Repeat the assignment and update steps until the centroids no longer move significantly.</li></ul></li></ol><h2 id="f18d07ba-f5ae-43a0-be5a-369ea0fb0bd0" class="">Evaluating K-Means Clustering</h2><p id="232a0c54-812f-448c-b542-916cbee8f73c" class="">Evaluating K-Means clustering is challenging, especially since it is an unsupervised learning algorithm. Common methods to assess clustering quality include:</p><ul id="42a26379-8b9c-45a5-b1c4-6e8ef33ad44c" class="bulleted-list"><li style="list-style-type:disc"><strong>Within-Cluster Sum of Squares (WCSS)</strong>: Measures the average distance between data points and their cluster centroids. Lower values indicate better clustering.</li></ul><ul id="64f12800-99c1-4ebf-804e-dbf4e9b73657" class="bulleted-list"><li style="list-style-type:disc"><strong>Elbow Method</strong>: Helps determine the optimal number of clusters (K). Plot WCSS against the number of clusters and look for the &quot;elbow&quot; point where the rate of decrease <strong>sharply shifts</strong><em>.</em></li></ul><figure id="c8a00399-bf99-4716-9078-955ffd757441" class="image"><a href="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/image%205.png"><img style="width:708px" src="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/image%205.png"/></a></figure><h2 id="d5bdf166-4db8-41f2-8b12-3080a120fe1e" class="">Example Code</h2><p id="04d15d6d-2fc5-4be3-9e0b-0b819fc8085a" class="">Below is a code example demonstrating K-Means clustering and the elbow method to find the optimal number of clusters:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fbe31873-c59a-4911-8f4d-7a264e984ac8" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
+
+# Generate sample data
+X, _ = make_blobs(n_samples=300, centers=4, cluster_std=0.60, random_state=0)
+
+# Fit K-Means model
+def find_optimal_k(X, max_k=10):
+    wcss = []
+    for k in range(1, max_k + 1):
+        kmeans = KMeans(n_clusters=k, init=&#x27;k-means++&#x27;, max_iter=300, n_init=10, random_state=0)
+        kmeans.fit(X)
+        wcss.append(kmeans.inertia_)
+
+    # Plot the elbow method result
+    plt.plot(range(1, max_k + 1), wcss)
+    plt.title(&#x27;Elbow Method for Optimal K&#x27;)
+    plt.xlabel(&#x27;Number of clusters&#x27;)
+    plt.ylabel(&#x27;WCSS&#x27;)
+    plt.show()
+
+find_optimal_k(X)
+
+# Apply K-Means with the optimal number of clusters
+optimal_k = 4  # Assume the optimal K is found to be 4 from the elbow plot
+kmeans = KMeans(n_clusters=optimal_k, init=&#x27;k-means++&#x27;, max_iter=300, n_init=10, random_state=0)
+y_kmeans = kmeans.fit_predict(X)
+
+# Plot the clusters
+plt.scatter(X[:, 0], X[:, 1], c=y_kmeans, s=50, cmap=&#x27;viridis&#x27;)
+centers = kmeans.cluster_centers_
+plt.scatter(centers[:, 0], centers[:, 1], c=&#x27;red&#x27;, s=200, alpha=0.75)
+plt.title(&#x27;Clusters and Centroids&#x27;)
+plt.xlabel(&#x27;Feature 1&#x27;)
+plt.ylabel(&#x27;Feature 2&#x27;)
+plt.show()</code></pre><p id="cfd579ba-8c80-462c-a24b-170e11c690e3" class=""><strong>Outputs:</strong></p><figure id="447ad727-849c-490b-9b79-7d14822c7b70" class="image"><a href="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/Figure_1%201.png"><img style="width:640px" src="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/Figure_1%201.png"/></a></figure><figure id="cdae5d2c-6c81-4ef8-bd7b-403ace7ab744" class="image"><a href="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/Figure2.png"><img style="width:640px" src="Module%205%20Clustering%20659f214ae19044ea88985c7fbd6c1b9c/Figure2.png"/></a></figure><h2 id="5553cc97-d006-40c5-bb7b-1ff194b928a9" class="">Key Characteristics of K-Means</h2><ul id="5995eff7-2f98-40e8-8b98-97f625b5eb1a" class="bulleted-list"><li style="list-style-type:disc"><strong>Partition-Based</strong>: Divides data into K clusters based on similarity.</li></ul><ul id="f0c7032f-620f-4eae-b8a3-dc928f6c7660" class="bulleted-list"><li style="list-style-type:disc"><strong>Efficiency</strong>: Relatively efficient on medium and large-sized datasets.</li></ul><ul id="d7942405-701f-4515-8921-62aeabb72d76" class="bulleted-list"><li style="list-style-type:disc"><strong>Cluster Shape</strong>: Produces spherical clusters as it groups data around centroids.</li></ul><ul id="842b65b9-f2c8-4649-abe4-507fcca5f422" class="bulleted-list"><li style="list-style-type:disc"><strong>Pre-Specified K</strong>: Requires the number of clusters (K) to be specified beforehand, which can be challenging.</li></ul><h2 id="db00f2c4-f6f3-4cf5-8c82-0367fa5374d5" class="">Conclusion</h2><p id="25fffc2e-628f-4923-8622-0be9b2a4356d" class="">K-Means clustering is a widely-used algorithm for grouping data into clusters based on feature similarity. The algorithm&#x27;s effectiveness is often evaluated using metrics such as WCSS and the elbow method to determine the optimal number of clusters.</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

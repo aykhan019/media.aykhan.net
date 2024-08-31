@@ -1,0 +1,799 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Module 3: Classification</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(249, 228, 188, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="4f83c85a-9e52-41f6-9cfd-0dae8684fd6b" class="page sans"><header><img class="page-cover-image" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/photo-1485827404703-89b55fcc595e.jpeg" style="object-position:center 44.24%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/science_gray.svg"/></div><h1 class="page-title">Module 3: Classification</h1><p class="page-description"></p></header><div class="page-body"><h1 id="35689d2d-1c22-4e7c-a888-274ce3f8c81e" class="">Introduction to Classification</h1><p id="4cbad624-cc2d-41ca-9367-4a8b8152caf6" class="">Classification is a supervised learning approach used to categorize items into discrete classes. It aims to learn the relationship between feature variables and a target variable, which is categorical.</p><h2 id="50a44503-4285-4831-8dfa-c18ea76b1e1d" class="">How Classification Works</h2><p id="8b7d8f88-5cd1-4632-bd3c-645913c32757" class="">Given training data with target labels, a classification model predicts the class label for new, unlabeled data.</p><figure id="d23fa6f3-31fc-41c3-868a-c1656dc035d1" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/Untitled.png"><img style="width:1751px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/Untitled.png"/></a></figure><h3 id="b94f2c5e-8576-4b2d-9641-ca96149a37ba" class="">Example:</h3><p id="bd518cb9-0632-41a8-97c1-c34fca435d44" class="">A loan default predictor uses historical data (e.g., age, income) to classify customers as defaulters or non-defaulters.</p><h2 id="14672e0c-1601-4fe6-a9a7-1b37989f644e" class="">Types of Classification</h2><h3 id="058f6c39-0144-40f3-8186-847b044532f8" class="">Binary Classification</h3><p id="c281b28d-a05a-4663-82e3-908e9b73ce88" class="">Predicts one of two possible classes (e.g., defaulter vs. non-defaulter).</p><h3 id="0d0a1d15-d920-4804-9fb4-9e42f75cf1e1" class="">Multi-class Classification</h3><p id="63dfdcb7-0934-44a3-8cbb-fd753e21ddc2" class="">Predicts among more than two classes (e.g., which medication is appropriate for a patient).</p><figure id="50ec404e-e5e6-42a3-bee8-30804896fd37" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/Untitled%201.png"><img style="width:708px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/Untitled%201.png"/></a></figure><h2 id="4903741a-62dd-4305-b7ec-d5c04d4d9204" class="">Applications</h2><h3 id="5189ce94-2449-4736-9487-20b9d8aa0ce5" class="">Business Use Cases</h3><ul id="7400553e-cac9-46d7-9d33-e92982111e31" class="bulleted-list"><li style="list-style-type:disc">Churn detection</li></ul><ul id="637c4b03-ab7a-42a8-9728-49f07206d205" class="bulleted-list"><li style="list-style-type:disc">Customer segmentation</li></ul><ul id="fb8d528d-671a-4faa-83d8-3d54ee4ba04f" class="bulleted-list"><li style="list-style-type:disc">Response prediction</li></ul><h3 id="14aaf079-69e6-482f-9d47-a2589391409e" class="">Industries</h3><ul id="d8001372-b2e0-4074-a28c-ee1f631e17cc" class="bulleted-list"><li style="list-style-type:disc">Email filtering</li></ul><ul id="9c61eb9a-c32f-4ad4-a928-4de79b00aed6" class="bulleted-list"><li style="list-style-type:disc">Speech and handwriting recognition</li></ul><ul id="49469009-986c-4d9f-b079-49e5351f0764" class="bulleted-list"><li style="list-style-type:disc">Biometric identification</li></ul><h2 id="4a452f2c-8a3a-4dbb-9dc0-c7631b922e45" class="">Common Classification Algorithms</h2><ul id="08499b38-02e7-4c42-a874-6e4327445636" class="bulleted-list"><li style="list-style-type:disc">K-Nearest Neighbors (KNN)</li></ul><ul id="0922b8b2-23a5-4c41-8135-a4641c25b00b" class="bulleted-list"><li style="list-style-type:disc">Decision Trees</li></ul><ul id="8e7e2873-07dd-4490-a36a-abad2ef7a69e" class="bulleted-list"><li style="list-style-type:disc">Logistic Regression</li></ul><ul id="ac6fa20f-ccd7-4154-b27d-ffa09a50a54b" class="bulleted-list"><li style="list-style-type:disc">Support Vector Machines (SVM)</li></ul><ul id="30fbc5a0-f108-4722-a5a3-4e1b93a42978" class="bulleted-list"><li style="list-style-type:disc">Neural Networks</li></ul><ul id="6b697216-ac4b-4b6f-b8f5-c00f2e78b0cb" class="bulleted-list"><li style="list-style-type:disc">Naive Bayes</li></ul><ul id="66dcb640-bb32-435d-9277-c1fc1670da1e" class="bulleted-list"><li style="list-style-type:disc">SoftMax Regression</li></ul><ul id="d8560106-75c2-4917-a548-bcf65c8fda08" class="bulleted-list"><li style="list-style-type:disc">One-vs-All (One-vs-Rest)</li></ul><ul id="78aa927f-71ca-4372-bb42-90ca2c390847" class="bulleted-list"><li style="list-style-type:disc">One-vs-One</li></ul><hr id="ac751836-c042-485a-ba6d-9eafeb13d0de"/><h1 id="746101a5-d0f6-499f-bd27-ffdc3d5a6393" class="">K-Nearest Neighbors (KNN) Algorithm</h1><h2 id="4d8be700-07e4-420a-b5a6-b96a92af02db" class="">Overview</h2><p id="e9a4ef2f-d087-4c9f-8b2a-b4b951532c87" class="">The <strong>K-Nearest Neighbors (KNN)</strong> algorithm is a supervised learning classification technique used to classify a data point based on how its neighbors are classified. It is based on the concept that data points that are close to each other are more likely to belong to the same class. KNN can also be used for regression tasks.</p><h2 id="1fb32551-1ede-446e-a584-d1a8e0df490d" class="">Example Scenario</h2><p id="38e52cc0-e820-4dc8-a70c-d6996a5e644b" class="">Consider a telecommunications provider that has segmented its customer base into four groups based on service usage patterns. The goal is to predict which group a new customer belongs to using demographic data such as age and income. This is a classification problem, where the goal is to assign a class label to a new, unknown case based on the known labels of other cases.</p><figure id="4c5e43a9-4803-478a-bd5b-628acb6cb432" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/Untitled%202.png"><img style="width:1690px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/Untitled%202.png"/></a></figure><h2 id="8ffc4258-bd44-4afd-a22f-ea8a2b246183" class="">How K-Nearest Neighbors Works</h2><ol type="1" id="f1b65523-19c4-4f16-a8fc-a2a34faf7fc0" class="numbered-list" start="1"><li><strong>Choosing the Number of Neighbors (K)</strong>: The number of neighbors (K) to consider is specified by the user.</li></ol><ol type="1" id="29f6f66a-3bfa-4c5e-8f9e-aa544fb265b7" class="numbered-list" start="2"><li><strong>Calculating Distance</strong>: For a new data point, the algorithm calculates the distance between this point and all other points in the dataset. Common distance metrics include Euclidean distance.</li></ol><ol type="1" id="4254efa8-3b32-4d08-b922-fe807cc24ef8" class="numbered-list" start="3"><li><strong>Finding the Nearest Neighbors</strong>: The K data points that are closest to the new data point are identified.</li></ol><ol type="1" id="d84ddcfc-0352-442a-857a-82c70bf43bcf" class="numbered-list" start="4"><li><strong>Assigning a Class Label</strong>: The new data point is assigned the class label that is most common among its K nearest neighbors.</li></ol><h3 id="1d902d1c-26d2-4f27-8884-34123d8f58eb" class="">Example of KNN Classification</h3><ul id="b921888b-fe76-4763-9541-8356515ae0b1" class="bulleted-list"><li style="list-style-type:disc"><strong>Scenario</strong>: A new customer’s demographic data (e.g., age and income) is available. The goal is to classify this customer into one of four service groups.</li></ul><ul id="2388f2c3-71a1-45a4-9c99-9bcfe9996b65" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>:<ul id="adafb058-5489-4243-bcc4-e129eee1b756" class="bulleted-list"><li style="list-style-type:circle">If K=1, the new customer is assigned the same class as the closest existing customer.</li></ul><figure id="b0f07aef-074c-435d-97e5-266aa6761dbd" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/Untitled%203.png"><img style="width:680px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/Untitled%203.png"/></a></figure><ul id="77a9b506-8fed-48e7-8d4e-b7af0565e661" class="bulleted-list"><li style="list-style-type:circle">If K=5, the new customer is assigned the class that is most frequent among the 5 nearest neighbors.</li></ul><figure id="15910207-88c8-42df-912a-4edf8d225f3f" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/Untitled%204.png"><img style="width:680px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/Untitled%204.png"/></a></figure></li></ul><h2 id="b6111d38-a39f-4714-bb99-6d60a3db6bec" class="">Example Code for KNN:</h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4c990fb3-1401-4cd5-924a-87a603deb96c" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.neighbors import KNeighborsClassifier
+
+# Training data
+X_train = df[[&#x27;Age&#x27;, &#x27;Income&#x27;]]
+y_train = df[&#x27;Customer Group&#x27;]
+
+# New customer data
+new_customer = [[30, 55000]]
+
+# Initialize KNN classifier
+knn = KNeighborsClassifier(n_neighbors=3)
+
+# Fit the model
+knn.fit(X_train, y_train)
+
+# Predict the class of the new customer
+predicted_class = knn.predict(new_customer)
+print(f&#x27;Predicted Customer Group: {predicted_class[0]}&#x27;)</code></pre><h2 id="5e349920-747e-4872-8f1e-1e18698e5080" class="">Choosing the Value of K</h2><ul id="efb5dfa4-765a-4a02-a002-265d34ebfe7e" class="bulleted-list"><li style="list-style-type:disc"><strong>Small K</strong>: A small value of K (e.g., K=1) might lead to a model that is too specific, potentially capturing noise and outliers. This can result in overfitting, where the model performs well on the training data but poorly on unseen data.</li></ul><ul id="d4747ebb-c794-406b-921d-89a7b79bd3e1" class="bulleted-list"><li style="list-style-type:disc"><strong>Large K</strong>: A large value of K (e.g., K=20) might make the model too generalized, leading to underfitting, where the model is too simple and fails to capture important patterns in the data.</li></ul><h2 id="565e56e8-ec3d-4163-ac6c-184e52647eaf" class="">Finding the Optimal K</h2><p id="f3d61474-ac25-43d6-b590-3073a2df629d" class="">To find the optimal value of K:</p><ol type="1" id="a77beaed-294b-4d52-8f70-5509e78f1d1a" class="numbered-list" start="1"><li>Reserve a portion of your data for testing.</li></ol><ol type="1" id="ae7a7486-2848-4f29-82cb-75e91b063ebc" class="numbered-list" start="2"><li>Train the model using the training data and evaluate its accuracy on the test data for different values of K.</li></ol><ol type="1" id="d3a5dc1a-02a1-444a-8cc4-5c8345691c15" class="numbered-list" start="3"><li>Choose the value of K that results in the highest accuracy.</li></ol><h2 id="93b0a409-845d-41f0-bea8-3ecaf0eb2dc3" class="">Example of Choosing K:</h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7128ad23-6e60-4931-80b5-f520099edb9c" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X_train, y_train, test_size=0.2)
+
+# Evaluate different values of K
+accuracies = []
+for k in range(1, 11):
+    knn = KNeighborsClassifier(n_neighbors=k)
+    knn.fit(X_train, y_train)
+    y_pred = knn.predict(X_test)
+    accuracies.append(accuracy_score(y_test, y_pred))
+
+best_k = accuracies.index(max(accuracies)) + 1
+print(f&#x27;Best K: {best_k}&#x27;)</code></pre><h2 id="0d6f8cfa-afed-491e-bf28-9e16ebf4225f" class="">Regression with KNN</h2><p id="ecd92c94-dc41-4257-8307-7248a025b73f" class="">KNN can also be used for regression tasks. In this case, instead of assigning a class label, the algorithm predicts a continuous value (e.g., the price of a house). The predicted value is typically the average or median of the K nearest neighbors&#x27; values.</p><h3 id="62cc3b41-3cbe-4d9a-af32-3093eeabc16f" class="">Example of KNN Regression</h3><ul id="9a7cabed-7b4b-4102-8221-491a4d7519b8" class="bulleted-list"><li style="list-style-type:disc"><strong>Scenario</strong>: Predicting the price of a house based on features such as the number of rooms, square footage, and the year it was built.</li></ul><ul id="e9dd7ff9-efc9-4da8-9f48-43db71754af4" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>: The algorithm finds the K nearest houses (based on the features) and predicts the price of the new house as the average or median of the prices of these K neighbors.</li></ul><h2 id="3fd057a2-fce5-4ea7-b159-1c35d8f5dfac" class="">Summary</h2><p id="82c2a6e9-f968-4827-a389-30ce64378961" class="">The KNN algorithm is a simple yet powerful tool for both classification and regression tasks. Its effectiveness depends on the choice of K and the distance metric used. The main challenge lies in finding the right balance between underfitting and overfitting by selecting an appropriate value of K.</p><hr id="83ffd8aa-a000-45a1-b141-53621a258e00"/><h1 id="54e2491e-e6e9-4acc-81a1-fc411c923923" class="">Evaluation Metrics for Classifiers</h1><p id="65f656f1-0c60-464c-b84c-679f0a73f80d" class="">Model evaluation metrics are essential in determining the performance of a classifier. These metrics provide insights into areas where the model might require improvement. In this note, we will explore three evaluation metrics for classification: Jaccard index, F1 score, and Log Loss.</p><h2 id="03fc84d3-a689-4fc5-bd03-f46cc6f857ff" class="">1. Jaccard Index</h2><h3 id="0b34af1e-5893-45d7-a317-907ad5bc0707" class="">Definition</h3><p id="89ab0bb3-aee0-41b6-895d-e279ea02d0ef" class="">The <strong>Jaccard index</strong> (also known as the Jaccard similarity coefficient) measures the similarity between the actual labels and the predicted labels by the model. It is calculated as the size of the intersection divided by the size of the union of the two label sets.</p><h3 id="b5c752e9-e44b-4331-bd40-28496de30ddb" class="">Formula</h3><p id="4c401d8e-38a3-4350-933c-5452b34257bf" class="">Given that <code>y</code> represents the true labels and <code>ŷ</code> represents the predicted labels:</p><figure id="ca50816e-24a7-4a0b-9b47-ecccbfb64fa1" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Jaccard Index</mtext><mo>=</mo><mfrac><mrow><mi mathvariant="normal">∣</mi><mi>y</mi><mo>∩</mo><mover accent="true"><mi>y</mi><mo>^</mo></mover><mi mathvariant="normal">∣</mi></mrow><mrow><mi mathvariant="normal">∣</mi><mi>y</mi><mo>∪</mo><mover accent="true"><mi>y</mi><mo>^</mo></mover><mi mathvariant="normal">∣</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Jaccard Index} = \frac{|y \cap \hat{y}|}{|y \cup \hat{y}|}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">Jaccard Index</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.363em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∪</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1944em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span><span class="mord">∣</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">∣</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∩</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1944em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span><span class="mord">∣</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div></figure><h3 id="46c6ca73-dbdc-41da-919d-81abb558f8cd" class="">Example</h3><p id="11645d6c-8cb5-4c2b-ba1e-34b970920abc" class="">For a test set of size 10 with 8 correct predictions (8 intersections):</p><figure id="13e2655e-9188-4d52-b6fb-ec630f16d82e" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Jaccard Index</mtext><mo>=</mo><mfrac><mn>8</mn><mrow><mn>10</mn><mo>+</mo><mo stretchy="false">(</mo><mn>10</mn><mo>−</mo><mn>8</mn><mo stretchy="false">)</mo></mrow></mfrac><mo>=</mo><mn>0.6</mn></mrow><annotation encoding="application/x-tex">\text{Jaccard Index} = \frac{8}{10 + (10 - 8)} = 0.6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">Jaccard Index</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2574em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">10</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mopen">(</span><span class="mord">10</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">8</span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">8</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.6</span></span></span></span></span></div></figure><h3 id="931cab2a-4631-4b32-b7e3-099532242367" class="">Interpretation</h3><ul id="a68c0d00-37f1-4dc3-bb6c-f12fbe2c168f" class="bulleted-list"><li style="list-style-type:disc">A Jaccard index of 1.0 indicates a perfect match between predicted and true labels.</li></ul><ul id="1dd6f096-3f24-463c-b14f-a4a6218f39d3" class="bulleted-list"><li style="list-style-type:disc">A value closer to 0 indicates a poor match.</li></ul><figure id="e0d184cf-e68b-4a32-a34c-4831980a55f5" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image.png"><img style="width:1670px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image.png"/></a></figure><h3 id="c6c3f3b8-87aa-40a7-9d40-5e2fac0b02d2" class="">Code Example</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2b5d437d-d77c-48b8-8b24-878eafc890e8" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.metrics import jaccard_score
+
+# True labels
+y_true = [1, 0, 1, 1, 0, 0, 1, 0, 1, 1]
+
+# Predicted labels
+y_pred = [1, 0, 1, 0, 0, 1, 1, 0, 1, 0]
+
+# Compute Jaccard Index
+jaccard = jaccard_score(y_true, y_pred)
+print(&quot;Jaccard Index:&quot;, jaccard)</code></pre><h2 id="96bd7f98-43e6-4c0f-95db-dc1c1dc45aa2" class="">2. Confusion Matrix</h2><h3 id="bfc18f83-76d9-40a8-96d4-88823be68d60" class="">Definition</h3><p id="ae74bcc4-37f1-48ab-8bb6-da87283b30f9" class="">A <strong>confusion matrix</strong> is a table that is often used to describe the performance of a classification model on a set of test data for which the true values are known. Each row of the matrix represents the actual instances in a predicted class, while each column represents the instances in an actual class.</p><h3 id="4798afb7-5a4a-4dda-8158-f8c05850e40a" class="">Example</h3><p id="9b62d023-8d4f-4823-ae79-348a3a5c32d9" class="">Consider a confusion matrix for a binary classification with 40 rows:</p><table id="c49fcdef-5667-46c2-aef5-170331da5def" class="simple-table"><tbody><tr id="c86979e0-6bc2-4bc6-b3a9-4aabaa23b84e"><td id="DI@M" class=""></td><td id="~&gt;xZ" class="">Predicted: No (0)</td><td id="yVib" class="">Predicted: Yes (1)</td></tr><tr id="50c96144-5fe4-4fdb-bff5-029d0f735181"><td id="DI@M" class=""><strong>Actual: No (0)</strong></td><td id="~&gt;xZ" class="">24</td><td id="yVib" class="">1</td></tr><tr id="87590d12-24bc-47e8-ad18-7d3930239950"><td id="DI@M" class=""><strong>Actual: Yes (1)</strong></td><td id="~&gt;xZ" class="">9</td><td id="yVib" class="">6</td></tr></tbody></table><h3 id="defe13af-5a6f-4e9e-9a2f-866d7c2ceb77" class="">Interpretation</h3><ul id="213577a1-5929-4bfd-bdd6-48d88f017a80" class="bulleted-list"><li style="list-style-type:disc"><strong>True Positives (TP):</strong> Correctly predicted positive cases (e.g., Actual Yes = 1, Predicted Yes = 1).</li></ul><ul id="0ec795cc-dcd6-4773-a907-657831867053" class="bulleted-list"><li style="list-style-type:disc"><strong>True Negatives (TN):</strong> Correctly predicted negative cases (e.g., Actual No = 0, Predicted No = 0).</li></ul><ul id="f9d3b3f2-4829-45d0-9b2a-9db12e850253" class="bulleted-list"><li style="list-style-type:disc"><strong>False Positives (FP):</strong> Incorrectly predicted positive cases (e.g., Actual No = 0, Predicted Yes = 1).</li></ul><ul id="e80c8e66-982e-49b6-b80c-cd9777232a15" class="bulleted-list"><li style="list-style-type:disc"><strong>False Negatives (FN):</strong> Incorrectly predicted negative cases(e.g., Actual Yes=1, Predicted No = 0).</li></ul><h3 id="b358354d-58f1-4556-87a0-c269610be368" class="">Examples</h3><ul id="fe7e2df0-64b6-4384-950c-a7eeaa72788f" class="bulleted-list"><li style="list-style-type:disc"><strong>True Positives (TP):</strong> These are cases where the actual condition is positive (the event has occurred), and the model has correctly predicted it as positive.<ul id="e84380bc-0648-47cb-bd2a-81e06ff18de2" class="bulleted-list"><li style="list-style-type:circle">Example: A patient has a disease, and the model correctly predicts that the patient has the disease.</li></ul></li></ul><ul id="d995d941-1cdb-435f-902d-8ba4153ddc4c" class="bulleted-list"><li style="list-style-type:disc"><strong>True Negatives (TN):</strong> These are cases where the actual condition is negative (the event has not occurred), and the model has correctly predicted it as negative.<ul id="06f800fc-c7b3-42d4-869c-bdf5d922cb98" class="bulleted-list"><li style="list-style-type:circle">Example: A transaction is legitimate, and the model correctly predicts that it is not fraudulent.</li></ul></li></ul><ul id="9724b427-db81-4281-85ed-61d0a3d384d8" class="bulleted-list"><li style="list-style-type:disc"><strong>False Positives (FP):</strong> These are cases where the actual condition is negative (the event has not occurred), but the model incorrectly predicts it as positive.<ul id="cc44fb6b-b612-43f7-9af3-d7c1e582651b" class="bulleted-list"><li style="list-style-type:circle">Example: A legitimate transaction is incorrectly flagged as fraudulent by the model.</li></ul></li></ul><ul id="a59ae20d-2a00-4223-a5ca-cbdca99fd57b" class="bulleted-list"><li style="list-style-type:disc"><strong>False Negatives (FN):</strong> These are cases where the actual condition is positive (the event has occurred), but the model incorrectly predicts it as negative.<ul id="dbd095da-6d40-40d1-89e5-9d97f786c98e" class="bulleted-list"><li style="list-style-type:circle">Example: A patient has a disease, but the model incorrectly predicts that the patient does not have the disease.</li></ul></li></ul><h3 id="a56b64dd-19dc-4ddf-8a7d-c073f96266bf" class="">Precision and Recall</h3><ul id="4174a110-ab41-4876-8a28-68dae0840944" class="bulleted-list"><li style="list-style-type:disc"><strong>Precision:</strong> The accuracy of the positive predictions. It is calculated as:</li></ul><figure id="023d4427-50da-46de-800b-75d1c281b47b" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Precision</mtext><mo>=</mo><mfrac><mtext>TP</mtext><mrow><mtext>TP</mtext><mo>+</mo><mtext>FP</mtext></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">Precision</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.1297em;vertical-align:-0.7693em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">TP</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord text"><span class="mord">FP</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">TP</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div></figure><ul id="114544d1-47bb-45f6-83d2-10165a221e88" class="bulleted-list"><li style="list-style-type:disc"><strong>Recall:</strong> The true positive rate, measuring the proportion of actual positives correctly identified. It is calculated as:</li></ul><figure id="e06b49e6-83fb-402b-b655-701ee56c87c5" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Recall</mtext><mo>=</mo><mfrac><mtext>TP</mtext><mrow><mtext>TP</mtext><mo>+</mo><mtext>FN</mtext></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">Recall</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.1297em;vertical-align:-0.7693em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">TP</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord text"><span class="mord">FN</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">TP</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div></figure><figure id="14f07ded-39f8-471f-9337-f2751fc47220" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%201.png"><img style="width:708px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%201.png"/></a></figure><h3 id="afd7974c-3681-4133-a716-c0cac738ec4b" class="">Code Example</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5c5697f1-fd6a-4da9-9b96-7b3d9cc5ac45" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.metrics import confusion_matrix
+
+# True labels
+y_true = [0, 0, 0, 1, 1, 0, 1, 1, 0, 1]
+
+# Predicted labels
+y_pred = [0, 0, 0, 1, 0, 0, 1, 0, 1, 1]
+
+# Compute Confusion Matrix
+conf_matrix = confusion_matrix(y_true, y_pred)
+print(&quot;Confusion Matrix:\n&quot;, conf_matrix)</code></pre><h2 id="c35fecc1-7c3c-4087-9632-669f1ea952aa" class="">3. F1 Score</h2><h3 id="8457f7b5-7d3b-4d66-aa53-822177f37deb" class="">Definition</h3><p id="448dd630-5e4b-4909-99d6-ab5258dbaf49" class="">The <strong>F1 score</strong> is the harmonic mean of precision and recall, providing a balance between the two. It is particularly useful when the class distribution is imbalanced.</p><h3 id="66bbe49b-90f8-433b-a964-37c9df6be36d" class="">Formula</h3><figure id="e60cc22e-c513-4f06-b012-0c1693862b2f" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>F1 Score</mtext><mo>=</mo><mn>2</mn><mo>×</mo><mfrac><mrow><mtext>Precision</mtext><mo>×</mo><mtext>Recall</mtext></mrow><mrow><mtext>Precision</mtext><mo>+</mo><mtext>Recall</mtext></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">F1 Score</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.1408em;vertical-align:-0.7693em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Precision</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord text"><span class="mord">Recall</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Precision</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord text"><span class="mord">Recall</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div></figure><h3 id="1704789a-9a8f-4e62-ad2f-b273e8804290" class="">Example</h3><ul id="f0b15bb6-3fa5-41eb-b426-c84419fa2a93" class="bulleted-list"><li style="list-style-type:disc"><strong>F1 Score for Class 0 (Churn = No):</strong> 0.83</li></ul><ul id="11244a23-8691-404c-94bc-b92356941d97" class="bulleted-list"><li style="list-style-type:disc"><strong>F1 Score for Class 1 (Churn = Yes):</strong> 0.55</li></ul><ul id="b74f7ec7-0af3-45f5-8b2e-786215da3f38" class="bulleted-list"><li style="list-style-type:disc"><strong>Average F1 Score:</strong> 0.69</li></ul><h3 id="4b713272-170d-4432-bb58-bee76517a66d" class="">Interpretation</h3><ul id="fa6af826-3edf-47d8-82f4-040e47842db5" class="bulleted-list"><li style="list-style-type:disc">An F1 score of 1 indicates perfect precision and recall.</li></ul><ul id="a1cf3d57-a2fc-49e8-b160-04457fa8ed2e" class="bulleted-list"><li style="list-style-type:disc">A lower F1 score indicates poorer performance.</li></ul><figure id="3485d767-8a11-42e8-88af-2b3b2f30f2dd" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%202.png"><img style="width:1727px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%202.png"/></a></figure><h3 id="3fdbd9e2-a8b7-400e-96c9-2e91c5a6054a" class="">Code Example</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="885ab7b4-9567-41b8-bda2-8120182a42fb" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.metrics import f1_score
+
+# True labels
+y_true = [0, 0, 0, 1, 1, 0, 1, 1, 0, 1]
+
+# Predicted labels
+y_pred = [0, 0, 0, 1, 0, 0, 1, 0, 1, 1]
+
+# Compute F1 Score
+f1 = f1_score(y_true, y_pred)
+print(&quot;F1 Score:&quot;, f1)</code></pre><h2 id="db851478-f2f6-4774-8cce-1a30de80d550" class="">4. Log Loss (Logarithmic Loss)</h2><h3 id="5b865e8d-5b9a-4cbf-8a87-3361136e4821" class="">Definition</h3><p id="60a91b16-14ab-498e-b4f3-fe5dfa0de64a" class=""><strong>Log Loss</strong> measures the accuracy of a classifier that outputs probabilities rather than class labels. It penalizes predictions that are confident but wrong more than those that are less confident but wrong.</p><h3 id="4e7e4a47-9004-4ad7-b878-870ba1ab8761" class="">Formula</h3><figure id="1c385dbd-0e64-47e1-ab8f-dd9e59bb41fd" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Log Loss</mtext><mo>=</mo><mo>−</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><mrow><mo fence="true">(</mo><msub><mi>y</mi><mi>i</mi></msub><mi>log</mi><mo>⁡</mo><mo stretchy="false">(</mo><msub><mover accent="true"><mi>p</mi><mo>^</mo></mover><mi>i</mi></msub><mo stretchy="false">)</mo><mo>+</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mi>y</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mi>log</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><msub><mover accent="true"><mi>p</mi><mo>^</mo></mover><mi>i</mi></msub><mo stretchy="false">)</mo><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\text{Log Loss} = -\frac{1}{N} \sum_{i=1}^{N} \left( y_i \log(\hat{p}_i) + (1 - y_i) \log(1 - \hat{p}_i) \right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Log Loss</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:3.106em;vertical-align:-1.2777em;"></span><span class="mord">−</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2777em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mopen">(</span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">p</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1667em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">p</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1667em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span></span></div></figure><p id="68921bf6-4508-4f5a-8fbc-8a4047601e1e" class="">Where:</p><ul id="e5576c6f-9075-4b7c-a1c0-a5d3d1d473dd" class="bulleted-list"><li style="list-style-type:disc"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span></span><span>﻿</span></span> is the number of observations.</li></ul><ul id="101a1b0b-7f24-4557-a347-19de22ab43ce" class="bulleted-list"><li style="list-style-type:disc"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">y_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> is the actual label (0 or 1).</li></ul><ul id="0787df6e-a2c0-4b8e-9560-e0663a8dfb26" class="bulleted-list"><li style="list-style-type:disc"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mover accent="true"><mi>p</mi><mo>^</mo></mover><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\hat{p}_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal">p</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1667em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> is the predicted probability of the positive class.</li></ul><h3 id="0f3e837c-5336-4f18-a935-c8cffc661b59" class="">Interpretation</h3><ul id="03f43f60-684f-4748-bfdf-b6f2b8676381" class="bulleted-list"><li style="list-style-type:disc"><strong>Lower Log Loss</strong>: Better accuracy. Indicates that the predicted probabilities are close to the actual labels.</li></ul><ul id="25fd9816-2a9c-4b85-a2e8-195c38802215" class="bulleted-list"><li style="list-style-type:disc"><strong>Higher Log Loss</strong>: Worse accuracy. Indicates that the predicted probabilities are far from the actual labels.</li></ul><figure id="ee795377-786f-4c70-a765-63d18e9250e8" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%203.png"><img style="width:1683px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%203.png"/></a></figure><h3 id="9035a077-d86a-4c98-a5df-dbf814f1b3fc" class="">Code Example</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="86637179-7068-4530-b20b-0f6c731d9221" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.metrics import log_loss
+
+# True labels
+y_true = [0, 0, 0, 1, 1, 0, 1, 1, 0, 1]
+
+# Predicted probabilities
+y_prob = [0.1, 0.4, 0.2, 0.8, 0.6, 0.2, 0.9, 0.4, 0.7, 0.8]
+
+# Compute Log Loss
+logloss = log_loss(y_true, y_prob)
+print(&quot;Log Loss:&quot;, logloss)</code></pre><h2 id="d1fa2d5b-6d9c-4958-b537-b4b9ba5a6abb" class="">5. Accuracy</h2><h3 id="379489c8-29f7-4136-9320-419b352fc9dc" class="">Definition</h3><p id="1be97db4-7617-45ab-a080-017cf2e5ed92" class=""><strong>Accuracy</strong> measures the proportion of correctly predicted instances (both true positives and true negatives) out of the total number of instances. It is a simple and widely used metric for classification tasks.</p><h3 id="2f693f00-f8ea-4e8d-93b6-717e4b519424" class="">Formula</h3><figure id="bba69c80-a05e-408d-bef2-8d59667fdb41" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Accuracy</mtext><mo>=</mo><mfrac><mrow><mtext>TP</mtext><mo>+</mo><mtext>TN</mtext></mrow><mrow><mtext>TP</mtext><mo>+</mo><mtext>TN</mtext><mo>+</mo><mtext>FP</mtext><mo>+</mo><mtext>FN</mtext></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Accuracy</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.1297em;vertical-align:-0.7693em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">TP</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord text"><span class="mord">TN</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord text"><span class="mord">FP</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord text"><span class="mord">FN</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">TP</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord text"><span class="mord">TN</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div></figure><p id="d8739031-9048-430d-b82d-a073e7bbf9fc" class="">Alternatively, it can also be expressed as:</p><figure id="3242ec5f-1c08-462d-b2ac-b8fa879f01cd" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Accuracy</mtext><mo>=</mo><mfrac><mtext>Number of True Predictions</mtext><mtext>Total Number of Predictions</mtext></mfrac></mrow><annotation encoding="application/x-tex">\text{Accuracy} = \frac{\text{Number of True Predictions}}{\text{Total Number of Predictions}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Accuracy</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0574em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Total Number of Predictions</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">Number of True Predictions</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div></figure><h3 id="5bf6530d-4b84-4765-8e49-8c5dd13e4f2c" class="">Example</h3><p id="1fba6a05-0f76-4bdf-894a-05e9eb08a188" class="">If a model has 24 true negatives, 6 true positives, 1 false positive, and 9 false negatives, the accuracy is:</p><figure id="1fd67ec5-9411-4a92-b4f7-1e1f22d0abed" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Accuracy</mtext><mo>=</mo><mfrac><mrow><mn>24</mn><mo>+</mo><mn>6</mn></mrow><mrow><mn>24</mn><mo>+</mo><mn>6</mn><mo>+</mo><mn>1</mn><mo>+</mo><mn>9</mn></mrow></mfrac><mo>=</mo><mfrac><mn>30</mn><mn>40</mn></mfrac><mo>=</mo><mn>0.75</mn></mrow><annotation encoding="application/x-tex">\text{Accuracy} = \frac{24 + 6}{24 + 6 + 1 + 9} = \frac{30}{40} = 0.75</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Accuracy</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0908em;vertical-align:-0.7693em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">24</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">6</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">9</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">24</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">6</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">40</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">30</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.75</span></span></span></span></span></div></figure><h3 id="71d38c03-c609-4a9c-89d4-123a06a5255e" class="">Interpretation</h3><ul id="db206065-cc6f-4695-bf2b-1ee129446caa" class="bulleted-list"><li style="list-style-type:disc"><strong>Higher Accuracy</strong>: Indicates better overall performance of the model.</li></ul><ul id="affd4387-e20b-44fd-a05a-0863825b8962" class="bulleted-list"><li style="list-style-type:disc"><strong>Lower Accuracy</strong>: Suggests that the model might be missing some predictions or making incorrect predictions.</li></ul><h3 id="be50d19a-1410-452d-9d7e-6b727a46a02e" class="">Code Example</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e75b2122-3f63-4f86-99d1-c63c3ead07bb" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.metrics import accuracy_score
+
+# True labels
+y_true = [0, 1, 0, 1, 1, 0, 1, 0, 0, 1]
+
+# Predicted labels
+y_pred = [0, 1, 0, 0, 1, 0, 1, 0, 1, 1]
+
+# Compute Accuracy
+accuracy = accuracy_score(y_true, y_pred)
+print(&quot;Accuracy:&quot;, accuracy)</code></pre><h2 id="3aba7dda-6529-4c47-a2d2-061cdb35351b" class=""> Summary</h2><ul id="bcad23e3-6067-4998-b33b-32d23a05b51e" class="bulleted-list"><li style="list-style-type:disc"><strong>Jaccard Index:</strong> Measures the similarity between actual and predicted labels.</li></ul><ul id="0a81ddad-0d4a-4dcb-bee9-d77ca912a800" class="bulleted-list"><li style="list-style-type:disc"><strong>Confusion Matrix:</strong> Provides a detailed breakdown of true positives, true negatives, false positives, and false negatives.</li></ul><ul id="a23033bd-dc71-4416-8139-7190400adf90" class="bulleted-list"><li style="list-style-type:disc"><strong>F1 Score:</strong> Balances precision and recall, especially useful for imbalanced datasets.</li></ul><ul id="29e0bd29-7cc5-4fe9-bd18-92f6e85a1a94" class="bulleted-list"><li style="list-style-type:disc"><strong>Log Loss:</strong> Evaluates the accuracy of probabilistic predictions, with lower values indicating better performance.</li></ul><ul id="22526642-4fa2-4783-8c7e-a5687346af20" class="bulleted-list"><li style="list-style-type:disc"><strong>Accuracy:</strong> Measures the overall proportion of correct predictions, providing a general assessment of the model&#x27;s performance.</li></ul><hr id="405136d0-d66e-4667-89e6-4d2416a7c83d"/><h1 id="2ec98e7e-8c1d-426e-b4fa-518e4ad3a38c" class="">Introduction to Decision Trees</h1><p id="2598571e-8b0f-4f13-8a83-2aec10cc82fd" class="">Decision trees are a powerful tool in classification that helps in making decisions based on data. In this note, we will explore what a decision tree is, how it is used for classification, and the basic process of building a decision tree.</p><h2 id="3d5ae401-31fa-452c-be9d-631d1f02f68b" class="">1. What is a Decision Tree?</h2><p id="c0274aef-9d09-40b4-aa1c-eb2ccc441402" class="">A <strong>decision tree</strong> is a flowchart-like structure that is used for decision-making. It helps in classifying a dataset by breaking it down into smaller and smaller subsets while at the same time, an associated decision tree is incrementally developed.</p><h3 id="033ec907-06ed-4af2-96ef-2a3b8147fc03" class="">Example Scenario:</h3><p id="3e42cc38-a55a-4b2a-acc5-4e6489c15a46" class="">Imagine a medical researcher compiling data about patients who suffered from the same illness. The patients responded to one of two medications: <strong>Drug A</strong> or <strong>Drug B</strong>. The dataset includes features like age, gender, blood pressure, and cholesterol levels, with the target being the drug each patient responded to.</p><p id="8323e4bf-d706-4cf8-8f13-6672ed9cea1a" class="">The goal is to build a model that predicts which drug might be appropriate for a future patient with the same illness. This is a binary classification problem where the decision tree will help classify the appropriate drug.</p><figure id="77cbb574-2f61-4b91-8057-db1728870c89" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%204.png"><img style="width:708px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%204.png"/></a></figure><h2 id="5666f6f9-f78f-457c-a4c3-f969739dd9a0" class="">2. Structure of a Decision Tree</h2><h3 id="977828d1-c607-48f7-8551-763e1160e99f" class="">Components:</h3><ul id="faeb71c2-05bd-4dce-8ced-a3af224f7dbd" class="bulleted-list"><li style="list-style-type:disc"><strong>Root Node:</strong> The starting point of the tree, representing the entire dataset.</li></ul><ul id="7a8038f8-f198-4b7c-8aff-b96c4b7196d0" class="bulleted-list"><li style="list-style-type:disc"><strong>Internal Nodes:</strong> Represent tests or decisions based on an attribute (e.g., age).</li></ul><ul id="68b21fcc-9b61-448b-8b3e-b8b11b3c1e10" class="bulleted-list"><li style="list-style-type:disc"><strong>Branches:</strong> Represent the outcomes of a test and lead to the next node or leaf.</li></ul><ul id="b8cdbfc5-59a1-4b55-b96e-0f5ce7a13f5b" class="bulleted-list"><li style="list-style-type:disc"><strong>Leaf Nodes:</strong> Represent the final decision or classification (e.g., Drug A or Drug B).</li></ul><h3 id="19a6b6d1-0901-482c-8618-e5f7bfc9663e" class="">Example:</h3><p id="f097484a-d9c7-40d4-8a41-9949d6a2f4ff" class="">Consider the dataset with features like age, gender, blood pressure, and cholesterol. The decision tree may start with the <strong>age</strong> attribute:</p><ul id="a22acd9b-bd40-4231-9164-9f3d4bd4c6a3" class="bulleted-list"><li style="list-style-type:disc"><strong>Age:</strong> If the patient is middle-aged, the tree may directly suggest <strong>Drug B</strong>.</li></ul><ul id="681e756c-2d45-49ac-b03e-74afe9736c59" class="bulleted-list"><li style="list-style-type:disc"><strong>Gender:</strong> If the patient is young or senior, the next decision might be based on gender, where a female may be prescribed <strong>Drug A</strong> and a male <strong>Drug B</strong>.</li></ul><p id="a165b1d8-dd75-4e18-b8f6-0ae1449e7990" class="">Each internal node tests an attribute, and the branches represent the possible outcomes of the test. The leaf node assigns the final decision, such as prescribing a specific drug.</p><figure id="455b8fec-48de-401d-aed4-e811378fef4a" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%205.png"><img style="width:708px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%205.png"/></a></figure><h2 id="9755e372-6bab-4d1d-9c6b-5877f3e9511f" class="">3. Building a Decision Tree</h2><h3 id="41013902-a6e2-48b4-b1b0-4fd957277ee5" class="">Steps Involved:</h3><ol type="1" id="24cf18f4-6b98-4a33-9e9e-ee54e7d61179" class="numbered-list" start="1"><li><strong>Choosing an Attribute:</strong> Select an attribute from the dataset (e.g., age).</li></ol><ol type="1" id="9d55426b-0fd0-465e-b9a9-fa503851ec88" class="numbered-list" start="2"><li><strong>Calculating Significance:</strong> Determine the significance of the attribute in splitting the data. This significance helps in identifying the best attribute to split the data on.</li></ol><ol type="1" id="67479903-f0f6-4d30-ab70-335ce497218a" class="numbered-list" start="3"><li><strong>Splitting the Data:</strong> Based on the value of the chosen attribute, split the data into different branches.</li></ol><ol type="1" id="7010ce93-8e5e-4c3c-8331-5a492f5d8ee7" class="numbered-list" start="4"><li><strong>Repeating the Process:</strong> For each branch, repeat the process for the remaining attributes until all attributes are used, or a decision can be made.</li></ol><h3 id="761d29ff-20ef-4bfe-ab4e-483a75f8bf6b" class="">Outcome:</h3><p id="475fe098-352d-404d-88e7-5013a04e1313" class="">Once the tree is built, it can be used to predict the class of new or unknown cases. In the context of our example, the tree can help in determining the appropriate drug for a new patient based on their characteristics.</p><h3 id="8ed19ba1-9405-4521-951b-63435ac7b320" class="">Key Points:</h3><ul id="6fae853a-71f6-4f52-b0a9-f70d44c48192" class="bulleted-list"><li style="list-style-type:disc"><strong>Attribute Testing:</strong> Decision trees work by testing attributes and making decisions based on the outcomes of these tests.</li></ul><ul id="c40b73d3-8c5a-4289-bfe3-ce98df633e8c" class="bulleted-list"><li style="list-style-type:disc"><strong>Decision-Making:</strong> The tree branches based on the results of these tests and assigns a final classification at the leaf nodes.</li></ul><h2 id="a8ce8674-1a40-4ffd-a5b8-b0affc2cc394" class="">Summary</h2><ul id="4bdaf75d-3aa8-4210-ad0f-e4d1e868215e" class="bulleted-list"><li style="list-style-type:disc"><strong>Decision Trees</strong> are used for classification by breaking down a dataset into smaller subsets.</li></ul><ul id="bec1fce1-8a2b-4e62-9a13-a913cb4fc2fe" class="bulleted-list"><li style="list-style-type:disc">The tree structure includes root nodes, internal nodes, branches, and leaf nodes.</li></ul><ul id="58381a12-46f9-479b-8632-273d479b8b6a" class="bulleted-list"><li style="list-style-type:disc"><strong>Building a Decision Tree</strong> involves choosing attributes, calculating their significance, and splitting the data until a decision can be made.</li></ul><p id="760deb8b-60df-4a4d-91d5-1b036bcaefd7" class="">Decision trees are intuitive and powerful, especially in scenarios where a clear decision-making process is needed based on multiple attributes.</p><hr id="fa95df44-4fca-48f6-956a-0326243a6487"/><h1 id="560f691e-b08a-4005-adf0-fdf95d0fd3a6" class="">Decision Tree Building Process</h1><h2 id="ed5677a8-aa84-4b99-853f-2d1b983bac09" class="">Introduction</h2><p id="cdebcf96-a2fc-4040-8b26-48d6d30a3a6d" class="">Decision trees are a key tool in machine learning used for classification tasks. They work by recursively partitioning data based on the most predictive features, creating branches that lead to decision outcomes.</p><h2 id="3758948e-66da-44d4-868a-52b91f5f496d" class="">Recursive Partitioning</h2><p id="c0d20d7c-529b-43d7-bc70-a7aaafd71608" class="">The process of building a decision tree involves recursive partitioning, where data is split based on the most predictive features. This splitting continues until the subsets of data (or leaves) are sufficiently pure.</p><h2 id="6f20f233-a664-427b-9492-b0507851dbf0" class="">Attribute Selection</h2><p id="f76287cf-e57a-4b28-ad96-3894fd5837ca" class="">Choosing the right attribute for splitting the data is crucial. The effectiveness of an attribute is measured by its ability to reduce impurity in the resulting nodes.</p><h3 id="c1528ef9-d3e9-4070-91b8-9783f81236f9" class="">Example: Drug Dataset</h3><p id="d0501c54-5ff0-4a50-8c27-18f607a196f1" class="">Consider a dataset with 14 patients where the goal is to decide which drug to prescribe.</p><ul id="9d77eaf0-49c5-46bb-ab2f-924ed5ab4908" class="bulleted-list"><li style="list-style-type:disc"><strong>Cholesterol Attribute</strong>: If the split is based on cholesterol levels, the resulting groups might not provide clear decisions:<ul id="c7ffd0dd-91d8-44c2-8511-13097f88ebfe" class="bulleted-list"><li style="list-style-type:circle">High cholesterol: The decision about which drug is suitable is uncertain.</li></ul><ul id="dc46594d-285f-4b2f-ae6b-b07ed706fb6f" class="bulleted-list"><li style="list-style-type:circle">Normal cholesterol: Similarly, it does not clearly indicate the appropriate drug.</li></ul></li></ul><ul id="9ca632af-b763-4d85-9537-1aadeff2b7dc" class="bulleted-list"><li style="list-style-type:disc"><strong>Sex Attribute</strong>: Using the sex attribute to split the data results in:<ul id="37bee2bf-b2b8-453b-931e-33ab97098aa5" class="bulleted-list"><li style="list-style-type:circle">Female patients: Drug B might be more suitable.</li></ul><ul id="2c25d198-066a-407e-aa77-b5d299d96a4b" class="bulleted-list"><li style="list-style-type:circle">Male patients: Further testing with cholesterol levels is needed.</li></ul></li></ul><h2 id="0c30f733-156f-4c8b-9500-516b80d52b26" class="">Impurity and Entropy</h2><p id="ebd37731-bca3-4278-9448-d6676730de9d" class="">The purity of a node in a decision tree is assessed using entropy, which measures the randomness or disorder in the data.</p><figure id="36068f04-5cd0-48f0-bbb8-fd44edf3936f" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%206.png"><img style="width:708px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%206.png"/></a></figure><h3 id="96865708-cc1a-426b-9dbc-0ecbc0a17ed9" class="">Entropy Calculation</h3><ul id="552380cf-840b-43ba-93af-82f30a581bfc" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: Entropy quantifies the level of disorder in a node. A node is considered pure if it contains data from only one class (entropy = 0). If the data is evenly distributed between classes, entropy is 1.</li></ul><ul id="07d2fc61-d502-456c-8f53-84e37da68f02" class="bulleted-list"><li style="list-style-type:disc"><strong>Formula</strong>: Entropy can be calculated using the formula:</li></ul><figure id="f0bf86e6-f22a-4729-8b5e-9026ff86dd2e" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Entropy</mtext><mo>=</mo><mo>−</mo><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>P</mi><mi>i</mi></msub><msub><mrow><mi>log</mi><mo>⁡</mo></mrow><mn>2</mn></msub><mo stretchy="false">(</mo><msub><mi>P</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{Entropy} = - \sum_{i} P_i \log_2(P_i)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Entropy</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.3277em;vertical-align:-1.2777em;"></span><span class="mord">−</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.05em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2777em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop"><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.207em;"><span style="top:-2.4559em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2441em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></div></figure><p id="89bfccd4-1224-4d14-aec7-089f26185b6a" class="">where <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">P_i </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> is the proportion of data points belonging to class <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span></span><span>﻿</span></span>.</p><h3 id="58c16de1-0c7d-4e52-a32a-f8a7670ef604" class="">Example Calculation</h3><ul id="bd1dcb73-48e5-4f5a-b03a-b8e174fa83eb" class="bulleted-list"><li style="list-style-type:disc"><strong>Before Splitting</strong>: For 9 occurrences of drug B and 5 of drug A, the entropy is 0.94.</li></ul><figure id="fff34575-a838-804d-8596-c8ecfb8fe034" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%207.png"><img style="width:1757px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%207.png"/></a></figure><ul id="89eb8ce6-f080-449d-878f-dd622098404e" class="bulleted-list"><li style="list-style-type:disc"><strong>After Splitting</strong>:<ul id="4d290b79-860d-4fd4-8fd4-af280a14cf7f" class="bulleted-list"><li style="list-style-type:circle"><strong>Cholesterol</strong>:<ul id="d710b863-6145-4329-a38e-627d226e5609" class="bulleted-list"><li style="list-style-type:square">Normal: 6 drug B, 2 drug A (Entropy = 0.8)</li></ul><ul id="96c31167-b5c6-4660-b681-aa1eed083078" class="bulleted-list"><li style="list-style-type:square">High: 3 drug B, 3 drug A (Entropy = 1.0)</li></ul><figure id="94dd73dd-a3d3-4420-8a5d-9e8bdb07eb19" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%208.png"><img style="width:652px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%208.png"/></a></figure></li></ul><ul id="baec2429-bc0f-4946-adea-7a0e484e4a52" class="bulleted-list"><li style="list-style-type:circle"><strong>Sex</strong>:<ul id="295d0050-1a9f-4366-b7cb-aeec323462c3" class="bulleted-list"><li style="list-style-type:square">Female: 3 drug B, 4 drug A (Entropy = 0.98)</li></ul><ul id="fc8729b2-b662-40ed-9496-dd7f7a9a901f" class="bulleted-list"><li style="list-style-type:square">Male: 6 drug B, 1 drug A (Entropy = 0.59)</li></ul><figure id="1cae1108-93a2-4440-b8a7-1b069a7ea556" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%209.png"><img style="width:652px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%209.png"/></a></figure></li></ul></li></ul><h2 id="ddd8f454-e257-487a-8567-8078692bac84" class="">Information Gain</h2><p id="bb59be46-23eb-448a-ab31-cc6d81ad1de4" class="">Information gain measures how well an attribute separates the data into pure subsets. It is calculated as the difference between entropy before and after the split.</p><figure id="fb47eebd-67eb-4485-ba36-8345f4c26079" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%2010.png"><img style="width:708px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%2010.png"/></a></figure><h3 id="f9cb0023-d144-49c6-b3ed-49235112947e" class="">Calculation</h3><ul id="5195e053-d4a0-4d26-afb9-f39626abd8e7" class="bulleted-list"><li style="list-style-type:disc"><strong>Formula</strong>:</li></ul><figure id="3199a5be-cfef-472f-91ee-9784ac1b7976" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Information Gain</mtext><mo>=</mo><msub><mtext>Entropy</mtext><mtext>before</mtext></msub><mo>−</mo><msub><mtext>Weighted Entropy</mtext><mtext>after</mtext></msub></mrow><annotation encoding="application/x-tex">\text{Information Gain} = \text{Entropy}_{\text{before}} - \text{Weighted Entropy}_{\text{after}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">Information Gain</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9275em;vertical-align:-0.2441em;"></span><span class="mord"><span class="mord text"><span class="mord">Entropy</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.242em;"><span style="top:-2.4559em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">before</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2441em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9386em;vertical-align:-0.2441em;"></span><span class="mord"><span class="mord text"><span class="mord">Weighted Entropy</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.242em;"><span style="top:-2.4559em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">after</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2441em;"><span></span></span></span></span></span></span></span></span></span></span></div></figure><ul id="e2bc496f-c834-49eb-bea8-8dc7e83be2a4" class="bulleted-list"><li style="list-style-type:disc"><strong>Formula for Weighted Entropy</strong>:</li></ul><figure id="02c178dc-7115-46a6-b00a-24e1df3d1e2b" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mtext>Weighted Entropy</mtext><mtext>after</mtext></msub><mo>=</mo><munder><mo>∑</mo><mi>i</mi></munder><mrow><mo fence="true">(</mo><mfrac><msub><mi>N</mi><mi>i</mi></msub><mi>N</mi></mfrac><mo fence="true">)</mo></mrow><msub><mtext>Entropy</mtext><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\text{Weighted Entropy}_{\text{after}} = \sum_{i} \left(\frac{N_i}{N}\right) \text{Entropy}_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9386em;vertical-align:-0.2441em;"></span><span class="mord"><span class="mord text"><span class="mord">Weighted Entropy</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.242em;"><span style="top:-2.4559em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">after</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2441em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.7277em;vertical-align:-1.2777em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.05em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2777em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size3">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size3">)</span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord text"><span class="mord">Entropy</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2175em;"><span style="top:-2.4559em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2441em;"><span></span></span></span></span></span></span></span></span></span></span></div></figure><p id="bcc7950f-d09c-43e9-bf9b-e48b21724f82" class="">where <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msub><mi>N</mi><mi>i</mi></msub><mi>N</mi></mfrac></mrow><annotation encoding="application/x-tex"> \frac{N_i}{N}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2334em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8884em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4101em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3281em;"><span style="top:-2.357em;margin-left:-0.109em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span><span>﻿</span></span> is the proportion of samples in subset <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span></span><span>﻿</span></span>, and Entropy <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext>Entropy</mtext><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\text{Entropy}_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9275em;vertical-align:-0.2441em;"></span><span class="mord"><span class="mord text"><span class="mord">Entropy</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2175em;"><span style="top:-2.4559em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2441em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> is the entropy of subset <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span></span><span>﻿</span></span></p><ul id="e5ec3785-ca94-47a0-a954-947cedbc71e0" class="bulleted-list"><li style="list-style-type:disc"><strong>Example</strong>:<ul id="88c4021c-a88f-4f74-bf28-e68a2bbc0698" class="bulleted-list"><li style="list-style-type:circle"><strong>Sex Attribute</strong>: Information gain = 0.151</li></ul><ul id="5acad9f5-646b-4b41-bfe7-2b012ff4612d" class="bulleted-list"><li style="list-style-type:circle"><strong>Cholesterol Attribute</strong>: Information gain = 0.48x`</li></ul></li></ul><figure id="1c988837-ab96-42cb-ac82-3f44b3e009b8" class="image"><a href="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%2011.png"><img style="width:1777px" src="Module%203%20Classification%204f83c85a9e5241f69cfd0dae8684fd6b/image%2011.png"/></a></figure><h2 id="13820c99-f9e6-43d3-a3f4-96c6eb90bda6" class="">Decision Tree Example Using Python</h2><p id="33fb7374-1a55-4cc1-bd25-6a6659236b43" class="">Here&#x27;s how to create and visualize a decision tree using Python and <code>scikit-learn</code>.</p><h3 id="8bd14409-7df2-4be1-a2a4-b87435a552a5" class="">Code Example</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fb2a0bf7-8d66-494e-8fb7-5b15df684933" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import pandas as pd
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+import matplotlib.pyplot as plt
+
+# Sample dataset
+data = {
+    &#x27;Cholesterol&#x27;: [&#x27;Normal&#x27;, &#x27;High&#x27;, &#x27;Normal&#x27;, &#x27;High&#x27;, &#x27;Normal&#x27;, &#x27;High&#x27;, &#x27;Normal&#x27;, &#x27;Normal&#x27;, &#x27;High&#x27;, &#x27;High&#x27;, &#x27;Normal&#x27;, &#x27;High&#x27;, &#x27;Normal&#x27;, &#x27;High&#x27;],
+    &#x27;Sex&#x27;: [&#x27;Male&#x27;, &#x27;Female&#x27;, &#x27;Female&#x27;, &#x27;Male&#x27;, &#x27;Female&#x27;, &#x27;Male&#x27;, &#x27;Female&#x27;, &#x27;Male&#x27;, &#x27;Male&#x27;, &#x27;Female&#x27;, &#x27;Female&#x27;, &#x27;Male&#x27;, &#x27;Male&#x27;, &#x27;Female&#x27;],
+    &#x27;Drug&#x27;: [&#x27;A&#x27;, &#x27;B&#x27;, &#x27;A&#x27;, &#x27;A&#x27;, &#x27;B&#x27;, &#x27;B&#x27;, &#x27;A&#x27;, &#x27;B&#x27;, &#x27;B&#x27;, &#x27;B&#x27;, &#x27;A&#x27;, &#x27;A&#x27;, &#x27;B&#x27;, &#x27;B&#x27;]
+}
+df = pd.DataFrame(data)
+
+# Convert categorical features to numeric
+df[&#x27;Cholesterol&#x27;] = df[&#x27;Cholesterol&#x27;].map({&#x27;Normal&#x27;: 0, &#x27;High&#x27;: 1})
+df[&#x27;Sex&#x27;] = df[&#x27;Sex&#x27;].map({&#x27;Male&#x27;: 0, &#x27;Female&#x27;: 1})
+df[&#x27;Drug&#x27;] = df[&#x27;Drug&#x27;].map({&#x27;A&#x27;: 0, &#x27;B&#x27;: 1})
+
+# Features and target
+X = df[[&#x27;Cholesterol&#x27;, &#x27;Sex&#x27;]]
+y = df[&#x27;Drug&#x27;]
+
+# Initialize and fit the model
+clf = DecisionTreeClassifier(criterion=&#x27;entropy&#x27;)
+clf.fit(X, y)
+
+# y_pred = clf.predit(x_test)
+
+# Plot the decision tree
+plt.figure(figsize=(12,8))
+plot_tree(clf, feature_names=[&#x27;Cholesterol&#x27;, &#x27;Sex&#x27;], class_names=[&#x27;Drug A&#x27;, &#x27;Drug B&#x27;], filled=True)
+plt.title(&#x27;Decision Tree&#x27;)
+plt.show()</code></pre><h3 id="07109661-dabc-4f05-887c-0fb7a58f60d5" class="">Explanation</h3><ul id="c76da3ce-5666-456d-a93e-53841a302b22" class="bulleted-list"><li style="list-style-type:disc"><strong>Dataset Creation</strong>: A sample dataset is created and converted into a DataFrame.</li></ul><ul id="8d872fd7-0a15-4357-8af4-5842356fc4c3" class="bulleted-list"><li style="list-style-type:disc"><strong>Feature Encoding</strong>: Categorical features are mapped to numeric values.</li></ul><ul id="961e4c3e-499a-4041-b522-f8b722db5055" class="bulleted-list"><li style="list-style-type:disc"><strong>Model Training</strong>: A <code>DecisionTreeClassifier</code> is initialized with entropy as the criterion and fitted to the data.</li></ul><ul id="3af49831-5ded-43ad-8320-cccc88d19deb" class="bulleted-list"><li style="list-style-type:disc"><strong>Visualization</strong>: The <code>plot_tree</code> function visualizes the trained decision tree.</li></ul><h2 id="74fbaf3e-3726-4b34-8310-ea3f97df1324" class="">Conclusion</h2><p id="b1f510e9-c1fc-43a5-8b4a-03501a945275" class="">The attribute with the highest information gain is chosen for splitting the data. In this case, cholesterol has a higher information gain than sex, making it a better choice for the initial split.</p><p id="1304ada7-f6ae-4b00-b10b-a11a4ae9a163" class="">This process is repeated for each branch of the tree until the data in each node is sufficiently pure.</p><hr id="b0a58f9f-106e-459d-8650-3e13585b6432"/><p id="a8648fac-aa21-4778-9863-d9b7ee67eccb" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
