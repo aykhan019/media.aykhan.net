@@ -1,0 +1,740 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Module 1: Importing Data Sets</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+/* For Edge (based on WebKit) */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(249, 228, 188, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="24edf7b2-ba19-45df-9cf0-3b0b2c8c03ea" class="page sans"><header><img class="page-cover-image" src="Module%201%20Importing%20Data%20Sets%2024edf7b2ba1945df9cf03b0b2c8c03ea/photo-1613677135043-a2512fbf49fa.jpeg" style="object-position:center 13.629999999999997%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/science_orange.svg"/></div><h1 class="page-title">Module 1: Importing Data Sets</h1><p class="page-description"></p></header><div class="page-body"><h1 id="38a62a20-943e-4422-a40f-7ff85bd34f12" class="">Data Science with Python - Key Libraries</h1><p id="efe3090c-7cb6-488e-a389-5f4bed0abdf4" class="">Python libraries are collections of functions and methods that allow performing various actions without writing extensive code. They offer built-in modules for different functionalities, providing a broad range of facilities.</p><h3 id="9b246fca-3313-40f9-a632-ee5412199edb" class="">Categories of Python Data Analysis Libraries:</h3><ol type="1" id="ae6adebf-503a-4c7d-ad44-14091f68ba3b" class="numbered-list" start="1"><li><strong>Scientific Computing Libraries</strong></li></ol><ol type="1" id="f5a7d282-1840-405a-a1ea-73fbd99c5236" class="numbered-list" start="2"><li><strong>Data Visualization Libraries</strong></li></ol><ol type="1" id="9a2344b3-9cd1-495e-9a78-bc31f3a0a15b" class="numbered-list" start="3"><li><strong>Algorithmic Libraries</strong></li></ol><p id="ef7eb31f-3614-40b3-b6c2-72c589a2c548" class="">
+</p><hr id="1ef98a67-f9f5-4f9c-8b47-9a9a0a3d1310"/><h2 id="b25aa9fd-044e-48b4-8369-e87d2f748dd7" class="">Scientific Computing Libraries</h2><h3 id="617a1969-223e-4439-85cf-6225ae56ca82" class="">1. <strong>Pandas</strong></h3><ul id="0ea512db-39b8-4dc4-a786-c4020b258883" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> Offers data structures and tools for effective data manipulation and analysis.</li></ul><ul id="b9cc2510-5d2c-418b-b103-9cd3955df955" class="bulleted-list"><li style="list-style-type:disc"><strong>Primary Instrument:</strong> DataFrame (a two-dimensional table with column and row labels).</li></ul><ul id="c408bae5-be34-43a6-b37f-264a37fb28f2" class="bulleted-list"><li style="list-style-type:disc"><strong>Features:</strong> Fast access to structured data, easy indexing functionality.</li></ul><h3 id="06e9892a-ad38-4b19-948b-c03419419766" class="">2. <strong>NumPy</strong></h3><ul id="0d15cb88-a43b-4572-9b33-25a5b0e00e82" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> Uses arrays for inputs and outputs, can be extended to objects for matrices.</li></ul><ul id="bd8c0a12-4514-41a9-886d-e9f1907ee6d0" class="bulleted-list"><li style="list-style-type:disc"><strong>Features:</strong> Fast array processing with minor coding changes.</li></ul><h3 id="379603d9-fd19-41d7-8742-07380d849264" class="">3. <strong>SciPy</strong></h3><ul id="fd2062c3-57a0-49e1-b9f0-8eb613338fcb" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> Includes functions for advanced math problems and data visualization.</li></ul><ul id="7dbc9629-3979-462f-ae2f-d4fb258ba629" class="bulleted-list"><li style="list-style-type:disc"><strong>Features:</strong> Solves complex mathematical problems.</li></ul><p id="3741c8f3-9a20-400b-b26e-9d4412e0fa8b" class=""><div class="indented"><figure id="5afdeab9-701d-44da-b711-a08afb8cc4a4" class="image"><a href="Module%201%20Importing%20Data%20Sets%2024edf7b2ba1945df9cf03b0b2c8c03ea/Untitled.png"><img style="width:708px" src="Module%201%20Importing%20Data%20Sets%2024edf7b2ba1945df9cf03b0b2c8c03ea/Untitled.png"/></a></figure></div></p><hr id="6d083e97-9b78-42fa-b015-d243cd7016da"/><h2 id="22ae96b5-4f6c-4bcc-848c-c889687eaa5f" class="">Data Visualization Libraries</h2><h3 id="537c338d-05de-49d7-a776-94063a1af20d" class="">1. <strong>Matplotlib</strong></h3><ul id="b06bd8a2-ba71-4298-beec-164510f30fe5" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> The most well-known library for data visualization.</li></ul><ul id="e1a57775-d058-4fc3-86c9-2ea4027782c2" class="bulleted-list"><li style="list-style-type:disc"><strong>Features:</strong> Great for making highly customizable graphs and plots.</li></ul><h3 id="073d9f01-5258-44a7-b8a0-cc579a30caf3" class="">2. <strong>Seaborn</strong></h3><ul id="ec1c862a-223f-49d8-b754-fe713e7e25b2" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> A high-level visualization library based on Matplotlib.</li></ul><ul id="14596339-8401-4efc-8610-d2c64f4a73b6" class="bulleted-list"><li style="list-style-type:disc"><strong>Features:</strong> Easy to generate various plots like heat maps, time series, and violin plots.</li></ul><p id="849beb56-f238-4e6e-81a1-cd9e97285399" class="">
+</p><figure id="7c24959d-b1e5-4f70-bf7d-9f2bff368a22" class="image"><a href="Module%201%20Importing%20Data%20Sets%2024edf7b2ba1945df9cf03b0b2c8c03ea/Untitled%201.png"><img style="width:708px" src="Module%201%20Importing%20Data%20Sets%2024edf7b2ba1945df9cf03b0b2c8c03ea/Untitled%201.png"/></a></figure><hr id="5a19100e-0ca8-49c2-a551-8030d0128bbd"/><h2 id="14f81d95-0421-4187-a37a-48f16f00ce95" class="">Algorithmic Libraries</h2><h3 id="ba9bae84-8e87-4e06-82dd-6cf91b09ae85" class="">1. <strong>Scikit-learn</strong></h3><ul id="53538b2a-f72d-4d04-bfbb-ed418d88994a" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> Contains tools for statistical modeling, including regression, classification, clustering, etc.</li></ul><ul id="3f3fea71-e398-4b46-81f3-a2dbff173755" class="bulleted-list"><li style="list-style-type:disc"><strong>Built on:</strong> NumPy, SciPy, and Matplotlib.</li></ul><h3 id="a7c0d3ea-d4ac-4525-af26-76f52e752493" class="">2. <strong>Statsmodels</strong></h3><ul id="42cd9014-ae25-4b0f-8018-f8bde7a6e45c" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> A module for exploring data, estimating statistical models, and performing statistical tests.</li></ul><p id="efa1f3f5-26ac-4e2c-9ff7-468fe5866939" class="">
+</p><figure id="e1a22f09-ca46-4a3e-861c-d2f6bff79eaf" class="image"><a href="Module%201%20Importing%20Data%20Sets%2024edf7b2ba1945df9cf03b0b2c8c03ea/Untitled%202.png"><img style="width:708px" src="Module%201%20Importing%20Data%20Sets%2024edf7b2ba1945df9cf03b0b2c8c03ea/Untitled%202.png"/></a></figure><hr id="d51986db-9181-46f3-9fcb-014d245e46e3"/><h1 id="1f5d5e44-8463-475d-8380-43220409e51b" class="">Reading Data with Pandas</h1><p id="962789e6-5db5-4403-90ee-67d92151ce36" class="">Data acquisition is the process of loading and reading data into a notebook from various sources. Using Python’s Pandas package, we can efficiently read and manipulate data.</p><h3 id="729a7eb2-3f1a-4b5f-9f24-7c31fef7da19" class="">Key Factors:</h3><ol type="1" id="86435cf7-266f-48bf-acc5-2230ca5484b8" class="numbered-list" start="1"><li><strong>Format:</strong> The way data is encoded (e.g., CSV, JSON, XLSX, HDF).</li></ol><ol type="1" id="a43f4d22-f79c-4f26-9ac6-10b0c2400cb6" class="numbered-list" start="2"><li><strong>File Path:</strong> The location of the data, either on the local computer or online.</li></ol><h2 id="25858a0a-9383-4e37-84e0-ce9623d35621" class="">Steps to Read Data with Pandas</h2><h3 id="e7277998-cff2-4a23-bf9b-c68cdea2d386" class="">1. <strong>Import Pandas</strong></h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5efd4247-9eb0-4857-aa62-671cb9bfc1ae" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import pandas as pd</code></pre><h3 id="d136be70-2cc5-4ade-8aa6-7ac28c42b3ec" class="">2. <strong>Define File Path</strong></h3><p id="10afb8c8-ed34-4ac6-b9b6-9ec3168579ec" class="">Specify the location of the data file.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4b5a0310-684d-42d3-a5ab-a8a52ede48af" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">file_path = &#x27;path_to_your_file.csv&#x27;</code></pre><h3 id="7afeab18-6ed2-469f-8aaa-0620bc9da78b" class="">3. <strong>Read CSV File</strong></h3><p id="0adfb085-f4d1-4c35-b0e2-9e54ca3aa07e" class="">Use the <code>read_csv</code> method to load data into a DataFrame.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f99c6aa9-da0c-4207-b0c6-97ea16bc39e5" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df = pd.read_csv(file_path)</code></pre><h3 id="82b8a555-48a4-4001-ad69-0202479cd94f" class="">Special Case: No Headers in CSV</h3><p id="948499a7-47bc-446c-9c66-f8b127fe9a4e" class="">If the data file does not contain headers, set <code>header</code> to <code>None</code>.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e362c182-b8e8-4876-80ed-096738b0fd95" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df = pd.read_csv(file_path, header=None)</code></pre><h3 id="c4380b5e-9411-4a09-9d1e-19e5ee33f6f9" class="">4. <strong>Inspect the DataFrame</strong></h3><p id="46778a05-3f0d-49ab-b639-e23c39d5c047" class="">Use <code>df.head()</code> to view the first few rows of the DataFrame.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="34eecd6f-7dc0-4c2f-ad78-5f719e084185" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">print(df.head())</code></pre><p id="be64a2ac-9a47-40eb-a72a-ba6d2573aa17" class="">Use <code>df.tail()</code> to view the last few rows.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="303e3262-8371-4d8c-ad0d-e09488db6908" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">print(df.tail())</code></pre><h3 id="93eaf360-eb9d-4bd0-825d-4a6bee2821a7" class="">5. <strong>Assign Column Names</strong></h3><p id="2b4220d5-f4ce-4af4-ac7e-9a699182cfe1" class="">If the column names are available separately, assign them to the DataFrame.</p><p id="a79a57f8-47be-4dce-b9f6-e45dda6b0dc8" class="">Verify by using <code>df.head()</code> again.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="09d9b489-7b85-46bd-8c86-75e0a502c544" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">print(df.head())</code></pre><h3 id="e6c8f70f-bccd-4757-a013-8dedb3fd4971" class="">6. <strong>Export DataFrame to CSV</strong></h3><p id="5abc1dd3-3943-47e7-aa37-c6e666bf78f9" class="">To save the DataFrame as a new CSV file, use the <code>to_csv</code> method.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ff9f12dc-4228-4aa1-abe2-617ccfc97aab" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df.to_csv(&#x27;output_file.csv&#x27;, index=False)</code></pre><h2 id="70d6c1b8-79e3-4127-8f82-289aee7743e0" class="">Additional Formats</h2><p id="191d4ef8-5ade-4808-a05a-9ee4194ba0c1" class="">Pandas supports importing and exporting of various data formats. The syntax for reading and saving different data formats is similar to <code>read_csv</code> and <code>to_csv</code>.</p><hr id="76f830cd-ad09-4603-8095-fef624482b1c"/><h1 id="ac3257e9-8e13-46c1-ae70-633ac7340e3c" class="">Exploring and Understanding Data with Pandas</h1><p id="9eed5fb5-cd0e-4e2b-afa8-2d8e34dc46ac" class="">Exploring a dataset is crucial for data scientists to understand its structure, data types, and statistical distributions. Pandas provides several methods for these tasks.</p><h3 id="98cbdf1f-2756-4872-855f-5a2d28901d5d" class="">Data Types in Pandas</h3><p id="d19090db-1af0-4824-917e-c587604cc562" class="">Pandas stores data in various types:</p><ul id="43c992d5-4bc5-4b27-8545-b6a22383c468" class="bulleted-list"><li style="list-style-type:disc"><strong>object</strong>: String or mixed types</li></ul><ul id="ca18b47b-1a95-4a9f-ab9a-f85f13883e06" class="bulleted-list"><li style="list-style-type:disc"><strong>float</strong>: Numeric with decimals</li></ul><ul id="fd07fda7-4eb2-4eae-b61c-9fa10effdb2f" class="bulleted-list"><li style="list-style-type:disc"><strong>int</strong>: Numeric without decimals</li></ul><ul id="64eee53a-e345-4d90-b05b-0274e523b82b" class="bulleted-list"><li style="list-style-type:disc"><strong>datetime</strong>: Date and time</li></ul><h3 id="1b3acd58-b28c-4f93-8036-86469a60d95d" class="">Checking Data Types</h3><p id="e6aadba5-6eb5-44b5-a257-c766008b4405" class="">Use <code>dtypes</code> to view data types of each column:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a09b0468-d064-4b1d-a0f7-b5a70338a906" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">print(df.dtypes)</code></pre><h3 id="2aef4e27-777d-44e2-86f0-e63ac2d0eb95" class="">Statistical Summary</h3><p id="de181f62-c2a0-4ff4-a973-04bf9f49bd78" class="">Use <code>describe</code> to get statistical summary:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="93b3db25-73b0-46cd-85cb-8718c6c3a4a1" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">print(df.describe())</code></pre><ul id="b1e49043-060f-4b89-afdf-46cbd88df3f2" class="bulleted-list"><li style="list-style-type:disc"><strong>Count</strong>: Number of non-null values</li></ul><ul id="65e4b3d4-8be9-4da9-88cb-e439284ad3cd" class="bulleted-list"><li style="list-style-type:disc"><strong>Mean</strong>: Average value</li></ul><ul id="c780fb10-7f60-4b32-aeda-09397c32e20d" class="bulleted-list"><li style="list-style-type:disc"><strong>std</strong>: Standard deviation</li></ul><ul id="d60274d9-86eb-496d-9302-f853b72e5b57" class="bulleted-list"><li style="list-style-type:disc"><strong>min/max</strong>: Minimum and maximum values</li></ul><ul id="8da89388-6cd8-4eda-a548-72cc669070c0" class="bulleted-list"><li style="list-style-type:disc"><strong>25%/50%/75%</strong>: Quartiles</li></ul><p id="41a4fed5-00ac-4b9d-b406-65f13cc6e5f0" class=""><strong>Output Example:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b9cdc7d0-bd87-40a7-b8f5-0de3996a9f03" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">              0            1            2            3
+count  205.000000  205.000000  205.000000  205.000000
+mean    13.071707   25.317073  198.313659    3.256098
+std      6.153123   26.021249   90.145293    1.125947
+min      5.000000    4.000000   68.000000    2.000000
+25%      9.000000    8.000000  113.000000    2.000000
+50%     12.000000   19.000000  151.000000    3.000000
+75%     16.000000   37.000000  248.000000    4.000000
+max     35.000000  148.000000  540.000000    8.000000</code></pre><p id="8f7e3f80-3e8d-4832-b97e-f7dcbd7e709b" class="">To include all columns:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="757d5d7b-152f-4dea-b325-706975605133" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">print(df.describe(include=&#x27;all&#x27;))</code></pre><p id="d4aa8e52-08b9-47ef-a6b2-4df843b49d72" class=""><strong>Output Example:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="34c17759-fbba-4951-b9f6-a874672028cd" class="code"><code class="language-R" style="white-space:pre-wrap;word-break:break-all">              0           1          2          3       ...      25       26       27
+count   205.000000  205.000000  205.000000  205.000000  ...     205      205      205
+unique        NaN         NaN         NaN         NaN   ...     25       25       25
+top           NaN         NaN         NaN         NaN   ...     value    value    value
+freq          NaN         NaN         NaN         NaN   ...     10       10       10
+mean     13.071707   25.317073  198.313659    3.256098  ...     NaN      NaN      NaN
+std       6.153123   26.021249   90.145293    1.125947  ...     NaN      NaN      NaN
+min       5.000000    4.000000   68.000000    2.000000  ...     NaN      NaN      NaN
+25%       9.000000    8.000000  113.000000    2.000000  ...     NaN      NaN      NaN
+50%      12.000000   19.000000  151.000000    3.000000  ...     NaN      NaN      NaN
+75%      16.000000   37.000000  248.000000    4.000000  ...     NaN      NaN      NaN
+max      35.000000  148.000000  540.000000    8.000000  ...     NaN      NaN      NaN</code></pre><p id="02c25f5f-0f32-4415-afc6-ef3e1719272a" class="">For object columns, it shows additional statistics like the number of unique values, the most frequent value (top), and its frequency (freq).</p><h3 id="ea67945c-35f0-475e-acca-f068ea7b0908" class="">DataFrame Info</h3><p id="3535804d-e6e5-4a04-b6c7-6ea84afb568d" class="">Use <code>info</code> for a concise summary:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="bec82f60-79d9-4378-a2b4-9d501e1e584d" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df.info()</code></pre><ul id="6a1687d5-0ae4-4e4c-a59e-fc8c9fa02d1a" class="bulleted-list"><li style="list-style-type:disc">Shows index, data types, non-null counts, and memory usage.</li></ul><p id="986bcbe4-217c-4ec9-aac7-1ffb1b55ef50" class=""><strong>Output Example:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fe5f78f8-c113-49dc-b57a-cc252c81e164" class="code"><code class="language-Less" style="white-space:pre-wrap;word-break:break-all">&lt;class &#x27;pandas.core.frame.DataFrame&#x27;&gt;
+RangeIndex: 205 entries, 0 to 204
+Data columns (total 11 columns):
+ #   Column  Non-Null Count  Dtype
+---  ------  --------------  -----
+ 0   0       205 non-null    int64
+ 1   1       205 non-null    int64
+ 2   2       205 non-null    int64
+ 3   3       205 non-null    int64
+ 4   4       205 non-null    object
+ 5   5       205 non-null    object
+ 6   6       205 non-null    object
+ 7   7       205 non-null    object
+ 8   8       205 non-null    object
+ 9   9       205 non-null    object
+ 10  10      205 non-null    object
+dtypes: int64(4), object(24)
+memory usage: 45.0+ KB</code></pre><hr id="21f88173-6ed2-4574-a6de-01c2f2d0cd51"/><h1 id="ef01e5a5-784e-48f4-8355-cf34d9022da6" class="">Accessing Databases with Python: SQL APIs and Python DB APIs</h1><p id="5fbeec01-8d29-494d-ab96-3d68b0d86a1c" class="">Databases are essential tools for data scientists, and Python provides powerful libraries for connecting to and interacting with databases. This module covers the basics of using Python to access databases through SQL APIs and Python DB APIs.</p><h3 id="c0d37a28-9ed4-4cad-9366-0d9d679e1d1b" class="">SQL APIs</h3><ul id="d98a1d5e-5e18-433a-883c-9c32ab10a1b1" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition:</strong> SQL API consists of library function calls that act as an interface for the Database Management System (DBMS).</li></ul><ul id="2e29c8b5-ad74-4e79-acd9-7085ad317615" class="bulleted-list"><li style="list-style-type:disc"><strong>Functionality:</strong> Allows Python programs to send SQL statements, retrieve query results, and manage database connections and transactions.</li></ul><h3 id="7a1e90c7-0762-41df-8018-f87879925064" class="">Basic Operations of SQL API</h3><ol type="1" id="4ec54c1e-01de-47ed-a0e1-9d186ad33e85" class="numbered-list" start="1"><li><strong>Connecting to Database:</strong><ul id="3c9273ed-96b7-4721-8926-c64a9adbaa63" class="bulleted-list"><li style="list-style-type:disc">Use API calls to establish a connection between the Python program and the DBMS.</li></ul></li></ol><ol type="1" id="00633c3b-bb68-4822-94fd-b2f3b8f8e679" class="numbered-list" start="2"><li><strong>Executing SQL Statements:</strong><ul id="d1087f95-6eb7-4596-be3b-9552cf069f07" class="bulleted-list"><li style="list-style-type:disc">Build SQL statements as text strings and pass them to the DBMS using API calls.</li></ul></li></ol><ol type="1" id="4f1001c9-d9db-4220-bd34-bb1c2f6c54fa" class="numbered-list" start="3"><li><strong>Handling Errors and Status:</strong><ul id="f6fcf2fc-d759-4250-8c4b-fe0e2c96a25d" class="bulleted-list"><li style="list-style-type:disc">Use API calls to check the status of DBMS requests and handle errors during database operations.</li></ul></li></ol><ol type="1" id="fce84dae-6a96-491d-b69c-b2a9070a9461" class="numbered-list" start="4"><li><strong>Disconnecting from Database:</strong><ul id="4ed45375-bb50-40b5-af6f-72858301414b" class="bulleted-list"><li style="list-style-type:disc">End database access with an API call that disconnects the Python program from the database.</li></ul></li></ol><p id="0b7b1eaf-abe6-470c-8ff7-fbaa47e5cd9b" class="">
+</p><figure id="7dbb6f61-cdf1-4162-b083-e87e8d740dc5" class="image"><a href="Module%201%20Importing%20Data%20Sets%2024edf7b2ba1945df9cf03b0b2c8c03ea/Untitled%203.png"><img style="width:708px" src="Module%201%20Importing%20Data%20Sets%2024edf7b2ba1945df9cf03b0b2c8c03ea/Untitled%203.png"/></a></figure><hr id="8df21964-f966-42e7-80f7-e0943fa92e86"/><h3 id="899cab84-eda3-4ffa-b5e3-3167165762b6" class="">Python DB API</h3><ul id="a84b3a36-6d51-4f48-b8b1-51cf9b665dc1" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition:</strong> Python DB API is the standard API for accessing relational databases in Python.</li></ul><ul id="cb8ba61c-1227-46ac-8cc2-9e62453e2039" class="bulleted-list"><li style="list-style-type:disc"><strong>Advantages:</strong> Enables writing a single program that works across multiple types of relational databases.</li></ul><h3 id="974af865-a831-4408-89a4-d0ebc93877e1" class="">Key Concepts in Python DB API</h3><ol type="1" id="9adf33e5-bf75-4b5a-a22a-9b4bb815dec6" class="numbered-list" start="1"><li><strong>Connection Objects:</strong><ul id="0397dfcd-8bbf-4460-8803-6c546d25535d" class="bulleted-list"><li style="list-style-type:disc">Used to connect to a database and manage transactions.</li></ul><ul id="b8130491-1a2c-440a-bc1f-2a65f7e6015b" class="bulleted-list"><li style="list-style-type:disc">Created using the <code>connect</code> function from the database module.</li></ul></li></ol><ol type="1" id="3a9fc9ea-01ff-4af7-8f26-392ed76ba45f" class="numbered-list" start="2"><li><strong>Cursor Objects:</strong><ul id="30ad3696-1d23-4169-8e11-87d3e93befe6" class="bulleted-list"><li style="list-style-type:disc">Used to execute queries and fetch results from the database.</li></ul><ul id="fe41cc02-e668-436f-a833-13893a0d2f43" class="bulleted-list"><li style="list-style-type:disc">Similar to a cursor in text processing, used to navigate through query results.</li></ul></li></ol><h3 id="c8a0339c-e430-4c10-8b8d-2aa75d23d42f" class="">Methods with Connection Objects</h3><ul id="62430ac1-657a-4048-92b3-1624f9f09687" class="bulleted-list"><li style="list-style-type:disc"><code><strong>cursor()</strong></code><strong> Method:</strong><ul id="abd3deec-1ff4-45db-84b7-16261b4406df" class="bulleted-list"><li style="list-style-type:circle">Returns a new cursor object using the connection.</li></ul></li></ul><ul id="216d387e-e2da-461b-94ed-ba9a9dffa895" class="bulleted-list"><li style="list-style-type:disc"><code><strong>commit()</strong></code><strong> Method:</strong><ul id="d33ea0a7-2d2d-44b9-a3a3-1a7937ee1940" class="bulleted-list"><li style="list-style-type:circle">Commits any pending transaction to the database.</li></ul></li></ul><ul id="dda6d4aa-503e-4a04-8e91-51ad5fc5d64a" class="bulleted-list"><li style="list-style-type:disc"><code><strong>rollback()</strong></code><strong> Method:</strong><ul id="5961efc8-0516-4162-bb86-f5c5795ea9a8" class="bulleted-list"><li style="list-style-type:circle">Causes the database to roll back to the start of any pending transaction.</li></ul></li></ul><ul id="819745c3-df9c-4426-8e4b-c507d4c91e80" class="bulleted-list"><li style="list-style-type:disc"><code><strong>close()</strong></code><strong> Method:</strong><ul id="cf055fd6-8dec-495e-b7c7-63b0dd2140f1" class="bulleted-list"><li style="list-style-type:circle">Closes the database connection to free up resources.</li></ul></li></ul><h3 id="54f8fd16-dc14-450f-a48e-b3a5a0eb87e5" class="">Methods with Cursor Objects</h3><ul id="05de0930-3b76-442a-b4ce-4a18adfbbb50" class="bulleted-list"><li style="list-style-type:disc"><code><strong>execute()</strong></code><strong> Method:</strong><ul id="4be0e77f-9332-4681-9bce-b8d4c1dd4862" class="bulleted-list"><li style="list-style-type:circle">Executes a SQL query using the cursor.</li></ul><ul id="1f890267-a54a-4ce8-a7aa-953ff50175ca" class="bulleted-list"><li style="list-style-type:circle">Used for running INSERT, UPDATE, DELETE, and SELECT queries.</li></ul></li></ul><h2 id="c9864b86-1af1-4009-97e6-e200218ee80e" class="">Python Application Example</h2><ol type="1" id="f660e945-6cd1-438f-b847-c7b201423b9b" class="numbered-list" start="1"><li><strong>Import Database Module:</strong><ul id="24f594ab-7003-4e8e-a799-f18c936a9613" class="bulleted-list"><li style="list-style-type:disc">Import the database module and use the <code>connect</code> function to establish a connection.</li></ul></li></ol><ol type="1" id="6d2d372e-f0e2-488d-a725-f7f763c2af8d" class="numbered-list" start="2"><li><strong>Connect to Database:</strong><ul id="4faecebe-45e2-4c60-9889-ca19b7667251" class="bulleted-list"><li style="list-style-type:disc">Use <code>connect</code> with database name, username, and password parameters to get a connection object.</li></ul></li></ol><ol type="1" id="69be3c56-663d-4a5b-a762-de12103d8bcd" class="numbered-list" start="3"><li><strong>Create Cursor:</strong><ul id="a2751b3c-b3a3-493c-ba0f-c17c9fc16f3d" class="bulleted-list"><li style="list-style-type:disc">Create a cursor object on the connection to execute queries and fetch results.</li></ul></li></ol><ol type="1" id="8402a1d6-d42e-424a-8dba-76f1dd4305f3" class="numbered-list" start="4"><li><strong>Execute Queries:</strong><ul id="d77fb8ee-3856-439a-9073-6d8ea7aee53a" class="bulleted-list"><li style="list-style-type:disc">Use <code><strong>execute()</strong></code><strong> </strong>function of the cursor to run queries and <code><strong>fetchall()</strong></code><strong> </strong>to fetch query results.</li></ul></li></ol><ol type="1" id="8ce9627b-cf10-4797-bf50-0ab6f32a24dd" class="numbered-list" start="5"><li><strong>Close Connection:</strong><ul id="5cd97cd0-17c0-4230-bda7-871777eec3d0" class="bulleted-list"><li style="list-style-type:disc">Use the <code>close()</code> method on the connection object to release resources after queries are complete.</li></ul></li></ol><p id="fcf44a99-7768-4d23-88a9-539f5e8b2082" class="">
+</p><figure id="1cb25482-ab5e-41e1-8249-7855928ab8af" class="image"><a href="Module%201%20Importing%20Data%20Sets%2024edf7b2ba1945df9cf03b0b2c8c03ea/Untitled%204.png"><img style="width:708px" src="Module%201%20Importing%20Data%20Sets%2024edf7b2ba1945df9cf03b0b2c8c03ea/Untitled%204.png"/></a></figure><h2 id="3903ffc7-33e7-4c81-bd28-342f79ffdd6a" class="">Conclusion</h2><p id="d4bd0de5-51ec-443c-8718-8d97bb31ccc9" class="">Understanding SQL APIs and Python DB APIs allows data scientists to effectively manage and analyze data stored in relational databases using Python. Always remember to manage connections properly to optimize resource usage.</p><hr id="e030c790-6848-4f07-95cf-315dfb0f7f68"/><h1 id="a1f27d41-3cb2-434c-ad34-4df0f55ac0e7" class="">Cheat Sheet: <strong> Data Wrangling</strong></h1><h2 id="b6227f21-95f5-4648-87b5-c718dc5d75ad" class=""><strong>Read the CSV</strong></h2><p id="2fcf314d-c0d8-4a6e-b0c0-ba137b7c43c8" class="">Read the CSV file containing a data set to a pandas data frame</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ae5d506b-61f5-496c-b85f-f99672e836c2" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df = pd.read_csv(&lt;CSV_path&gt;, header=None) # load without header
+df = pd.read_csv(&lt;CSV_path&gt;, header=0)    # load using first row as header
+</code></pre><h2 id="7ff312b7-16c9-4e9c-83bf-60179c1c631c" class=""><strong>Print first few entries</strong></h2><p id="c379d11b-bfb0-4c10-ba77-50489487c303" class="">Print the first few entries (default 5) of the pandas data frame</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e12eae2e-e14a-4308-9462-4eb927e82714" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df.head(n)  # n=number of entries; default 5</code></pre><h2 id="009eb8e2-ee57-418b-a790-e3bf342935ed" class=""><strong>Print last few entries</strong></h2><p id="6b91ab6e-4bfd-4aca-b5fc-00e46c66d9da" class="">Print the last few entries (default 5) of the pandas data frame</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7e15ba20-8c9d-449b-8a75-11a70f79d767" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df.tail(n)  # n=number of entries; default 5</code></pre><h2 id="5258a665-7512-4a7a-bad7-d7dd1c2ffa60" class=""><strong>Assign header names</strong></h2><p id="c50236ad-49db-4b82-ae1d-379d68dc2244" class="">Assign appropriate header names to the data frame</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7430548e-0a95-4980-bdd6-fb123e41f196" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df.columns = headers</code></pre><h2 id="d6298ee7-a665-4519-a116-6bb2d9b1a954" class=""><strong>Replace &quot;?&quot; with NaN</strong></h2><p id="087b0645-bf4e-47ae-888a-498b427913e7" class="">Replace the entries &quot;?&quot; with NaN entry from Numpy library</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f45d0f31-fe87-42ba-8093-d3cd808c78ab" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df = df.replace(&quot;?&quot;, np.nan)</code></pre><h2 id="0209c30d-42e6-4964-8103-c4c671592536" class=""><strong>Retrieve data types</strong></h2><p id="0962d98f-5af8-4952-ad16-7a7076977e5b" class="">Retrieve the data types of the data frame columns</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3f84cc4f-1fcd-42d1-a6aa-ecc5461d79ab" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df.dtypes</code></pre><h2 id="29233852-29c9-4f9a-856e-2eb290508d77" class=""><strong>Retrieve statistical description</strong></h2><p id="5235f722-0877-4a65-9826-3e87920618bf" class="">Retrieve the statistical description of the data set. Defaults use is for only numerical data types. Use <code>include=&quot;all&quot;</code> to create summary for all variables.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fbc574e4-2524-4a5f-a884-d2156cb8e0ba" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df.describe()  # default use df.describe(include=&quot;all&quot;)</code></pre><h2 id="16fe6a89-3d27-40f1-a3cf-69851aa966e1" class=""><strong>Retrieve data set summary</strong></h2><p id="6ef24758-553d-4ada-a7f1-fdfbe3e77ec5" class="">Retrieve the summary of the data set being used, from the data frame</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8219d5b8-31a8-4508-881c-044944960482" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df.info()</code></pre><h2 id="3f0e0ec4-a2f8-467b-af0b-bd60334d1aff" class=""><strong>Save data frame to CSV</strong></h2><p id="7a44d386-2bbc-4c27-9fb4-490efaed3dee" class="">Save the processed data frame to a CSV file with a specified path</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b2ecc1ad-e53a-4b9d-a1d3-fe724cdfc4f3" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df.to_csv(&lt;output CSV path&gt;)</code></pre><hr id="90cf81de-9d63-48da-84c5-d18083eb4135"/><p id="cc87b7c4-0482-4612-8d9d-7c0be4502311" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

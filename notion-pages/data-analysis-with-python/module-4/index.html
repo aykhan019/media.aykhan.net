@@ -1,0 +1,874 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Module 4: Model Development</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+/* For Edge (based on WebKit) */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(249, 228, 188, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="6d8c2b9b-a2fe-415a-b24f-311d656e9333" class="page sans"><header><img class="page-cover-image" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/photo-1613677135043-a2512fbf49fa.jpeg" style="object-position:center 14.339999999999996%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/science_orange.svg"/></div><h1 class="page-title">Module 4: Model Development</h1><p class="page-description"></p></header><div class="page-body"><h1 id="334ac885-9ef8-40de-b762-6ce3e57f419c" class="">Introduction to Model Development</h1><p id="0c5c94bf-cd89-428d-a9a4-54de7342039b" class="">This module delves into the process of model development, focusing on predictive modeling using datasets. It covers various regression techniques, model evaluation methods, and the importance of accurate data in making predictions.</p><h2 id="68238459-bc70-493d-98ca-5531c042dc39" class="">Key Concepts</h2><h3 id="c933f580-f680-4773-925c-c59ecf3c20da" class=""><strong>1. Simple and Multiple Linear Regression</strong>:</h3><ul id="ee6cde82-636b-46f3-a960-6bec9762ecb3" class="bulleted-list"><li style="list-style-type:disc">Use linear regression to predict outcomes based on one or more independent variables.</li></ul><h3 id="d28c6731-4e7d-4e94-8936-722ea0361443" class=""><strong>2. Model Evaluation Using Visualization</strong>:</h3><ul id="1b995cd2-5023-4d65-8a73-2a6bd2bac5ef" class="bulleted-list"><li style="list-style-type:disc">Visually assess the performance of models.</li></ul><h3 id="48411b8c-3e6b-4796-8508-0c8264e62d2e" class=""><strong>3. Polynomial Regression and Pipelines</strong>:</h3><ul id="14d54adf-855c-4368-8ae8-a6f8350244de" class="bulleted-list"><li style="list-style-type:disc">Employ polynomial regression to capture non-linear relationships and implement pipelines for streamlined model building.</li></ul><h3 id="a1237ef8-4cad-4b79-97c5-097f3a2ce0fc" class=""><strong>4. R-squared and Mean Squared Error (MSE)</strong>:</h3><ul id="b1630c9f-4fd3-4f29-b166-0a57b419c799" class="bulleted-list"><li style="list-style-type:disc">Evaluate model performance using metrics such as R-squared and MSE to determine prediction accuracy.</li></ul><h3 id="c1aa3cc0-a7dc-4e61-87d3-b47c645b95db" class=""><strong>5. Prediction and Decision Making</strong>:</h3><ul id="7a735603-50d9-44a2-8c91-3fc0e91f5fb2" class="bulleted-list"><li style="list-style-type:disc">Utilize models to make informed predictions and decisions based on the data.</li></ul><h2 id="1869a1c5-7d3f-4d3f-b095-2111d85143d8" class="">Importance of Data</h2><p id="3951e2d7-b27e-48a4-9ec1-88d2da9d5944" class="">A model, or estimator, is essentially a mathematical equation that predicts a value based on one or more other values. It relates one or more independent variables (features) to dependent variables (outcomes). The accuracy of the model often improves with the relevance and quantity of data. Including multiple independent variables can lead to more precise predictions.</p><p id="ccbf63a3-24c7-49c3-a065-63ad67115fbf" class="">For instance, consider a scenario where predicting an outcome is based on several features. If the model&#x27;s independent variables do not include a crucial feature, predictions may be inaccurate. Therefore, gathering more relevant data and exploring different types of models is cru1cial for robust model development.</p><figure id="ba203ebf-0f91-4591-af39-c8ea5dd73dfe" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled.png"><img style="width:708px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled.png"/></a></figure><hr id="bb172529-a465-46c9-a3d3-789c69a2ec94"/><p id="713635bf-5208-42ef-a217-1793bc4814fa" class="">
+</p><h1 id="a685d76d-eec1-4ce3-b0ad-4a073a38c126" class=""><strong>1. Simple and Multiple Linear Regression</strong></h1><h2 id="ae3e24f7-cba4-400a-8de0-fb10ac976130" class="">Linear Regression</h2><p id="589e3fa4-41c3-4474-a072-94c0d4741bf8" class="">Linear regression predicts a target value using one or more independent variables.</p><h2 id="1e11845b-c33d-4c86-b6a7-ed67a007a0fb" class="">1.1 Simple Linear Regression (SLR)</h2><p id="77ad9d9f-9bd8-4fd2-943d-3708edf63f1b" class="">SLR examines the relationship between two variables:</p><ul id="c69a2b24-1210-48b5-b733-43ee4390c445" class="bulleted-list"><li style="list-style-type:disc">Predictor (independent variable <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span></span><span>﻿</span></span>)</li></ul><ul id="ab1102c5-096d-4379-ac53-70c5638110d5" class="bulleted-list"><li style="list-style-type:disc">Target (dependent variable <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span></span><span>﻿</span></span>)</li></ul><p id="7091bbd0-8601-4a11-bd74-db1e11525732" class="">The relationship is defined as:<br/><br/><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><msub><mi>b</mi><mn>0</mn></msub><mo>+</mo><msub><mi>b</mi><mn>1</mn></msub><mi>x</mi></mrow><annotation encoding="application/x-tex">y = b_0 + b_1 x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">x</span></span></span></span></span><span>﻿</span></span></p><ul id="c30f05a2-9f69-43f7-b374-096cdddabd55" class="bulleted-list"><li style="list-style-type:disc"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">b_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>: Intercept</li></ul><ul id="685478e8-6056-4c7f-ad92-f121b78ab818" class="bulleted-list"><li style="list-style-type:disc"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>1</mn></msub><mtext> </mtext></mrow><annotation encoding="application/x-tex">b_1 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"> </span></span></span></span></span><span>﻿</span></span>: Slope</li></ul><figure id="15e93b62-dd08-4932-b3b8-a856ddab0006" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%201.png"><img style="width:708px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%201.png"/></a></figure><h3 id="dc477197-af19-44d2-ae24-2ad83475e033" class="">Prediction Step</h3><p id="8b395d1b-fc6f-4c85-80c8-5b23cf04bc2e" class="">If highway miles per gallon is 20, a linear model might predict the car price as $22,000, assuming a linear relationship.</p><h3 id="20b71e97-140b-4437-b694-f000bc6143fb" class="">Training the Model</h3><p id="b83fef9f-bc52-4023-a38d-6114c73434cd" class="">Data points are stored in data frames or NumPy arrays. The predictor values (<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span></span><span>﻿</span></span>) and target values    (<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span></span><span>﻿</span></span>) are stored separately. The model is trained using these data points to determine the parameters <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>b</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">b_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> and .</p><h3 id="731d9b45-cbdb-43b0-a229-a0eb9894fb06" class="">Handling Uncertainty</h3><p id="ef941fea-86de-41d8-9e5d-13ee42fdbd5f" class="">Factors like car make and age influence car prices. Uncertainty in the model is addressed by adding a small random value (noise) to the line. The noise is usually a small positive or negative value.</p><h3 id="1eff27db-4845-4564-bd79-99236bb132ae" class="">Python Implementation</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7fb6015c-565d-4a81-86f0-5559b3e48e79" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.linear_model import LinearRegression
+
+# Create a linear regression object
+lm = LinearRegression()
+
+# Define predictor (x) and target (y) variables
+x = ...
+y = ...
+
+# Fit the model
+lm.fit(x, y)
+
+# Make predictions
+predicted_values = lm.predict(x)
+
+# Model parameters
+intercept = lm.intercept_
+slope = lm.coef_</code></pre><figure id="db0b803d-c4bd-4c76-9c51-67bbfc2aa2c2" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%202.png"><img style="width:708px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%202.png"/></a></figure><h2 id="e62d90b5-6701-4e69-a9ae-9c86a2e3713b" class="">1.2 Multiple Linear Regression (MLR)</h2><p id="5989d55e-c7dd-4409-8274-63059a791773" class="">Multiple linear regression (MLR) extends SLR to include multiple predictor variables </p><p id="10ca9138-b77d-4635-8d02-c965a53fdd7f" class="">(<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mn>1</mn><mo separator="true">,</mo><mi>x</mi><mn>2</mn><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mi>x</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">x1,x2, \ldots,xn</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">x</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">x</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">x</span><span class="mord mathnormal">n</span></span></span></span></span><span>﻿</span></span>) to predict a continuous target variable (<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span></span></span></span><span>﻿</span></span>):</p><figure id="00b7a5ba-04fb-4433-99d7-066b12556ede" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>y</mi><mo>=</mo><msub><mi>b</mi><mn>0</mn></msub><mo>+</mo><msub><mi>b</mi><mn>1</mn></msub><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>b</mi><mn>2</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>+</mo><mi>b</mi><msub><mi>n</mi><mi>x</mi></msub><msub><mi>n</mi><mi>y</mi></msub></mrow><annotation encoding="application/x-tex">y=b_0+b_1x_1+b_2x_2+...+bn_xn_y </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">...</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord mathnormal">b</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span></div></figure><figure id="fd805912-2583-421c-a4dc-9ce9f2106a44" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%203.png"><img style="width:708px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%203.png"/></a></figure><h3 id="e0ae487c-cdbf-4563-a183-6bc6a66f06c4" class="">Visualization and Training</h3><p id="6b2291f4-387e-4be3-98cf-51804d40b371" class="">With two predictor variables (<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">x_1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> and ), data points are mapped on a 2D plane, and () values are mapped vertically.</p><h3 id="e201659d-a257-4ed1-8a48-b577c7c22bc7" class="">Python Implementation</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d44c343d-8098-42c2-804e-a3db5cf5cd25" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.linear_model import LinearRegression
+
+# Create a linear regression object
+lm = LinearRegression()
+
+# Define predictor variables (z) and target (y)
+z = ...
+y = ...
+
+# Fit the model
+lm.fit(z, y)
+
+# Make predictions
+predicted_values = lm.predict(z)
+
+# Model parameters
+intercept = lm.intercept_
+coefficients = lm.coef_</code></pre><figure id="5e525e3f-1697-46c6-b41d-049a3d0058d6" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%204.png"><img style="width:1814px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%204.png"/></a></figure><p id="09a50591-8a69-4f79-968e-d12a3140029c" class="">
+</p><p id="113ca5a7-7026-437a-a6f4-9baa76c84d9f" class="">In summary, SLR and MLR provide methods to model relationships between variables, helping predict outcomes based on data observations.</p><figure id="7114d956-6b99-420d-b6e2-99164102eabb" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%205.png"><img style="width:708px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%205.png"/></a></figure><hr id="5ea2c36e-3f6b-441d-b8b8-10de39c4a25a"/><h1 id="5fb6ffa3-ee19-468b-bd14-20dd991c2109" class="">2. Model Evaluation Using Visualization</h1><h2 id="f8798f77-93af-4afd-aa07-069b0ee4080c" class="">1. Regression Plots</h2><p id="9947e4c7-8054-4fc0-814a-7b72e0d0c2a6" class="">Regression plots estimate the relationship between two variables, showing the strength and direction of the correlation.</p><ul id="fedfafe1-885d-4cb9-a291-82160df37f5f" class="bulleted-list"><li style="list-style-type:disc"><strong>Horizontal Axis</strong>: Independent variable.</li></ul><ul id="d67c0478-2879-498f-8b7d-3b5539bed53b" class="bulleted-list"><li style="list-style-type:disc"><strong>Vertical Axis</strong>: Dependent variable.</li></ul><ul id="78a5c0e3-002f-45c3-8c31-d9d617c10421" class="bulleted-list"><li style="list-style-type:disc"><strong>Points</strong>: Represent different target points.</li></ul><ul id="ead2e1d2-c867-45a6-a5b5-cfe2b7e6c3ef" class="bulleted-list"><li style="list-style-type:disc"><strong>Fitted Line</strong>: Represents predicted values.</li></ul><h3 id="931e042f-5334-40bb-88d8-24bb0d9853d5" class="">Creating a Regression Plot</h3><ol type="1" id="346dd5f9-d2ed-4fbc-a4f0-c4f724301db4" class="numbered-list" start="1"><li><strong>Import Seaborn</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="90b77ff1-95cd-4e28-b931-a90da3b29c64" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import seaborn as sns</code></pre></li></ol><ol type="1" id="0b29cf91-1339-43ca-ba89-5080c0df12e6" class="numbered-list" start="2"><li><strong>Use </strong><code><strong>regplot</strong></code><strong> Function</strong>:<ul id="fbc1ef3e-ad97-43de-90cd-46e0e3cab377" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameters</strong>:<ul id="fedab581-3ad6-4bdd-89b5-df53d0bc43a1" class="bulleted-list"><li style="list-style-type:circle"><code>x</code>: Independent variable column.</li></ul><ul id="a5a597d4-c7b3-46d2-b62a-948230107c50" class="bulleted-list"><li style="list-style-type:circle"><code>y</code>: Dependent variable column.</li></ul><ul id="e64df859-68cb-431c-aec5-a52af5f0a54a" class="bulleted-list"><li style="list-style-type:circle"><code>data</code>: Name of the DataFrame.</li></ul></li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3cad5fad-d6c6-47b2-a441-0cc8c34d511e" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">sns.regplot(x=&#x27;feature&#x27;, y=&#x27;target&#x27;, data=df)</code></pre></li></ol><figure id="550fde5e-2b29-4943-aac3-32e8e05a7196" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%206.png"><img style="width:708px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%206.png"/></a></figure><h2 id="95607979-553d-4d58-a06c-f294c99e5310" class="">2. Residual Plots</h2><p id="a901ac0c-fdc0-4873-aa23-16ee93440cd6" class="">Residual plots represent the error between actual and predicted values.</p><ul id="d45041e3-f19d-4eff-a284-a9c11bd1e43a" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>:<ul id="28395906-150d-46c2-9e5b-ece5ac71b5f7" class="bulleted-list"><li style="list-style-type:circle">Subtract predicted value from actual target value.</li></ul><ul id="23d32c67-c853-49fa-8efa-2ee4597c615c" class="bulleted-list"><li style="list-style-type:circle">Plot the error on the vertical axis, dependent variable on the horizontal axis.</li></ul></li></ul><ul id="a7f735b9-a394-4ce8-b439-f0254977c20f" class="bulleted-list"><li style="list-style-type:disc"><strong>Insights</strong>:<ul id="00ab5d3a-348a-483b-85d3-b4bbff75f16f" class="bulleted-list"><li style="list-style-type:circle">Zero mean distributed evenly around the x-axis indicates a linear model.</li></ul><ul id="f8596e48-21ca-41c9-8fce-1b7fca0a9647" class="bulleted-list"><li style="list-style-type:circle">Curvature in residuals suggests a nonlinear model.</li></ul></li></ul><h3 id="8fef6646-0736-4f4b-b2b0-7617c3b6d692" class="">Creating a Residual Plot</h3><ol type="1" id="3a9ee3f5-2371-4c49-aa42-b04e1dbff525" class="numbered-list" start="1"><li><strong>Import Seaborn</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d479a115-1307-4e2b-843f-6488139b888e" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import seaborn as sns</code></pre></li></ol><ol type="1" id="c996cc4f-c97b-4d51-97b2-0eba0e8ce730" class="numbered-list" start="2"><li><strong>Use </strong><code><strong>residplot</strong></code><strong> Function</strong>:<ul id="d5702a64-01c1-4560-90c3-1d8687a4f80a" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameters</strong>:<ul id="bcb50659-eb77-4110-a550-960f99e6aaaa" class="bulleted-list"><li style="list-style-type:circle">Series of dependent variable (feature).</li></ul><ul id="075271e8-5667-49f6-adc5-b83e6ff01c26" class="bulleted-list"><li style="list-style-type:circle">Series of target variable.</li></ul></li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f5c6b929-5dae-4180-9eb4-066fd263c944" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">sns.residplot(x=&#x27;feature&#x27;, y=&#x27;target&#x27;, data=df)</code></pre></li></ol><figure id="ee4ff4ba-8fbb-4a08-96c6-0183cc64c898" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%207.png"><img style="width:708px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%207.png"/></a></figure><figure id="11089e3b-7887-4aeb-94f5-f13f966ae463" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%208.png"><img style="width:708px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%208.png"/></a></figure><h2 id="c35b5e45-04a8-4bc6-b186-36228e92260e" class="">3. Distribution Plots</h2><p id="7d8c93bd-3354-42e3-8d33-fba75791db0c" class="">Distribution plots visualize predicted versus actual values.</p><ul id="980ca5ad-76d5-4544-987e-00fb2549926a" class="bulleted-list"><li style="list-style-type:disc"><strong>Use</strong>: Helpful for models with multiple independent variables.</li></ul><h3 id="1a55c7ea-6847-4297-b892-ce20d0773c16" class="">Process</h3><ul id="8162d187-9031-4280-a919-152b64aaf95f" class="bulleted-list"><li style="list-style-type:disc">Count and plot the predicted points approximately equal to a target value.</li></ul><ul id="25f0fd74-1731-4b95-96c6-5cdeb9ca63d7" class="bulleted-list"><li style="list-style-type:disc">Repeat for various target values.</li></ul><h3 id="792c2a1c-8009-49a5-90e8-17ce58540bac" class="">Creating a Distribution Plot</h3><ol type="1" id="636d8904-8595-469a-9abb-8f8e39db4d47" class="numbered-list" start="1"><li><strong>Import Pandas</strong> and <strong>Seaborn</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fcc00bdc-b674-411d-8c3c-00eccb26c639" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import pandas as pd
+import seaborn as sns</code></pre></li></ol><ol type="1" id="36d7641e-49a5-41e9-9236-76f8de79382d" class="numbered-list" start="2"><li><strong>Use Seaborn&#x27;s Distribution Plot</strong>:<ul id="302e57f5-7659-4867-afdf-fa6874974390" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameters</strong>:<ul id="a5d1b08d-61a1-47c2-801b-197699f7f630" class="bulleted-list"><li style="list-style-type:circle"><code>hist</code>: Set to <code>False</code> for a distribution.</li></ul><ul id="072ba06d-4dd7-4387-826c-69c9f738aade" class="bulleted-list"><li style="list-style-type:circle"><code>color</code>: Set to desired color.</li></ul><ul id="140d4590-2926-4f6d-8c55-1008c82f7f5e" class="bulleted-list"><li style="list-style-type:circle"><code>label</code>: Include label for legend.</li></ul></li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="96da35d4-6ce6-4f64-b685-25219ae1fdd7" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">sns.kdeplot(predicted_values, color=&#x27;blue&#x27;, label=&#x27;Predicted&#x27;)
+sns.kdeplot(actual_values, color=&#x27;red&#x27;, label=&#x27;Actual&#x27;)</code></pre></li></ol><figure id="6489543e-b8ac-45aa-9706-ddbfb7a56581" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%209.png"><img style="width:708px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%209.png"/></a></figure><p id="d0662d23-10f8-4aad-9e6a-a567a81ba645" class=""><strong>Observation</strong>: Prices in range from 40,000 to 50,000 are inaccurate, while 10,000 to 20,000 are closer to target values.</p><hr id="cae8c533-754b-4c6a-85c0-c1c07501ad64"/><h1 id="2ccd16d9-c55b-4bd0-88ab-d8d12ba37daf" class="">3. Polynomial Regression and Pipelines</h1><h2 id="cb417d8f-214d-47e5-92e6-4ac4fdb46541" class="">Polynomial Regression</h2><h3 id="cd72760b-e7af-4c41-82b7-a28ff8a48fe0" class="">What is Polynomial Regression?</h3><ul id="bceee85c-1d28-474e-ad90-38c6df8a5770" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose</strong>: Used when linear regression isn&#x27;t suitable.</li></ul><ul id="60d44394-c988-4aed-9eb6-fe8a3bae9f68" class="bulleted-list"><li style="list-style-type:disc"><strong>Approach</strong>: Transforms data into polynomial form to capture curvilinear relationships.</li></ul><figure id="627aceba-09e5-4f0c-b13a-e81757ff44c7" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2010.png"><img style="width:708px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2010.png"/></a></figure><h3 id="dcb7e6eb-dbfb-4cf6-a09f-00f8555818c0" class="">Types of Polynomial Models</h3><ul id="a110494a-fc23-43c8-81d1-0bbfe825a592" class="bulleted-list"><li style="list-style-type:disc"><strong>Quadratic (2nd Order)</strong>: Includes squared terms.</li></ul><ul id="a340b53b-c95e-4a5a-b3c7-77c6eb69eed2" class="bulleted-list"><li style="list-style-type:disc"><strong>Cubic (3rd Order)</strong>: Includes cubed terms.</li></ul><ul id="c4ebf38f-b04a-4d20-b50c-d3ff4880f21e" class="bulleted-list"><li style="list-style-type:disc"><strong>Higher-Order</strong>: Used for complex relationships.</li></ul><h3 id="b2ce4464-3adc-42be-bdd3-b490ed247975" class="">Example Model</h3><ul id="61fd53e2-2dbd-4875-9bf6-dffa6c528fc6" class="bulleted-list"><li style="list-style-type:disc"><strong>3rd Order Polynomial</strong>:</li></ul><figure id="a46f4d51-38e8-49cf-ae30-d4731ae23b3d" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo>−</mo><mn>1.557</mn><msup><mi>x</mi><mn>3</mn></msup><mo>+</mo><mn>204.8</mn><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mn>8965</mn><mi>x</mi><mo>+</mo><mn>1.37</mn><mo>×</mo><mn>105</mn></mrow><annotation encoding="application/x-tex">−1.557x^3+204.8x^2+8965x+1.37×105</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9474em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord">1.557</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9474em;vertical-align:-0.0833em;"></span><span class="mord">204.8</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">8965</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1.37</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">105</span></span></span></span></span></div></figure><h3 id="ca33a871-8cce-4e0f-ad84-983aa2578853" class="">Implementation in Python</h3><ul id="8d49abbf-d15d-4170-8de8-92c46fd1519c" class="bulleted-list"><li style="list-style-type:disc"><strong>Using NumPy</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c3b37bea-2ae9-4461-89a4-d91bb1612eba" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import numpy as np
+coefficients = np.polyfit(x, y, 3)</code></pre></li></ul><ul id="be6662be-50d9-4733-a3fa-32c91a592496" class="bulleted-list"><li style="list-style-type:disc"><strong>For Multidimensional</strong>:<br/>Use <br/><code>scikit-learn</code> for more complex models.</li></ul><h3 id="4d1b09d2-9776-41c4-9972-31d93fa07aa0" class="">Polynomial Features with Scikit-learn</h3><ol type="1" id="609094d9-aef3-476e-94f0-b63c4f6beb35" class="numbered-list" start="1"><li><strong>Import the Library</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5c1d744a-a668-45d4-b15a-2c94fe88a04d" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.preprocessing import PolynomialFeatures</code></pre></li></ol><ol type="1" id="7b53cace-86bb-4a7b-a383-d20af71cf52d" class="numbered-list" start="2"><li><strong>Create Polynomial Features</strong>:</li></ol><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="047c539c-2cdf-4d49-aa7b-ef01bc26334d" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.linear_model import LinearRegression
+
+# Create a PolynomialFeatures object with the desired degree
+poly = PolynomialFeatures(degree=3)
+
+# Fit and transform your data
+X_poly = poly.fit_transform(X)
+
+# Create LinearRegression model
+model = LinearRegression()
+
+# Fit the model with the polynomial features
+model.fit(X_poly, y)</code></pre><p id="51805bf3-fb60-4062-9555-91cd68ab2e30" class="">In this code:</p><ul id="84282d96-64e9-4e7e-bc68-5c687f71ca04" class="bulleted-list"><li style="list-style-type:disc"><code>degree=3</code> specifies the degree of the polynomial features.</li></ul><ul id="2e68e896-5cb3-4742-a39f-18a9c4464156" class="bulleted-list"><li style="list-style-type:disc"><code>fit_transform(X)</code> generates the polynomial features for your dataset <code>X</code>.</li></ul><h2 id="fcd1ab63-55ec-4020-b1b5-dca94071bcee" class="">Normalization</h2><h3 id="70982be5-598c-464c-813b-c5370f440350" class="">Why Normalize?</h3><ul id="c7e9730a-d189-4abc-bebc-608cb2ca7d56" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose</strong>: Standardize data for better model performance.</li></ul><h3 id="9b1c29dd-6ddf-4ce3-bb51-7a26f0d3247a" class="">How to Normalize</h3><ul id="2e6337e7-cdcf-49bc-8b6d-a88978da9882" class="bulleted-list"><li style="list-style-type:disc"><strong>Using StandardScaler</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="71418b74-07ab-4601-83bf-ef40453c1229" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+x_scaled = scaler.fit_transform(x)</code></pre></li></ul><h2 id="a5221d50-84a8-4775-8ba1-b064c62677af" class="">Pipelines</h2><h3 id="92034f40-3687-494e-a4ed-fd0a8a211fed" class="">What are Pipelines?</h3><ul id="0a319bb1-df9c-4dc5-be2e-af000e7e5911" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose</strong>: Efficiently automate data preprocessing and model training.</li></ul><ul id="dad05889-dd2e-4007-bec3-890f62afd318" class="bulleted-list"><li style="list-style-type:disc"><strong>Benefit</strong>: Simplifies complex workflows by chaining multiple steps into a single process.</li></ul><figure id="2806a4a3-179e-42fb-bd2d-460d160fddb3" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2011.png"><img style="width:708px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2011.png"/></a></figure><h3 id="d537fa58-1205-4bf7-a07e-bd983987c850" class="">Benefits</h3><ul id="03cd2598-80a9-4131-9556-d4581ede381c" class="bulleted-list"><li style="list-style-type:disc"><strong>Efficiency</strong>: Simplifies code by chaining steps.</li></ul><ul id="1b8f8ab7-13e7-47a4-abc6-ccf98b1ac294" class="bulleted-list"><li style="list-style-type:disc"><strong>Maintainability</strong>: Makes workflow clearer.</li></ul><h3 id="87c189d1-7325-4c38-99f5-1c266d259ea8" class="">Creating a Pipeline</h3><ol type="1" id="6bb91882-aada-4fc2-b3ba-4224e2682d21" class="numbered-list" start="1"><li><strong>Import Pipeline</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a06872e8-5eac-4b19-963e-50c60b437026" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.pipeline import Pipeline</code></pre></li></ol><ol type="1" id="ad8c54f2-f76e-4123-9364-11e556c71bdc" class="numbered-list" start="2"><li><strong>Define Steps</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="51cddc96-c650-48ab-9ff2-fc27dd1b72df" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">pipeline = Pipeline([
+    (&#x27;scaler&#x27;, StandardScaler()),
+    (&#x27;poly&#x27;, PolynomialFeatures(degree=3)),
+    (&#x27;model&#x27;, LinearRegression())
+])</code></pre></li></ol><ol type="1" id="1d227f0e-d025-4723-ab36-b6579b94172a" class="numbered-list" start="3"><li><strong>Train and Predict</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="cd59a912-ed3d-4f04-8c34-70c076a7ec0e" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">pipeline.fit(x_train, y_train)
+y_pred = pipeline.predict(x_test)</code></pre></li></ol><h3 id="3e4118b8-2021-4f65-89c2-7e278b93c05c" class="">Key Points</h3><ul id="d436800d-0006-4b46-8333-d94c9faa6097" class="bulleted-list"><li style="list-style-type:disc"><strong>Sequential Processing</strong>: Automates the flow from preprocessing to prediction.</li></ul><ul id="80769f78-2514-4eb6-9547-3230545499e9" class="bulleted-list"><li style="list-style-type:disc"><strong>Versatile</strong>: Easily adjust steps and parameters.</li></ul><p id="b4ceb28a-7b5e-48ce-826e-745a585bfa0a" class="">Use polynomial regression and pipelines to enhance model accuracy and streamline your machine learning workflow.</p><p id="94872796-56c0-4294-b1b2-f9e2f1ca2219" class="">
+</p><h2 id="9dcd036d-44ab-48c1-ab9e-736bebdac3ab" class="">Note:</h2><h3 id="62487db8-58ab-460c-ae37-daa07085be41" class="">Simple Linear Regression (SLR)</h3><ul id="0db36d01-57d0-46f0-8217-75ccd01cc2ce" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: Models the relationship between two variables by fitting a linear equation.</li></ul><ul id="3bb28e2b-5630-4e3f-9298-5b003fe4235c" class="bulleted-list"><li style="list-style-type:disc"><strong>Equation</strong>: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><msub><mi>b</mi><mn>0</mn></msub><mo>+</mo><msub><mi>b</mi><mn>1</mn></msub><mi>x</mi></mrow><annotation encoding="application/x-tex">y = b_0 + b_1x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">x</span></span></span></span></span><span>﻿</span></span></li></ul><ul id="6a466ba2-ee13-48fb-bb27-d34c912baa9d" class="bulleted-list"><li style="list-style-type:disc"><strong>Use Case</strong>: One independent variable predicts a dependent variable.</li></ul><h3 id="0c91cdeb-953a-4abb-9528-62c98cd85393" class="">Multiple Linear Regression (MLR)</h3><ul id="61a38a19-6b35-4a2c-abc0-e5e5ecfdc720" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: Extends SLR to include multiple independent variables.</li></ul><ul id="ba53d83a-595b-4d34-b588-3e849aa8d912" class="bulleted-list"><li style="list-style-type:disc"><strong>Equation</strong>: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><msub><mi>b</mi><mn>0</mn></msub><mo>+</mo><msub><mi>b</mi><mn>1</mn></msub><msub><mi>x</mi><mn>1</mn></msub><mo>+</mo><msub><mi>b</mi><mn>2</mn></msub><msub><mi>x</mi><mn>2</mn></msub><mo>+</mo><mo>…</mo><mo>+</mo><msub><mi>b</mi><mi>n</mi></msub><msub><mi>x</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">y=b_0+b_1x_1+b_2x_2+…+b_nx_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span></li></ul><ul id="41bac69d-0c3a-4473-a7ad-396dcfc9df57" class="bulleted-list"><li style="list-style-type:disc"><strong>Use Case</strong>: Accounts for multiple factors affecting the outcome.</li></ul><h3 id="6ecada7a-cad2-4419-be88-84491768f00c" class="">Polynomial Regression</h3><ul id="296b588f-0bdc-4013-8844-9536b7773b45" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: A form of regression where the relationship is modeled as an nth degree polynomial.</li></ul><ul id="8dd44bac-e325-40ac-85d0-5496853b7ff7" class="bulleted-list"><li style="list-style-type:disc"><strong>Equation</strong>: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><msub><mi>b</mi><mn>0</mn></msub><mo>+</mo><msub><mi>b</mi><mn>1</mn></msub><mi>x</mi><mo>+</mo><msub><mi>b</mi><mn>2</mn></msub><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mo>…</mo><mo>+</mo><msub><mi>b</mi><mi>n</mi></msub><msup><mi>x</mi><mi>n</mi></msup></mrow><annotation encoding="application/x-tex">y = b_0 + b_1x + b_2x^2 + \ldots + b_nx^n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9641em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span></li></ul><ul id="aeed6fa5-f06d-496f-9b82-57e04bc9dc67" class="bulleted-list"><li style="list-style-type:disc"><strong>Use Case</strong>: Captures non-linear relationships by transforming features.</li></ul><h3 id="6988cfd9-0cba-4719-b5e3-9aefa6a5c69e" class="">Key Differences</h3><ul id="3ae49cfd-f9d4-45ac-bd6d-19f1fb854276" class="bulleted-list"><li style="list-style-type:disc"><strong>SLR</strong>: Linear relationship with one predictor.</li></ul><ul id="e11b413b-2ce8-4c9f-b2e6-79081a0a7911" class="bulleted-list"><li style="list-style-type:disc"><strong>MLR</strong>: Linear relationships with multiple predictors.</li></ul><ul id="0d06d625-cdea-4085-8b04-8cec0f24edd8" class="bulleted-list"><li style="list-style-type:disc"><strong>Polynomial Regression</strong>: Non-linear relationships using polynomial terms.</li></ul><h3 id="92e2e173-5ea1-47ed-b528-5efe2d30d17c" class="">Example Code</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="505542d7-b6d8-490b-b08a-9aebadf976f1" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+import numpy as np
+
+# Simple Linear Regression
+X_slr = np.array([[20], [30], [40]])
+y_slr = np.array([15000, 13000, 12000])
+
+model_slr = LinearRegression()
+model_slr.fit(X_slr, y_slr)
+predicted_slr = model_slr.predict([[30]])
+print(&quot;SLR Predicted Price:&quot;, predicted_slr[0])
+
+# Multiple Linear Regression
+X_mlr = np.array([[20, 5], [30, 4], [40, 6]])
+y_mlr = np.array([15000, 13000, 12000])
+
+model_mlr = LinearRegression()
+model_mlr.fit(X_mlr, y_mlr)
+predicted_mlr = model_mlr.predict([[30, 5]])
+print(&quot;MLR Predicted Price:&quot;, predicted_mlr[0])
+
+# Polynomial Regression
+X_poly = np.array([[20], [30], [40]])
+y_poly = np.array([15000, 13000, 12000])
+
+poly = PolynomialFeatures(degree=2)
+X_poly_transformed = poly.fit_transform(X_poly)
+
+model_poly = LinearRegression()
+model_poly.fit(X_poly_transformed, y_poly)
+predicted_poly = model_poly.predict(poly.transform([[30]]))
+print(&quot;Polynomial Predicted Price:&quot;, predicted_poly[0])</code></pre><hr id="9bc361cf-eb77-43b3-a10a-6d6a3b3dcdd0"/><h1 id="13c73e45-f776-48e4-9b2f-91ccd7169966" class="">4. Model Evaluation Metrics</h1><h2 id="21d39c27-cd14-40e6-9943-a454292d95b8" class="">Mean Squared Error (MSE)</h2><ul id="1c684b77-7c5e-44ca-ad8f-9f1ad42473bc" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: Measures the average squared difference between actual and predicted values. It indicates how close predictions are to the actual values.</li></ul><ul id="15d1b355-95ae-4cfe-8d87-49d37a80a649" class="bulleted-list"><li style="list-style-type:disc"><strong>Formula</strong>: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>MSE</mtext><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><mo>∑</mo><mo stretchy="false">(</mo><mi>y</mi><mo>−</mo><mover accent="true"><mi>y</mi><mo>^</mo></mover><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex"> \text{MSE} = \frac{1}{n} \sum (y - \hat{y})^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">MSE</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6944em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1944em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span></li></ul><ul id="bf4d0e08-ec6a-4d7c-bda6-035c85c82a8c" class="bulleted-list"><li style="list-style-type:disc"><strong>Python</strong>: Use <code>mean_squared_error</code> from <code>sklearn.metrics</code>.</li></ul><h3 id="4fa82804-3e98-4408-902b-d0b3570370bb" class="">Example</h3><p id="c79a0986-738e-4927-8e7e-039bad2c1a06" class=""><strong>Scenario</strong>: Predicting house prices based on size.</p><ul id="1b6065bb-1f83-4766-b6a3-d0bf0ea1c52c" class="bulleted-list"><li style="list-style-type:disc"><strong>Actual Prices</strong>: [200, 250, 300]</li></ul><ul id="2fb61fd9-f9d9-4657-b6ef-800b89934d12" class="bulleted-list"><li style="list-style-type:disc"><strong>Predicted Prices</strong>: [210, 240, 310]</li></ul><p id="efe62bad-6647-422d-a0c0-84afacc68240" class=""><strong>Calculation</strong>:</p><p id="041a6681-cd7b-40e3-b2bb-092d17b1487f" class=""><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>MSE</mtext><mo>=</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo stretchy="false">(</mo><mo stretchy="false">(</mo><mn>200</mn><mo>−</mo><mn>210</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo>+</mo><mo stretchy="false">(</mo><mn>250</mn><mo>−</mo><mn>240</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo>+</mo><mo stretchy="false">(</mo><mn>300</mn><mo>−</mo><mn>310</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo stretchy="false">(</mo><mn>100</mn><mo>+</mo><mn>100</mn><mo>+</mo><mn>100</mn><mo stretchy="false">)</mo><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">\text{MSE} = \frac{1}{3} ((200-210)^2 + (250-240)^2 + (300-310)^2) = \frac{1}{3} (100 + 100 + 100) = 100
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">MSE</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mopen">((</span><span class="mord">200</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord">210</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">250</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord">240</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">300</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord">310</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mopen">(</span><span class="mord">100</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">100</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">100</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">100</span></span></span></span></span><span>﻿</span></span></p><p id="7d1bb06a-643b-4e21-b8e5-d18be68fc872" class=""><strong>Python Code</strong>:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="362db5fd-eb26-4e71-9f8e-a4524615f44e" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.metrics import mean_squared_error
+
+actual = [200, 250, 300]
+predicted = [210, 240, 310]
+mse = mean_squared_error(actual, predicted)
+print(&quot;MSE:&quot;, mse)  # Output: MSE: 100.0</code></pre><figure id="ef2ae7a1-c3d3-4eac-a912-748d9106c005" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2012.png"><img style="width:708px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2012.png"/></a></figure><h2 id="ae9ce155-6f7e-43e5-817e-43d4aada29d8" class="">R-squared (Coefficient of Determination)</h2><ul id="3088a7b3-f11b-4d17-bcc4-06572f5892d9" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: Indicates how well the data fits the regression line. Values range from 0 to 1, with values closer to 1 indicating a better fit.</li></ul><ul id="cdfcc855-c826-4490-aa0d-5e6faf8813a0" class="bulleted-list"><li style="list-style-type:disc"><strong>Formula</strong>: <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mn>2</mn></msup><mo>=</mo><mn>1</mn><mo>−</mo><mfrac><mtext>MSE of regression</mtext><mtext>MSE of mean</mtext></mfrac></mrow><annotation encoding="application/x-tex">R^2 = 1 - \frac{\text{MSE of regression}}{\text{MSE of mean}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.2772em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9322em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">MSE of mean</span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4461em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">MSE of regression</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span><span>﻿</span></span></li></ul><ul id="205809d1-ad5e-4ed8-b502-1ba8a02d6ad6" class="bulleted-list"><li style="list-style-type:disc"><strong>Python</strong>: Use <code>score</code> method in the linear regression object.</li></ul><h3 id="fc7c9e5e-fd28-4b67-8f66-6783da384699" class="">Example</h3><p id="af42ed40-dea3-45ae-81d1-627c421c7d6e" class=""><strong>Scenario</strong>: Predicting test scores based on study hours.</p><p id="fe59c6a8-6db4-4ff9-a4ba-2a48cda9e27e" class=""><strong>Interpretation</strong>:</p><ul id="7819de7f-c473-4319-83f4-b9eecad816cf" class="bulleted-list"><li style="list-style-type:disc"><strong>Good Fit</strong>: R² = 0.9 (90% of variance explained)</li></ul><ul id="a29d6c64-c949-4886-a3a7-1ee6485c5708" class="bulleted-list"><li style="list-style-type:disc"><strong>Poor Fit</strong>: R² = 0.2 (20% of variance explained)</li></ul><p id="e396b6b2-a147-4836-a5aa-4d65d51dca57" class=""><strong>Python Code</strong>:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="17490f8b-124f-4761-ba80-a188a8b3bf6d" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.linear_model import LinearRegression
+import numpy as np
+
+X = np.array([[1], [2], [3]])
+y = np.array([2, 3, 5])
+model = LinearRegression()
+model.fit(X, y)
+
+r_squared = model.score(X, y)
+print(&quot;R-squared:&quot;, r_squared)  # Output: R-squared: 0.9642857142857143</code></pre><h3 id="aa89c731-f159-4f83-b501-76cdb68056e1" class="">Example Interpretation</h3><ul id="99d30e34-6fc6-4cb9-9fe1-1bf2b46cf606" class="bulleted-list"><li style="list-style-type:disc"><strong>Good Fit</strong>: Small MSE for regression, larger for mean → <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">R^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> near 1.</li></ul><ul id="bd880a79-5ac9-4d0d-91ed-40bfed7ce4bb" class="bulleted-list"><li style="list-style-type:disc"><strong>Poor Fit</strong>: Similar MSE for regression and mean → <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">R^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span> near 0.</li></ul><ul id="ab972796-18bf-4150-9bf3-fc7047aacc63" class="bulleted-list"><li style="list-style-type:disc"><strong>Negative </strong><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">R^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><span>﻿</span></span>: Possible overfitting.</li></ul><figure id="d07aa4a1-415c-4ead-80bb-319c62421348" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2013.png"><img style="width:708px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2013.png"/></a></figure><hr id="68cae06c-52b6-495e-af29-d5e70e9dbc0c"/><h1 id="0ce4a7ec-c1d3-407b-acfa-b568372cd7f4" class="">5. Prediction and Decision Making</h1><h2 id="0a937c1d-5783-4aa9-ab3a-b665d7ccedb4" class="">Model Evaluation</h2><p id="de9d1568-95da-44a0-b5e5-a47d782023c0" class="">To ensure a model&#x27;s validity, use:</p><ul id="102878e8-b6aa-40a5-be60-e46808ba7f23" class="bulleted-list"><li style="list-style-type:disc"><strong>Visualization</strong>: Plot data to check trends and anomalies.</li></ul><ul id="0629d885-6bb7-45f6-8101-f03fbbe73337" class="bulleted-list"><li style="list-style-type:disc"><strong>Numerical Measures</strong>: Metrics like MSE and R-squared.</li></ul><ul id="a73c090e-3c6d-4862-999b-9e26544f5ff4" class="bulleted-list"><li style="list-style-type:disc"><strong>Comparison</strong>: Evaluate different models.</li></ul><figure id="92171ca0-5966-4ff9-9ada-212f20f7d5c8" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2014.png"><img style="width:1738px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2014.png"/></a></figure><h2 id="95a2546c-e764-468d-8ec3-02bb0d1c4c3b" class="">Example: Predicting Car Price</h2><ul id="1767aabb-6e2b-4851-80de-fb800307d1de" class="bulleted-list"><li style="list-style-type:disc"><strong>Scenario</strong>: Predict price for a car with 30 highway mpg.</li></ul><ul id="5aee845e-9859-46da-ac60-f23065cd0c9f" class="bulleted-list"><li style="list-style-type:disc"><strong>Result</strong>: Price = $13,771.30 (reasonable value).</li></ul><h3 id="bb155342-786c-4e97-91fc-6730b4298033" class="">Coefficient Interpretation</h3><p id="5e29aeb3-fbb0-477c-bbce-a850d81420db" class="">An increase of 1 mpg decreases price by $821.</p><h3 id="c2568828-675f-4a00-b179-a4a3afd11947" class="">Potential Issues</h3><p id="85fabffc-236f-4413-ae7b-69730505ea2c" class="">Unrealistic predictions may indicate:</p><ul id="d58c6658-a5f5-41d0-b03a-2ffc14cef6a5" class="bulleted-list"><li style="list-style-type:disc">Incorrect assumptions</li></ul><ul id="904329d4-84f1-4576-87b3-ee43b2765f00" class="bulleted-list"><li style="list-style-type:disc">Lack of data in certain ranges</li></ul><h2 id="15a90ad7-fc44-4011-a5f2-841b64cf7f0a" class="">Generating Predictions</h2><ul id="2b027e58-189d-4e7e-a7f8-0e9192d08693" class="bulleted-list"><li style="list-style-type:disc">Use NumPy&#x27;s <code>arange</code> to create sequences for prediction.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2648f6b5-aaa1-48bd-94f6-da4537375be2" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import numpy as np
+from sklearn.linear_model import LinearRegression
+
+# Sample data
+X = np.array([[20], [30], [40]])
+y = np.array([15000, 13000, 12000])
+
+# Model training
+model = LinearRegression()
+model.fit(X, y)
+
+# Generating a sequence for prediction
+mpg_values = np.arange(1, 101, 1)  # From 1 to 100 with step 1
+predicted_prices = model.predict(mpg_values.reshape(-1, 1))
+
+# Example prediction for 30 mpg
+predicted_price = model.predict([[30]])
+print(&quot;Predicted Price:&quot;, predicted_price[0])</code></pre><h3 id="cbdb4afc-9bf0-4ad5-8128-a70f8131240f" class="">Explanation</h3><ul id="1fd1870f-4e8e-4ffa-9022-1d1464eaeded" class="bulleted-list"><li style="list-style-type:disc"><code><strong>np.arange(1, 101, 1)</strong></code>: Creates an array from 1 to 100 with a step of 1.</li></ul><ul id="98026c29-6648-47ff-a59f-a1bd054862f9" class="bulleted-list"><li style="list-style-type:disc"><code><strong>reshape(-1, 1)</strong></code>: Reshapes the array for prediction.</li></ul><h2 id="2f418e65-f7b5-485b-a3c1-32f2348fb3e8" class="">Visualization Techniques</h2><ul id="67614056-685f-4652-9ac4-43ac520a840f" class="bulleted-list"><li style="list-style-type:disc"><strong>Regression Plot</strong>: Shows data trend and potential non-linear behavior.</li></ul><ul id="417b2be9-00ad-45bc-afac-4bd0d154d6e0" class="bulleted-list"><li style="list-style-type:disc"><strong>Residual Plot</strong>: Curvature indicates non-linear relationships.</li></ul><ul id="0b5bce3a-e3f7-49ec-9695-355282952312" class="bulleted-list"><li style="list-style-type:disc"><strong>Distribution Plot</strong>: Highlights prediction accuracy in certain ranges.</li></ul><h2 id="90800660-5d99-4d23-852c-595bb0226a8c" class="">Evaluating Models</h2><h3 id="6d21929c-f70c-4dfa-993c-4274fa0f13fc" class="">Mean Squared Error (MSE)</h3><ul id="5dbd2f00-393b-498e-8be7-2e1ae651ab39" class="bulleted-list"><li style="list-style-type:disc"><strong>Interpretation</strong>: Average squared difference between actual and predicted values.</li></ul><p id="0246c498-27f7-459d-9e16-72d14cd35926" class=""><strong>Example MSEs:</strong></p><ul id="ddc2a3ec-100e-46e6-b92f-b17b657261f8" class="bulleted-list"><li style="list-style-type:disc">495 (good fit)</li></ul><figure id="8fa05ac8-f039-4540-80c5-e25c3a1f87ae" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2015.png"><img style="width:1774px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2015.png"/></a></figure><ul id="88d7370b-a184-4c9d-bd57-474f579d31e9" class="bulleted-list"><li style="list-style-type:disc">12,870 (poor fit)</li></ul><figure id="ccea8030-e95c-4ca8-970c-aaa4fed7b843" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2016.png"><img style="width:1736px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2016.png"/></a></figure><p id="3150fd82-be79-46ab-8d90-725d7edcd748" class="">
+</p><p id="7c148a15-8fd8-459b-b952-d62b181637ba" class=""><strong>Code Example:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="480d3aff-7363-4eb8-90ad-4a684b1cb5c0" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.metrics import mean_squared_error
+
+# Actual and predicted values
+actual = [15000, 13000, 12000]
+predicted = model.predict(X)
+
+# Calculate MSE
+mse = mean_squared_error(actual, predicted)
+print(&quot;MSE:&quot;, mse)</code></pre><p id="7a9bf239-eaed-4721-90a6-ca4006ec53ca" class="">
+</p><h3 id="fe7fa0cb-b7ff-4a82-9006-05b0f953d465" class="">R-squared (R²)</h3><ul id="72131473-d419-414f-a7fc-e2915b14ef7f" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: Indicates how well data fits the regression line.</li></ul><p id="2e8b9785-838e-4b88-880c-217dd26e6e25" class="">Example R² Values:</p><ul id="00c53016-7859-438c-8bfe-37311e1d86ae" class="bulleted-list"><li style="list-style-type:disc">0.9986 (excellent fit)</li></ul><ul id="dcdbfb01-ca4c-4f6a-8b4e-42ed235c244b" class="bulleted-list"><li style="list-style-type:disc">0.61 (weak linear relation)</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="177388bc-dca8-4b4f-8bdc-45e9baec0639" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># Calculate R-squared
+r_squared = model.score(X, y)
+print(&quot;R-squared:&quot;, r_squared) </code></pre><h2 id="bb1f765f-7984-4bf6-b852-bf88278dd2c9" class="">Model Comparison</h2><ul id="0610180f-1111-4bf0-9a4c-130a5f4fdacb" class="bulleted-list"><li style="list-style-type:disc"><strong>MLR vs. SLR</strong>: More variables can lower MSE, but not always a better fit.</li></ul><ul id="b4000996-094a-43fe-a922-f941ac9f7739" class="bulleted-list"><li style="list-style-type:disc"><strong>Polynomial Regression</strong>: Generally has lower MSE compared to linear regression.</li></ul><figure id="01be3ede-c417-426a-bde1-ce811861ef5c" class="image"><a href="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2017.png"><img style="width:1742px" src="Module%204%20Model%20Development%206d8c2b9ba2fe415ab24f311d656e9333/Untitled%2017.png"/></a></figure><h2 id="e1dfd86a-48b8-4289-a9ff-b34c57881305" class="">Conclusion</h2><ul id="5e42583f-4943-4b4d-a72e-e59eb1f4426d" class="bulleted-list"><li style="list-style-type:disc">Evaluate models using both visualization and numerical metrics.</li></ul><ul id="5736949d-9f2c-4b5e-a33d-241e5507df31" class="bulleted-list"><li style="list-style-type:disc">Consider context and domain for interpreting R² and MSE values.</li></ul><hr id="29b5e950-2a2e-48c6-88fe-9164f056e148"/><p id="d372bd74-532a-47de-aaf0-4414a52209f4" class="">
+</p><h1 id="cf7ef95f-e149-4fc4-bcd8-d83e6cf1f8c2" class="">Notes</h1><h2 id="e7f040f2-7899-4426-84bd-09932e3c25fd" class="">Regression Plot</h2><p id="439855a9-3cb4-4ca1-a262-b532b2edd12a" class="">When it comes to simple linear regression, an excellent way to visualize the fit of our model is by using <strong>regression plots</strong>.</p><p id="9fd70f37-42fd-4d3c-8162-6fedd77e1f2f" class="">This plot will show a combination of scattered data points (a <strong>scatterplot</strong>), as well as the fitted <strong>linear regression</strong> line going through the data. This will give us a reasonable estimate of the relationship between the two variables, the strength of the correlation, as well as the direction (positive or negative correlation).</p><h2 id="c747ae35-56d6-4438-a737-f37cafc74be2" class="">Residual Plot</h2><p id="9cbf1f81-ec43-4867-8d91-df1b5829b0eb" class="">A good way to visualize the variance of the data is to use a residual plot.</p><p id="f51d84d6-3d25-4d33-ac9e-f10cf1fb6334" class="">What is a <strong>residual</strong>?</p><p id="db5d8434-fce6-47dd-bcde-18972ad9d9a0" class="">The difference between the observed value (y) and the predicted value (ŷ) is called the residual (e). When we look at a regression plot, the residual is the distance from the data point to the fitted regression line.</p><p id="02742d7c-21c0-48ce-b875-a2faf9abf307" class="">So what is a <strong>residual plot</strong>?</p><p id="300b71db-6e87-433f-ab23-48f9cf8f6ffb" class="">A residual plot is a graph that shows the residuals on the vertical y-axis and the independent variable on the horizontal x-axis.</p><p id="4854d8f1-863d-43cf-b837-b3ab1cdb1450" class="">What do we pay attention to when looking at a residual plot?</p><p id="080e4e13-ba46-425e-aa83-80bddcf7cf5e" class="">We look at the spread of the residuals:</p><ul id="5811f013-ef75-4ed9-a8ed-3e241ed8f973" class="bulleted-list"><li style="list-style-type:disc">If the points in a residual plot are <strong>randomly spread out around the x-axis</strong>, then a <strong>linear model is appropriate</strong> for the data.</li></ul><p id="76bc928a-5e55-463b-8381-815d6950cda9" class="">Why is that? Randomly spread out residuals mean that the variance is constant, and thus the linear model is a good fit for this data.</p><h2 id="b486ebba-f0b6-4e24-b597-fdb92a940293" class=""><strong>Simple Linear Regression</strong></h2><p id="757ea424-3b3f-430b-bbc8-770b0139e424" class="">One example of a Data Model that we will be using is <strong>Simple Linear Regression</strong>.</p><p id="204fa720-92bd-41c8-a53f-0a1b814d4d65" class="">Simple Linear Regression is a method to help us understand the relationship between two variables:</p><ul id="34f3abe2-0963-4355-bfdd-8c8155a75180" class="bulleted-list"><li style="list-style-type:disc">The predictor/independent variable (X)</li></ul><ul id="1a9344c6-24c5-4570-af8b-501408f23467" class="bulleted-list"><li style="list-style-type:disc">The response/dependent variable (that we want to predict) (Y)</li></ul><p id="4c04e7cc-b6fb-4b41-8d3c-c06384135272" class="">The result of Linear Regression is a <strong>linear function</strong> that predicts the response (dependent) variable as a function of the predictor (independent) variable.</p><h2 id="bac3481f-4db4-45f3-a1b7-12379b811dea" class=""><strong>Multiple Linear Regression</strong></h2><p id="ee30a53c-be8c-4684-9faa-71e7a8cfe133" class="">What if we want to predict car price using more than one variable?</p><p id="7f837f4d-a3a9-474b-8b58-c5e9d38626ab" class="">If we want to use more variables in our model to predict car price, we can use <strong>Multiple Linear Regression</strong>. Multiple Linear Regression is very similar to Simple Linear Regression, but this method is used to explain the relationship between one continuous response (dependent) variable and <strong>two or more</strong> predictor (independent) variables. Most of the real-world regression models involve multiple predictors. We will illustrate the structure by using four predictor variables, but these results can generalize to any number.</p><h2 id="fc2d4dfe-afcd-466b-b1fe-111de81f8115" class=""><strong>Polynomial Regression</strong></h2><p id="e34e804c-f0d3-40ae-9ad6-a1a069655bee" class=""><strong>Polynomial regression</strong> is a particular case of the general linear regression model or multiple linear regression models.</p><p id="e8ab5a89-ebee-493c-bdfa-23b87d49e251" class="">We get non-linear relationships by squaring or setting higher-order terms of the predictor variables.</p><h2 id="08d2c87b-7bfe-4010-b885-4a586b9f4099" class="">Measures for In-Sample Evaluation</h2><p id="137a5da7-7a20-458b-a9f4-d4397e315b26" class="">When evaluating our models, not only do we want to visualize the results, but we also need a quantitative measure to determine how accurate the model is.</p><p id="fb9821a9-5d31-4d22-9ead-72806f626fc6" class="">Two very important measures that are often used in statistics to assess the accuracy of a model are:</p><ul id="839476f5-794e-477e-93ab-5b05a8b735db" class="bulleted-list"><li style="list-style-type:disc"><strong>R² / R-squared (The Coefficient of Determination)</strong></li></ul><ul id="2ccf555e-420e-430b-9633-75e360fdc76f" class="bulleted-list"><li style="list-style-type:disc"><strong>Mean Squared Error (MSE)</strong></li></ul><h3 id="07343112-d847-46ef-a9f9-25e1181629a0" class="">R-squared</h3><p id="2e4770c4-5f56-49a8-bee8-48070c968f97" class="">R-squared, also known as the coefficient of determination, measures how closely the data aligns with the fitted regression line.</p><p id="daf57148-6d75-4961-b643-fc6c053d6373" class="">The R-squared value represents the percentage of variation in the response variable (y) that is explained by the linear model.</p><h3 id="f81fcabb-d626-483a-abe7-3ad4077d1efc" class="">Mean Squared Error (MSE)</h3><p id="dd970559-450e-45c8-8e3a-e42d00b65ee5" class="">The Mean Squared Error (MSE) measures the average of the squares of the errors. In other words, it calculates the difference between the actual values (y) and the estimated values (ŷ).</p><hr id="2455bd8b-95d4-4cd9-8573-3ea0eb81bb8f"/><h1 id="38b7be5e-538a-4afe-b4e9-83f318d31afa" class=""><strong>Cheat Sheet: Model Development</strong></h1><h2 id="14d03991-1ee5-4f4f-8528-fa3effcbdb79" class="">Linear Regression</h2><ul id="662de036-d35c-4c6d-951e-a9dc308618c4" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>: Create a Linear Regression model object</li></ul><ul id="876a6e26-2c7d-4242-b1fe-ebb78b64b195" class="bulleted-list"><li style="list-style-type:disc"><strong>Description</strong>: Create an instance of the <code>LinearRegression</code> model.</li></ul><ul id="9a132b4a-5389-497a-95f5-a8197cc9b6aa" class="bulleted-list"><li style="list-style-type:disc"><strong>Code Example</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3ab5085e-6252-4b94-bf2c-0d5344f411c9" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.linear_model import LinearRegression
+
+lr = LinearRegression()</code></pre></li></ul><h2 id="b2be7a5f-7c2e-4b7a-b165-24d39543a225" class="">Train Linear Regression Model</h2><ul id="cbd44cd2-c295-4236-9e28-7d4ec60f0458" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>: Train the Linear Regression model</li></ul><ul id="a36e9cdf-7f80-4b67-90ca-86a0a3e890d4" class="bulleted-list"><li style="list-style-type:disc"><strong>Description</strong>: Fit the model on the input and output data. If there’s only one input attribute, it’s simple linear regression. If there are multiple attributes, it’s multiple linear regression.</li></ul><ul id="41f5d905-c3fc-4c52-b230-50ca8c663d37" class="bulleted-list"><li style="list-style-type:disc"><strong>Code Example</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d1faa2da-94aa-4dde-86e9-f283b5ae5304" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">X = df[[&#x27;attribute_1&#x27;, &#x27;attribute_2&#x27;, ...]]
+Y = df[&#x27;target_attribute&#x27;]
+
+lr.fit(X, Y)</code></pre></li></ul><h2 id="b4804fcf-572a-4fb7-8deb-e1df8313c031" class="">Generate Output Predictions</h2><ul id="718de74a-0983-48b4-9fb7-172b964a9181" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>: Predict the output for given input attributes</li></ul><ul id="2026117b-f32a-4618-98a6-48c8cf9e8f9e" class="bulleted-list"><li style="list-style-type:disc"><strong>Description</strong>: Use the trained model to predict the output values based on the input attributes.</li></ul><ul id="20ec09d8-01d3-4dd0-ba57-e261d03400fb" class="bulleted-list"><li style="list-style-type:disc"><strong>Code Example</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c379cc0d-4a43-4790-8dfa-2aa2867b47c1" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">Y_hat = lr.predict(X)</code></pre></li></ul><h2 id="119dfe5b-43a6-4bd7-ad74-4de84d15403a" class="">Identify the Coefficient and Intercept</h2><ul id="82afa8e8-9b90-457d-97f1-5afc04c4ebf4" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>: Retrieve the model’s coefficient and intercept</li></ul><ul id="9bf16b9a-4d19-4a49-8a5b-080fd1bfcdeb" class="bulleted-list"><li style="list-style-type:disc"><strong>Description</strong>: Access the slope coefficient and intercept values of the linear regression model.</li></ul><ul id="be101f6b-db5e-42ba-b329-e16949b0d07a" class="bulleted-list"><li style="list-style-type:disc"><strong>Code Example</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="37e13cc2-5fab-476a-8c07-7071113076e2" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">coeff = lr.coef_
+intercept = lr.intercept_</code></pre></li></ul><h2 id="88f78fb0-d4cf-41db-8dc8-b7bf5dc60343" class="">Residual Plot</h2><ul id="eff4bddc-20a7-4b46-9c9b-51fc00762f57" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>: Create a Residual Plot</li></ul><ul id="b917e1e7-7bd1-456d-8cfc-bc36c59d544e" class="bulleted-list"><li style="list-style-type:disc"><strong>Description</strong>: Plot the residuals (the differences between observed and predicted values) to assess the goodness of fit.</li></ul><ul id="8d7a5a3c-1683-4324-92a9-eb461ae2f915" class="bulleted-list"><li style="list-style-type:disc"><strong>Code Example</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3817c5e3-d294-4005-9baa-134a3bd0ecf7" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import seaborn as sns
+
+sns.residplot(x=df[&#x27;attribute_1&#x27;], y=df[&#x27;attribute_2&#x27;])</code></pre></li></ul><h2 id="60c64b01-9a49-4dcf-80d3-2048c786b9b2" class="">Distribution Plot</h2><ul id="2c1336b6-42e3-409e-a1b6-c3fb3e4a902e" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>: Create a Distribution Plot</li></ul><ul id="e34b001d-f88e-4d5b-8837-606f66348392" class="bulleted-list"><li style="list-style-type:disc"><strong>Description</strong>: Plot the distribution of a given attribute’s data.</li></ul><ul id="a685a838-d1c6-41eb-a423-7a6e304228e9" class="bulleted-list"><li style="list-style-type:disc"><strong>Code Example</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a69256bf-dcf9-474e-9e89-32f7d75d8219" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import seaborn as sns
+
+sns.distplot(df[&#x27;attribute_name&#x27;], hist=False)</code></pre></li></ul><h2 id="e7c2d5c0-476d-476a-8199-35227f7e44ba" class="">Polynomial Regression</h2><ul id="f9f8d533-dbff-4ba2-a3f0-93899555678b" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>: Perform Polynomial Regression</li></ul><ul id="331a94ab-5c59-4af0-a494-c7329766e1f1" class="bulleted-list"><li style="list-style-type:disc"><strong>Description</strong>: Fit a polynomial model to the data using NumPy.</li></ul><ul id="29bdfdb8-5ece-475c-a0ad-9f1c79f69b0c" class="bulleted-list"><li style="list-style-type:disc"><strong>Code Example</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c4f9acab-2ea6-4c01-9bb1-c00306f008e6" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import numpy as np
+
+f = np.polyfit(x, y, n)
+p = np.poly1d(f)
+Y_hat = p(x)</code></pre></li></ul><h2 id="d1b24728-1d72-4d07-b8c0-5b3bc38e22e9" class="">Multi-variate Polynomial Regression</h2><ul id="16195dea-413e-4778-ba7a-a3adb5bd414d" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>: Create Polynomial Features</li></ul><ul id="58b0a8c6-4a32-494e-91d5-6516146f0cec" class="bulleted-list"><li style="list-style-type:disc"><strong>Description</strong>: Generate polynomial combinations of features up to a specified degree.</li></ul><ul id="65a260d6-ea52-4e56-b47c-6ce43ba022b9" class="bulleted-list"><li style="list-style-type:disc"><strong>Code Example</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="bf8a833f-3645-4c75-805c-cbc2e4639767" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.preprocessing import PolynomialFeatures
+
+Z = df[[&#x27;attribute_1&#x27;, &#x27;attribute_2&#x27;, ...]]
+pr = PolynomialFeatures(degree=n)
+Z_pr = pr.fit_transform(Z)</code></pre></li></ul><h2 id="1ab3d0ba-8ad1-4f5b-b2e4-03b2904b2071" class="">Pipeline</h2><ul id="d8664618-b6a4-4ad6-8807-61e94dd6570f" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>: Create a Data Pipeline</li></ul><ul id="112c5790-b55d-46a7-9f11-19f217688aaa" class="bulleted-list"><li style="list-style-type:disc"><strong>Description</strong>: Simplify the steps of processing data by creating a pipeline with a sequence of steps.</li></ul><ul id="286a3c25-d4b1-42f1-9bfe-b366c988aa79" class="bulleted-list"><li style="list-style-type:disc"><strong>Code Example</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7ffe8aa7-f63b-4592-a6c2-1f3730fa7b15" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+
+Input = [
+    (&#x27;scale&#x27;, StandardScaler()),
+    (&#x27;polynomial&#x27;, PolynomialFeatures(include_bias=False)),
+    (&#x27;model&#x27;, LinearRegression())
+]
+pipe = Pipeline(Input)
+Z = Z.astype(float)
+pipe.fit(Z, y)
+ypipe = pipe.predict(Z)</code></pre></li></ul><h2 id="a2c501d2-a4d4-4635-851a-10035250f5cd" class="">R² Value</h2><ul id="698dab35-cfa9-4ed6-9424-7edfa22988ef" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>: Calculate R² Value</li></ul><ul id="01a92a9c-a628-4625-b104-e3afb1cf485c" class="bulleted-list"><li style="list-style-type:disc"><strong>Description</strong>: Measure how well the model’s predictions fit the data. This is the proportion of variance explained by the model.</li></ul><ul id="143169b4-92f0-478c-8366-9df6d05d5c10" class="bulleted-list"><li style="list-style-type:disc"><strong>Code Example</strong>:<ul id="47cf7b4a-91a1-47fa-9853-ebfd91319560" class="bulleted-list"><li style="list-style-type:circle">For Linear Regression:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="62373437-686a-4165-955c-e5b1c4d63afa" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.metrics import r2_score
+
+R2_score = lr.score(X, Y)</code></pre></li></ul><ul id="89deaac4-874d-4a99-ba1d-f735b42e95b6" class="bulleted-list"><li style="list-style-type:circle">For Polynomial Regression:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="258ea88a-9c45-4017-b2fc-3e2c20f2251d" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.metrics import r2_score
+import numpy as np
+
+f = np.polyfit(x, y, n)
+p = np.poly1d(f)
+R2_score = r2_score(y, p(x))</code></pre></li></ul></li></ul><h2 id="ef3a79af-2357-4453-b2be-5de3686de468" class="">Mean Squared Error (MSE) Value</h2><ul id="15672ab1-80ea-40aa-882b-a48625468ac1" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>: Calculate Mean Squared Error (MSE)</li></ul><ul id="0c09afc2-e3cd-4b0b-b941-fb1717599b4f" class="bulleted-list"><li style="list-style-type:disc"><strong>Description</strong>: Measure the average of the squares of the errors, which are the differences between actual values and the estimated values.</li></ul><ul id="239ad3ff-9d69-4a57-9247-4343cfa4324d" class="bulleted-list"><li style="list-style-type:disc"><strong>Code Example</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="72f65647-36d0-43b7-8e18-fe12d046c340" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.metrics import mean_squared_error
+
+MSE = mean_squared_error(Y, Y_hat)</code></pre></li></ul><hr id="aa5341fd-bb5e-4476-858f-1efa2594b656"/><p id="caa612df-aae0-43d4-9acc-4eb1dd5a4af7" class="">
+</p><p id="8b154fde-5aea-4fb0-a7e9-a3bd9a82782b" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

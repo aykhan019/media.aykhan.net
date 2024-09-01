@@ -1,0 +1,752 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Module 2: Data Wrangling</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+/* For Edge (based on WebKit) */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(249, 228, 188, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="dd9746ac-b9c0-4d72-9eec-e51f11bd601d" class="page sans"><header><img class="page-cover-image" src="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/photo-1613677135043-a2512fbf49fa.jpeg" style="object-position:center 13.719999999999999%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/science_orange.svg"/></div><h1 class="page-title">Module 2: Data Wrangling</h1><p class="page-description"></p></header><div class="page-body"><h1 id="2cf34440-7f6d-4b8a-afac-3d6fa7563020" class="">Introduction to Data Pre-processing Techniques</h1><p id="2fc8db72-8f82-47d2-a118-a2eb70bed2a7" class="">Data pre-processing, also known as data cleaning or data wrangling, is a crucial step in data analysis. It involves transforming raw data into a format suitable for analysis. Here are the key topics covered in data pre-processing:</p><h3 id="35ebe947-5a10-4035-996b-c3a9d3d82f67" class="">Identifying and Handling Missing Values</h3><ul id="d3a9da36-485b-4c69-b661-8f4e14fc54ca" class="bulleted-list"><li style="list-style-type:disc"><strong>Definition</strong>: Missing values occur when data entries are left empty.</li></ul><ul id="5f9e3243-9326-46dc-b428-be628ebd57fb" class="bulleted-list"><li style="list-style-type:disc"><strong>Techniques</strong>:<ul id="8f5e22c5-d270-43e7-8353-d260d69b34ff" class="bulleted-list"><li style="list-style-type:circle">Removing or imputing missing values.</li></ul></li></ul><h3 id="67bb58b8-9c42-4c63-979f-57ad4475e5a4" class="">Standardizing Data Formats</h3><ul id="c69fa9f0-2a73-475c-baf2-289ae83b4278" class="bulleted-list"><li style="list-style-type:disc"><strong>Issue</strong>: Data from different sources may be in various formats, units, or conventions.</li></ul><ul id="f3f598ed-9ebd-47c7-aeaf-26c49d4c7f41" class="bulleted-list"><li style="list-style-type:disc"><strong>Solution</strong>: Use methods to convert and standardize data formats.</li></ul><h3 id="3d74d2c8-71a8-46be-9bff-e2cf9ac3bb0a" class="">Data Normalization</h3><ul id="85673944-9e76-406e-88c6-c9512f073dab" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose</strong>: Bring all numerical data into a similar range for meaningful comparison.</li></ul><ul id="9bd6f04f-4d8c-4908-a3fc-54e75c516183" class="bulleted-list"><li style="list-style-type:disc"><strong>Techniques</strong>: Centering and scaling data values.</li></ul><h3 id="0eb26873-ce8f-40d6-b15a-14dadcad0ead" class="">Data Binning</h3><ul id="165302da-d178-4217-aaaf-2b1d198bc977" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose</strong>: Create larger categories from numerical values for easier comparison between groups.</li></ul><ul id="c76e5187-811c-4fc1-a3fc-4ea16c2935c9" class="bulleted-list"><li style="list-style-type:disc"><strong>Technique</strong>: Dividing data into bins.</li></ul><h3 id="1515559a-5118-414f-b887-9f190c82093a" class="">Handling Categorical Variables</h3><ul id="5596325c-4883-4679-803c-0ad2e1377eb5" class="bulleted-list"><li style="list-style-type:disc"><strong>Issue</strong>: Categorical values need to be converted to numerical values for statistical modeling.</li></ul><ul id="c9f8a130-641a-4bd4-b977-dd21179b1778" class="bulleted-list"><li style="list-style-type:disc"><strong>Solution</strong>: Label encoding and one-hot encoding.</li></ul><h3 id="5dd968d9-7495-4433-9725-dcf8262d33cf" class="">Manipulating Data Frames in Python</h3><p id="5735189b-1b94-477a-b425-d63718ab57c9" class="">In Python, we usually perform operations along columns. Each row represents a sample (e.g., a different used car in the database). Here’s a quick overview of basic data manipulation:</p><ul id="ee8e65c9-def9-4310-9a04-d01f3a1c03ae" class="bulleted-list"><li style="list-style-type:disc"><strong>Accessing Columns</strong>: Columns can be accessed using their names. For example, <code>df[&#x27;symboling&#x27;]</code> or <code>df[&#x27;body_style&#x27;]</code>.</li></ul><ul id="a2a8a603-57e6-4727-a87a-93de44c42bec" class="bulleted-list"><li style="list-style-type:disc"><strong>Pandas Series</strong>: Each column is a Pandas Series, a one-dimensional array-like object.</li></ul><ul id="ea435fbc-dfbe-43a7-ae1c-511b8a3a549e" class="bulleted-list"><li style="list-style-type:disc"><strong>Example Operation</strong>: Adding a value to each entry in a column.<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1beaf4d2-53cf-487a-abf6-c211b823e6c8" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;symboling&#x27;] = df[&#x27;symboling&#x27;] + 1</code></pre></li></ul><p id="a47b7f23-b564-42cb-86e4-5e046ef4d142" class="">
+</p><p id="8b997184-32db-4336-bc81-e2891175d45f" class="">These techniques ensure your data is clean, standardized, and ready for meaningful analysis and modeling.</p><hr id="e5eefc87-6ac3-4cf9-a27b-6ce8e4b2192f"/><p id="d7f7460f-ab1c-42fb-8420-3a93e85d02a3" class="">
+</p><h2 id="e26de8af-09fe-4321-aa79-200373b48876" class="">1. Handling Missing Values in Data Pre-processing</h2><p id="ba6d9748-a8cd-4be5-a8a8-4c84c652c04f" class="">Missing values are a common issue in datasets and occur when no data value is stored for a feature in a particular observation. These can appear as question marks, N/A, zeros, or blank cells. Effective handling of missing values is essential for accurate data analysis. Here are some strategies and techniques to deal with missing values:</p><h3 id="089a0de9-b3de-4508-8813-bfcddab918d2" class="">Identification of Missing Values</h3><ul id="16dd5d66-b71b-4719-8512-7208b6d5f0fa" class="bulleted-list"><li style="list-style-type:disc"><strong>Common Representations</strong>: NaN, ?, N/A, 0, or blank cells.</li></ul><ul id="8cfc02ce-84e2-4451-b464-a09c1c128914" class="bulleted-list"><li style="list-style-type:disc"><strong>Example</strong>: The <code>normalized losses</code> feature has missing values represented as <strong>NaN</strong>.<figure id="9bdb1719-9b60-460a-84e3-93df83898877" class="image"><a href="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled.png"><img style="width:680px" src="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled.png"/></a></figure></li></ul><h3 id="71c98f82-b9ee-4570-a151-00254cfae630" class="">Strategies to Handle Missing Values</h3><ol type="1" id="a4ded882-7f58-4327-afb1-be734387b4b6" class="numbered-list" start="1"><li><strong>Recollection</strong>:<ul id="a801e2b2-ceca-44c1-a739-471b19bc70aa" class="bulleted-list"><li style="list-style-type:disc">Check if the original data collectors can provide the missing values.</li></ul></li></ol><ol type="1" id="a9efb657-81eb-4d5a-b0d7-04ec738d99b3" class="numbered-list" start="2"><li><strong>Removing Data</strong>:<ul id="171b7c4b-9864-466d-9f54-7020b8a22202" class="bulleted-list"><li style="list-style-type:disc"><strong>Dropping Entries</strong>: Remove the entire row or column with missing values.<ul id="975a1d97-9e4c-4c5b-a5cc-fa09e1e1c10a" class="bulleted-list"><li style="list-style-type:circle">Suitable when only a few observations have missing values.</li></ul><ul id="a858f583-f711-47b6-b90e-5097663e508e" class="bulleted-list"><li style="list-style-type:circle">Example: If the <code>price</code> column has missing values and it&#x27;s the target variable, drop the rows with missing prices.<figure id="b58bf55d-4eea-4e81-bed9-94c83dd23a85" class="image"><a href="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%201.png"><img style="width:624px" src="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%201.png"/></a></figure></li></ul></li></ul><ul id="3e5667f9-20cd-4be8-9e96-97984b3bc733" class="bulleted-list"><li style="list-style-type:disc"><strong>Pandas Method</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1ce7a751-a55a-4587-be20-e47156bf1577" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df.dropna(axis=0, inplace=True)  # Drop rows with missing values
+df.dropna(axis=1, inplace=True)  # Drop columns with missing values</code></pre></li></ul></li></ol><ol type="1" id="865503e5-8df3-48b7-824d-744c8a0cec1a" class="numbered-list" start="3"><li><strong>Replacing Data</strong>:<ul id="3887e9b3-00d9-4dca-8bd5-462867ea3053" class="bulleted-list"><li style="list-style-type:disc"><strong>Mean/Median/Mode</strong>:<ul id="f128cd01-6c85-4bcd-ba10-b97328a11deb" class="bulleted-list"><li style="list-style-type:circle">Replace missing values with the mean (for numerical data), median, or mode (for categorical data).</li></ul><ul id="ba5bf1b4-6650-410c-a51e-3a41deaf6e88" class="bulleted-list"><li style="list-style-type:circle">Example: Replace missing <code>normalized losses</code> with the mean of the column.<figure id="19af59ce-5c03-49b1-b7f3-e406c5aec442" class="image"><a href="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%202.png"><img style="width:853px" src="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%202.png"/></a></figure></li></ul><ul id="5599aea0-eab7-422b-a5b9-740231b4759c" class="bulleted-list"><li style="list-style-type:circle"><strong>Pandas Method</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c637c5d0-3b3e-4b4e-b257-17c9230c9e7a" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">mean_value = df[&#x27;normalized_losses&#x27;].mean()
+df[&#x27;normalized_losses&#x27;].replace(np.nan, mean_value, inplace=True)</code></pre></li></ul></li></ul><ul id="29008eb6-c012-4699-adc7-dbd21e91ec90" class="bulleted-list"><li style="list-style-type:disc"><strong>Other Techniques</strong>:<ul id="95456768-6b48-4612-be95-156f14510fb1" class="bulleted-list"><li style="list-style-type:circle">Use group-specific averages or other statistical methods to impute missing values.</li></ul><ul id="017dc89c-c307-494d-bb49-7a5d586a5b5e" class="bulleted-list"><li style="list-style-type:circle">Example: Replace missing values based on the average within a subgroup of data.</li></ul></li></ul></li></ol><ol type="1" id="60d1f807-8614-49c4-b682-fd2db3624a82" class="numbered-list" start="4"><li><strong>Leaving Missing Data</strong>:<ul id="84d197c2-b91b-4b87-b0bc-02cb407c719b" class="bulleted-list"><li style="list-style-type:disc">In some cases, it might be beneficial to retain missing values for specific analysis needs.</li></ul></li></ol><h3 id="6e1bc98e-2ea8-4e5b-a0ad-9dc061a90281" class="">Practical Implementation in Python</h3><ol type="1" id="ae7d76e6-6d81-4768-a428-43d867be1c25" class="numbered-list" start="1"><li><strong>Dropping Missing Values</strong>:<ul id="a2ec8251-3dec-4b4e-a372-b8228d81dbb9" class="bulleted-list"><li style="list-style-type:disc">Drop rows with missing values in the <code>price</code> column:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fb3e3599-ba6d-4b0a-944c-2801e2d69f08" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df.dropna(subset=[&#x27;price&#x27;], axis=0, inplace=True)</code></pre></li></ul></li></ol><ol type="1" id="251781b8-ef10-4874-8a03-53729b266c2f" class="numbered-list" start="2"><li><strong>Replacing Missing Values</strong>:<ul id="f70218e4-c9b0-4b52-9d12-4f13a9bb256e" class="bulleted-list"><li style="list-style-type:disc">Calculate the mean of a column and replace <strong>NaN</strong>s:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="aedfa99c-2c8a-4e04-9c51-427aa1791c90" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">mean_value = df[&#x27;normalized_losses&#x27;].mean()
+df[&#x27;normalized_losses&#x27;].replace(np.nan, mean_value, inplace=True)</code></pre></li></ul></li></ol><h3 id="50a13742-8780-4531-b23b-fa9e732f71dd" class="">Conclusion</h3><p id="b4c2766b-3516-49b0-ac08-0394ffecc652" class="">Handling missing values effectively is crucial for ensuring the accuracy and reliability of data analysis. The methods to handle missing values can vary based on the nature of the data and the analysis requirements. Using techniques like removing, replacing, or even retaining missing values with the right approach can significantly improve the quality of your data and the insights derived from it.</p><hr id="d5704b48-9bac-4d83-8a9f-be8e29c960a1"/><p id="66ed8179-1496-4786-b98d-b62c759d3486" class="">
+</p><h2 id="ff88104b-acea-40b5-8e28-1251214c3f44" class="">2. Handling Data with Different Formats, Units, and Conventions</h2><p id="5e954a21-ccf2-4a7e-a294-456ec07af1e2" class="">Data collected from various sources often comes in different formats, units, and conventions. Data formatting is essential for ensuring consistency and facilitating meaningful comparisons. Let&#x27;s explore how to address these issues using Pandas.</p><h3 id="16e27bad-1b52-4667-9558-b830055f3619" class="">Importance of Data Formatting</h3><ul id="bfa5a86d-a63c-4aad-9a81-79232f1eacf1" class="bulleted-list"><li style="list-style-type:disc"><strong>Consistency</strong>: Ensures that data is standardized for analysis.</li></ul><ul id="c6e7f3fd-ef9a-44ea-a338-ceaecf1956b1" class="bulleted-list"><li style="list-style-type:disc"><strong>Clarity</strong>: Makes data easily understandable.</li></ul><ul id="fe0a4cb7-4616-4565-b8ff-ea16ea716c84" class="bulleted-list"><li style="list-style-type:disc"><strong>Examples</strong>: Representing &quot;New York City&quot; consistently as &quot;NY&quot; or converting measurement units for uniformity.<figure id="46f9a935-4985-4899-ab1f-71aa630b95fa" class="image"><a href="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%203.png"><img style="width:680px" src="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%203.png"/></a></figure></li></ul><h3 id="04bb5bdc-a4b1-47e9-87ab-5b2e70165461" class="">Common Issues and Solutions</h3><ol type="1" id="c93b7694-0eb4-4633-875c-6af735d8a95c" class="numbered-list" start="1"><li><strong>Inconsistent Naming Conventions</strong>:<ul id="79421f79-a243-411d-a585-05888572d646" class="bulleted-list"><li style="list-style-type:disc"><strong>Example</strong>: Different representations of &quot;New York City&quot; such as &quot;N.Y.&quot;, &quot;Ny&quot;, &quot;NY&quot;, &quot;New York&quot;.</li></ul><ul id="2b6bce6e-d7ba-4072-8b66-992706dcba99" class="bulleted-list"><li style="list-style-type:disc"><strong>Solution</strong>: Standardize these entries to a single format for analysis.</li></ul><ul id="579d8171-c5d2-4140-8801-311ff08fa6bb" class="bulleted-list"><li style="list-style-type:disc"><strong>Pandas Method</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ead0aef6-11fc-41a8-8b60-7eded7d9964a" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;city&#x27;] = df[&#x27;city&#x27;].replace({&#x27;N.Y.&#x27;: &#x27;NY&#x27;, &#x27;Ny&#x27;: &#x27;NY&#x27;, &#x27;New York&#x27;: &#x27;NY&#x27;})</code></pre></li></ul></li></ol><ol type="1" id="eff06cca-277b-4c8f-a128-2e5cbff5cfd4" class="numbered-list" start="2"><li><strong>Different Measurement Units</strong>:<ul id="0a111efe-7808-407d-b158-d2078b794bc7" class="bulleted-list"><li style="list-style-type:disc"><strong>Example</strong>: Converting miles per gallon (mpg) to liters per 100 kilometers (L/100km).<ul id="ef11864a-a245-46bb-ac63-5b53da616b58" class="bulleted-list"><li style="list-style-type:circle"><strong>Conversion Formula</strong>: <code>235 / mpg</code></li></ul></li></ul><ul id="8873f693-5a0b-4a15-9c76-2fcd88826cd1" class="bulleted-list"><li style="list-style-type:disc"><strong>Implementation in Python</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="79e772ae-6bf8-4536-90fc-ec4651d340ad" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;city-mpg&#x27;] = 235 / df[&#x27;city-mpg&#x27;]
+df.rename(columns={&#x27;city-mpg&#x27;: &#x27;city-L/100km&#x27;}, inplace=True))</code></pre></li></ul></li></ol><ol type="1" id="ec424cf4-53a4-4362-8670-92313690741f" class="numbered-list" start="3"><li><strong>Incorrect Data Types</strong>:<ul id="f1682321-985c-4cd6-bcaf-f3c59c49ca48" class="bulleted-list"><li style="list-style-type:disc"><strong>Example</strong>: A numeric column imported as a string (object) type.</li></ul><ul id="66ad4135-afe3-4dd2-b4da-a4d9392465d3" class="bulleted-list"><li style="list-style-type:disc"><strong>Identifying Data Types</strong>: Use <code>dataframe.dtypes()</code> to check data types.</li></ul><ul id="6f35ee57-6c75-4744-850e-ff3b7811806a" class="bulleted-list"><li style="list-style-type:disc"><strong>Converting Data Types</strong>: Use <code>dataframe.astype()</code> to change data types.</li></ul><ul id="a938e220-57f4-4fd9-b9cf-08bfd51e2765" class="bulleted-list"><li style="list-style-type:disc"><strong>Implementation in Python</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="23c49742-5d12-4102-bb3b-f6f3fb70c8ea" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;price&#x27;] = df[&#x27;price&#x27;].astype(&#x27;int&#x27;)</code></pre></li></ul></li></ol><h3 id="0c95a276-41a8-4618-a5cb-296bf6c35a22" class="">Practical Implementation</h3><ol type="1" id="bc26b947-3b56-488d-af51-403fa096d399" class="numbered-list" start="1"><li><strong>Standardizing Entries</strong>:<ul id="c87c9074-7db1-43cf-94bb-42e28c49abc0" class="bulleted-list"><li style="list-style-type:disc"><strong>Scenario</strong>: Different representations of &quot;New York City&quot;.</li></ul><ul id="548b4afc-f36c-4f4f-a13f-4242f66cd206" class="bulleted-list"><li style="list-style-type:disc"><strong>Code Example</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="df02f516-eb35-4eda-a96a-4d90defbeb28" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;city&#x27;] = df[&#x27;city&#x27;].replace({&#x27;N.Y.&#x27;: &#x27;NY&#x27;, &#x27;Ny&#x27;: &#x27;NY&#x27;, &#x27;New York&#x27;: &#x27;NY&#x27;})</code></pre></li></ul></li></ol><ol type="1" id="ba36694f-26b2-400d-91a1-861607ca2e68" class="numbered-list" start="2"><li><strong>Converting Units</strong>:<ul id="535f470d-13ec-4a0b-9287-5287bf6c6306" class="bulleted-list"><li style="list-style-type:disc"><strong>Scenario</strong>: Convert <code>city-mpg</code> to <code>city-L/100km</code>.</li></ul><ul id="f27dc666-6109-4d97-8290-4dd42edb2db2" class="bulleted-list"><li style="list-style-type:disc"><strong>Code Example</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e6534a10-b776-4f71-9173-f99f85b663f9" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;city-mpg&#x27;] = 235 / df[&#x27;city-mpg&#x27;]
+df.rename(columns={&#x27;city-mpg&#x27;: &#x27;city-L/100km&#x27;}, inplace=True))</code></pre></li></ul></li></ol><ol type="1" id="c06225a1-cc8b-4945-a5ae-f7d06ee5c3d4" class="numbered-list" start="3"><li><strong>Fixing Data Types</strong>:<ul id="16109448-8a18-4d56-b9a1-2a1ed01f1ddc" class="bulleted-list"><li style="list-style-type:disc"><strong>Scenario</strong>: Convert the <code>price</code> column from string to integer.</li></ul><ul id="3595df46-1af0-4b0b-b201-2377379c21b0" class="bulleted-list"><li style="list-style-type:disc"><strong>Code Example</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ca251c2b-d127-48dd-93c6-97cabb90e957" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;price&#x27;] = df[&#x27;price&#x27;].astype(&#x27;int&#x27;)</code></pre></li></ul></li></ol><h3 id="abdaf1b2-6288-4d53-acdb-6274294abd4a" class="">Conclusion</h3><p id="b53f76b3-822b-4e20-a131-ced2b269f921" class="">Data formatting is a crucial step in data pre-processing, ensuring consistency and accuracy in data analysis. Using Pandas, you can standardize naming conventions, convert measurement units, and correct data types efficiently. These practices help in preparing the data for more meaningful and accurate analysis.</p><p id="964c2e04-c403-4b15-8976-886b54cac9e2" class="">By addressing these common data issues, you can enhance the quality and reliability of your datasets, leading to better insights and decisions.</p><hr id="cc7787cf-fb80-4fa5-9b6c-20568f3234d7"/><p id="426f5c00-d6bd-4461-a666-d330702bd039" class="">
+</p><h2 id="85fb67ed-b61a-4b78-bb4d-aae2885309b8" class="">3. Data Normalization</h2><p id="b4e82e73-c961-48da-9413-63d977b81c3a" class="">Data normalization is an essential preprocessing technique used to standardize the range of independent variables or features of data. This ensures that each feature contributes equally to the analysis and is crucial for computational efficiency and fair comparison between variables.</p><h3 id="38f1e084-42aa-4a18-a53c-db7481efa38c" class="">Why Normalize Data?</h3><ol type="1" id="86c11f8f-b4c1-4c23-bf81-3630993054fd" class="numbered-list" start="1"><li><strong>Consistency in Range</strong>:<ul id="e9ea7b75-a59c-4102-86dd-1e05912cecf1" class="bulleted-list"><li style="list-style-type:disc">Features like length, width, and height might have different ranges (e.g., length: 150-250, width/height: 50-100).</li></ul><ul id="27da73e2-9706-4f60-ab82-2490a265dbfc" class="bulleted-list"><li style="list-style-type:disc">Normalizing ensures consistent ranges, facilitating easier statistical analysis.</li></ul></li></ol><ol type="1" id="160cf017-e555-43c5-be41-c57fbf5cd56c" class="numbered-list" start="2"><li><strong>Fair Comparison</strong>:<ul id="eedd1acc-e89d-4d81-9d7c-3d086da64c53" class="bulleted-list"><li style="list-style-type:disc">Different features might have varying impacts due to their range differences (e.g., age: 0-100, income: 0-20,000).</li></ul><ul id="4de924d1-3a8e-4467-b5af-fa02b55c73cc" class="bulleted-list"><li style="list-style-type:disc">Normalization ensures each feature has an equal influence on the model.</li></ul></li></ol><ol type="1" id="5996c514-7848-487d-afe7-95a0fe17c9b4" class="numbered-list" start="3"><li><strong>Computational Efficiency</strong>:<ul id="52bc2884-3ad3-43af-a7b2-4ccd24729d0f" class="bulleted-list"><li style="list-style-type:disc">Prevents features with larger ranges from dominating the model (e.g., in linear regression, larger value ranges might bias the model).</li></ul></li></ol><figure id="13f600c7-c3ac-4195-b940-904b31ce18c3" class="image"><a href="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%204.png"><img style="width:1750px" src="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%204.png"/></a></figure><h3 id="4ab29568-ca11-4466-990e-d00934385917" class="">Methods of Normalization</h3><ol type="1" id="1425b26e-c40b-46df-880c-9aac9708baa1" class="numbered-list" start="1"><li><strong>Simple Feature Scaling</strong>:<ul id="7fc6fdd9-779e-4bbf-8300-6c638c5f69fb" class="bulleted-list"><li style="list-style-type:disc"><strong>Formula</strong>: </li></ul><figure id="4918c872-fa1f-4d2a-9e6d-c434ee5191ee" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>x</mi><mrow><mi>n</mi><mi>e</mi><mi>w</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>x</mi><mrow><mi>o</mi><mi>l</mi><mi>d</mi></mrow></msub><msub><mi>x</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">x_{new} = \frac{x_{old}}{x_{max}} </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.9436em;vertical-align:-0.836em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1076em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.836em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div></figure><ul id="42208f0b-cbf1-405c-90c5-cac3c412b438" class="bulleted-list"><li style="list-style-type:disc"><strong>Range</strong>: 0 to 1</li></ul><ul id="942d8a83-a6ba-4e7c-8f3c-880689443b24" class="bulleted-list"><li style="list-style-type:disc"><strong>Example in Python</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="282fb6d7-a582-4fa4-a1b0-8e2bd9e90fde" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;length&#x27;] = df[&#x27;length&#x27;] / df[&#x27;length&#x27;].max()</code></pre><figure id="d25b9765-2b2e-4590-a124-e5fbd67f74f1" class="image"><a href="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%205.png"><img style="width:1741px" src="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%205.png"/></a></figure></li></ul></li></ol><ol type="1" id="34c37f46-eeae-4600-9ac7-c40b806452db" class="numbered-list" start="2"><li><strong>Min-Max Scaling</strong>:<ul id="94e7e439-a519-4955-ab0c-47a7c6f45ded" class="bulleted-list"><li style="list-style-type:disc"><strong>Formula</strong>: </li></ul><figure id="66ccaf84-98e7-4f7e-9ef6-0a91f82ddc62" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>x</mi><mrow><mi>n</mi><mi>e</mi><mi>w</mi></mrow></msub><mo>=</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>o</mi><mi>l</mi><mi>d</mi></mrow></msub><mo>−</mo><msub><mi>x</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub></mrow><mrow><msub><mi>x</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>−</mo><msub><mi>x</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex"> x_{new} = \frac{x_{old} - x_{min}}{x_{max} - x_{min}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0963em;vertical-align:-0.836em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.2603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">min</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">min</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.836em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div></figure><ul id="7cfbb8d6-5898-486a-8fc1-2c7d3c97dce7" class="bulleted-list"><li style="list-style-type:disc"><strong>Range</strong>: 0 to 1</li></ul><ul id="e3ab15e1-9c24-4800-b594-650b5837fa10" class="bulleted-list"><li style="list-style-type:disc"><strong>Example in Python</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="14be256a-9e83-42b8-8b92-170ecbff356b" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;length&#x27;] = (df[&#x27;length&#x27;] - df[&#x27;length&#x27;].min()) / 
+							 (df[&#x27;length&#x27;].max() - df[&#x27;length&#x27;].min())</code></pre><figure id="d7ee700c-f2dc-4a8e-9942-4ad825c79850" class="image"><a href="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%206.png"><img style="width:652px" src="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%206.png"/></a></figure></li></ul></li></ol><ol type="1" id="c82970e3-2255-4b25-89b1-e022c1bfdf75" class="numbered-list" start="3"><li><strong>Z-Score (Standard Score) Normalization</strong>:<ul id="288556c4-857f-4794-bccf-c5fd73dfca52" class="bulleted-list"><li style="list-style-type:disc"><strong>Formula</strong>: </li></ul><figure id="0ac42466-85dc-4add-bc70-2990395db72d" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>x</mi><mrow><mi>n</mi><mi>e</mi><mi>w</mi></mrow></msub><mo>=</mo><mfrac><mrow><msub><mi>x</mi><mrow><mi>o</mi><mi>l</mi><mi>d</mi></mrow></msub><mo>−</mo><mi>μ</mi></mrow><mi>σ</mi></mfrac></mrow><annotation encoding="application/x-tex">x_{new} = \frac{x_{old} - \mu}{\sigma} </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mord mathnormal mtight">e</span><span class="mord mathnormal mtight" style="margin-right:0.02691em;">w</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.9463em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.2603em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal">μ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div></figure><ul id="1a811c86-5a4f-4e41-a610-60211a6f1350" class="bulleted-list"><li style="list-style-type:disc"><strong>Range</strong>: Typically -3 to +3</li></ul><ul id="36361e7f-131a-4b0c-8b8f-82ac8dffd6e6" class="bulleted-list"><li style="list-style-type:disc"><strong>Example in Python</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="cfe24a93-9647-4e39-b468-c7124620bbe3" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;length&#x27;] = (df[&#x27;length&#x27;] - df[&#x27;length&#x27;].mean()) / df[&#x27;length&#x27;].std()</code></pre><figure id="7184603a-364b-4b18-8743-f882e462c2fb" class="image"><a href="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%207.png"><img style="width:1830px" src="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%207.png"/></a></figure></li></ul></li></ol><h3 id="728309a8-02b2-4d56-b1b9-0b10be8b6483" class="">Example Implementation in Python</h3><p id="690d1427-cc0c-4db5-9b59-a0b317246373" class="">Given a dataset containing a feature <code>length</code>:</p><ol type="1" id="635def17-29a2-49d3-9f59-0edea764c85a" class="numbered-list" start="1"><li><strong>Simple Feature Scaling</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="39aa59a5-50fc-4144-bdc5-9ca20f08cd5e" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;length&#x27;] = df[&#x27;length&#x27;] / df[&#x27;length&#x27;].max()</code></pre></li></ol><ol type="1" id="45d3c99c-a1f5-4c63-88ca-29d53eec4f7d" class="numbered-list" start="2"><li><strong>Min-Max Scaling</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4cef52c2-8ff5-472a-984e-2d2e8a65c8e6" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;length&#x27;] = (df[&#x27;length&#x27;] - df[&#x27;length&#x27;].min() /
+				       (df[&#x27;length&#x27;].max() - df[&#x27;length&#x27;].min())</code></pre></li></ol><ol type="1" id="7bb37fe7-81c8-4e08-904b-fc23d7f3921f" class="numbered-list" start="3"><li><strong>Z-Score Normalization</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7d1c8702-9e4c-41d0-8114-99b6ffa1ecaa" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;length&#x27;] = (df[&#x27;length&#x27;] - df[&#x27;length&#x27;].mean()) / df[&#x27;length&#x27;].std()</code></pre></li></ol><h3 id="19048acb-7cec-4196-aa1d-51bd62ba5fc1" class="">Conclusion</h3><p id="6f5e4a63-faac-46d7-80e1-fc0d7bddc5f0" class="">Normalization is a crucial step in preparing your data for analysis, ensuring all features contribute equally and improving the performance of your models.</p><hr id="5cc942c6-f788-4e9d-8981-8ce6b109da6e"/><p id="309e4d73-cf11-4a7c-a0d1-5ff6b8bc2b73" class="">
+</p><h2 id="e749d464-2297-4fe1-8f6d-c3bd15f71c60" class="">4. Data Binning</h2><p id="b797468b-bd7d-4f34-aeda-d6e8524d50c8" class="">Binning is a data preprocessing technique where numerical values are grouped into bins or categories. This method can enhance the accuracy of predictive models and provide a better understanding of data distribution.</p><p id="afb71ecc-d84f-4a48-8fce-1fbd9e2e0153" class=""><strong>Why Bin Data?</strong></p><ol type="1" id="331b5a7e-f0db-45ec-887a-f186066bb76d" class="numbered-list" start="1"><li><strong>Improves Model Accuracy</strong>: Grouping values can sometimes enhance the performance of predictive models.</li></ol><ol type="1" id="d953effd-beaa-41bf-a949-afdb0a3607ce" class="numbered-list" start="2"><li><strong>Simplifies Analysis</strong>: Reducing the number of unique values can make data analysis more manageable and insightful.</li></ol><p id="9e160d86-06ab-4fa0-83ee-232021d1ad84" class=""><strong>Example</strong>:</p><ul id="1d3f2155-648b-4d68-bbc5-c0038ca311b5" class="bulleted-list"><li style="list-style-type:disc"><strong>Age Binning</strong>: Grouping ages into bins like 0-5, 6-10, 11-15, etc.</li></ul><ul id="19864484-c716-40f3-876d-244718c1c07e" class="bulleted-list"><li style="list-style-type:disc"><strong>Price Binning</strong>: Categorizing car prices into low, medium, and high.</li></ul><p id="078377b3-8dcc-4f05-9dd3-6da493c93f5b" class=""><strong>Application on Car Price Data</strong>:</p><ul id="7048c85a-3cf3-478c-982f-81b72e740c9f" class="bulleted-list"><li style="list-style-type:disc"><strong>Range</strong>: The price ranges from $5,188 to $45,400 with 201 unique values.</li></ul><ul id="44f29867-c4fb-48ef-be5a-319a28190719" class="bulleted-list"><li style="list-style-type:disc"><strong>Binning</strong>: We categorize prices into three bins: low price, medium price, and high price.</li></ul><figure id="d0db2302-1f4a-4a09-8ae1-65e2944f12c1" class="image"><a href="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%208.png"><img style="width:708px" src="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%208.png"/></a></figure><h3 id="b3a84d35-f1f3-4133-a5c9-e1cbc9a196c2" class=""><strong>Steps to Implement Binning in Python</strong>:</h3><ol type="1" id="79268e21-e53f-4b02-ac0a-5c50cf1b7da7" class="numbered-list" start="1"><li><strong>Determine Bin Dividers</strong>:<ul id="bd28b6f6-d8b3-455e-aa91-94c48a8d1fee" class="bulleted-list"><li style="list-style-type:disc">Use NumPy&#x27;s <code>linspace</code> function to create equally spaced bin dividers.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9641d441-16c6-4102-ad93-2595aa75d299" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import numpy as np
+bins = np.linspace(min(df[&#x27;price&#x27;]), max(df[&#x27;price&#x27;]), 4)</code></pre></li></ol><ol type="1" id="12fea6c0-513c-4a9b-99df-ec28848a267b" class="numbered-list" start="2"><li><strong>Create Bin Labels</strong>:<ul id="7e38bf15-7f53-4337-aad1-f6c0d947ee7e" class="bulleted-list"><li style="list-style-type:disc">Define the names of the bins.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="431662d2-59dd-418b-91d0-903dc1d54ced" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">group_names = [&#x27;Low&#x27;, &#x27;Medium&#x27;, &#x27;High&#x27;]</code></pre></li></ol><ol type="1" id="777a5069-ada3-403a-a93e-6fbd86e2f392" class="numbered-list" start="3"><li><strong>Apply Binning</strong>:<ul id="491b1677-4e19-4b95-bdef-15dd51474535" class="bulleted-list"><li style="list-style-type:disc">Use Pandas&#x27; <code>cut</code> function to bin the data.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="441ec94e-c339-4148-b1a6-fcb93ede74be" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;price_binned&#x27;] = pd.cut(df[&#x27;price&#x27;],bins,labels=group_names,include_lowest=True)</code></pre></li></ol><ol type="1" id="de71896c-3783-4a65-a776-c70f9c764f2d" class="numbered-list" start="4"><li><strong>Visualize Binned Data</strong>:<ul id="5886c462-7a3e-4bbe-92d4-f532aebfa79f" class="bulleted-list"><li style="list-style-type:disc">Use histograms to visualize the distribution of the binned data.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0e722b69-d9c1-4329-b339-6739d24a0468" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import matplotlib.pyplot as plt
+plt.hist(df[&#x27;price_binned&#x27;], bins=3, edgecolor=&#x27;k&#x27;)
+plt.xlabel(&#x27;Price Bins&#x27;)
+plt.ylabel(&#x27;Number of Cars&#x27;)
+plt.title(&#x27;Histogram of Binned Car Prices&#x27;)
+plt.show()</code></pre></li></ol><h3 id="b5186e20-9e80-4037-8d76-88425aaa0d5c" class="">Example Code:</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2a8ee303-b7dc-491c-b630-59226b0073a7" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Sample data
+df = pd.DataFrame({&#x27;price&#x27;: [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000]})
+
+# Binning
+bins = np.linspace(min(df[&#x27;price&#x27;]), max(df[&#x27;price&#x27;]), 4)
+group_names = [&#x27;Low&#x27;, &#x27;Medium&#x27;, &#x27;High&#x27;]
+df[&#x27;price_binned&#x27;] = pd.cut(df[&#x27;price&#x27;], bins, labels=group_names, include_lowest=True)
+
+# Visualization
+plt.hist(df[&#x27;price_binned&#x27;], bins=3, edgecolor=&#x27;k&#x27;)
+plt.xlabel(&#x27;Price Bins&#x27;)
+plt.ylabel(&#x27;Number of Cars&#x27;)
+plt.title(&#x27;Histogram of Binned Car Prices&#x27;)
+plt.show()</code></pre><figure id="01b085cb-9f48-45fc-8980-ddb680f8cd8a" class="image"><a href="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%209.png"><img style="width:708px" src="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%209.png"/></a></figure><h3 id="56a8f7c4-d3bc-4a40-98e5-5b064306bf95" class="">Conclusion</h3><p id="c6bb9c84-7185-4597-ae5e-bac163ba60b3" class="">Binning is a powerful technique for simplifying data analysis and improving model performance. By categorizing continuous variables into discrete bins, we can gain clearer insights and more effectively leverage statistical methods.</p><hr id="ab8eeaa1-9bb7-4631-bdc4-aff35b84048e"/><p id="ea8eb84a-3af4-4046-9433-bacd08551493" class="">
+</p><h2 id="9c31b0ea-5a40-4c7d-a0a8-bf8de6eef80e" class="">5. Transforming Categorical Variables into Quantitative Variables</h2><p id="44c2d980-546c-4704-ac17-b6fa674402e4" class="">In data preprocessing, it&#x27;s essential to convert categorical variables into a numeric format that statistical models can process. This process is often referred to as <strong>one-hot encoding</strong>.</p><h3 id="57874fff-2764-470e-b6ce-fe5e3c679b19" class="">Why Transform Categorical Variables?</h3><ul id="239c8710-cf47-4f5b-a887-ce0adbfc6792" class="bulleted-list"><li style="list-style-type:disc"><strong>Statistical Models Requirement</strong>: Most models require numerical input.</li></ul><ul id="ee9aa13a-8460-47e8-a3b4-da78ea59b380" class="bulleted-list"><li style="list-style-type:disc"><strong>Improved Analysis</strong>: Converting strings to numbers allows for better analysis and model training.</li></ul><h3 id="46e01f66-3526-4073-aa6b-9a7b3f41ef84" class="">Example: Fuel Type in Car Dataset</h3><ul id="611b1edd-04e6-4fcb-92e7-140043cac2ec" class="bulleted-list"><li style="list-style-type:disc"><strong>Categorical Variable</strong>: The fuel type feature has values like &quot;gas&quot; and &quot;diesel&quot;.</li></ul><ul id="94918628-f79d-4c1f-84a1-d01405eb12c6" class="bulleted-list"><li style="list-style-type:disc"><strong>Goal</strong>: Convert &quot;gas&quot; and &quot;diesel&quot; into numerical values for model training.</li></ul><h3 id="6fbd1400-4d78-47d3-b57a-abbb11673060" class="">One-Hot Encoding</h3><p id="b5ee791c-5563-4405-a77b-87e2639463af" class="">One-hot encoding involves creating new binary columns (features) for each unique category in the original feature. Each row is marked with a 1 or 0, indicating the presence or absence of the category.</p><p id="fa42e0bb-5294-4d86-a8b9-66bfc772544a" class=""><strong>Steps</strong>:</p><ol type="1" id="71cbafa7-88e4-4d3e-b554-5f58ccde3acd" class="numbered-list" start="1"><li><strong>Identify Unique Categories</strong>: For the fuel type feature, identify unique values like &quot;gas&quot; and &quot;diesel&quot;.</li></ol><ol type="1" id="c6599b89-760e-4574-8ba4-164d08cd0afa" class="numbered-list" start="2"><li><strong>Create Binary Columns</strong>: Create new columns for each unique category.</li></ol><ol type="1" id="11956686-8a0c-49b7-9ee0-7d885ae5f495" class="numbered-list" start="3"><li><strong>Assign Binary Values</strong>: Set the value to 1 if the category is present, otherwise 0.</li></ol><p id="4a9091cc-8dfd-4a3e-8541-e7fd6ab1c24e" class=""><strong>Example</strong>:</p><ul id="219b7257-1f11-4edf-bf5b-21ca806d7f62" class="bulleted-list"><li style="list-style-type:disc"><strong>Original Data</strong>:<ul id="3a1893e7-da14-4409-9cd6-907c1676c56e" class="bulleted-list"><li style="list-style-type:circle">Car A: gas</li></ul><ul id="33ac5f5c-db6c-4c78-9e29-6f6de7013dfe" class="bulleted-list"><li style="list-style-type:circle">Car B: diesel</li></ul><ul id="d300d629-1929-4a5a-800c-997548970f72" class="bulleted-list"><li style="list-style-type:circle">Car C: gas</li></ul></li></ul><ul id="14ea7f94-6d92-40a8-b87b-92fa51b5bdec" class="bulleted-list"><li style="list-style-type:disc"><strong>One-Hot Encoded Data</strong>:<ul id="7129b738-fb7e-43ef-b70d-f0ef55792e6d" class="bulleted-list"><li style="list-style-type:circle">Car A: gas = 1, diesel = 0</li></ul><ul id="3852a40a-c353-4384-bfc4-b8ee62fc9631" class="bulleted-list"><li style="list-style-type:circle">Car B: gas = 0, diesel = 1</li></ul><ul id="008615b9-2ed5-4d2d-9e82-e70b2186f5bc" class="bulleted-list"><li style="list-style-type:circle">Car C: gas = 1, diesel = 0</li></ul></li></ul><h3 id="bdfe1e05-f027-4644-add0-8c218e9e2fd0" class="">Implementing One-Hot Encoding in Python</h3><p id="7dfb0128-2e83-4f47-bcfa-4b59d47e45c4" class="">Use the <code>pd.get_dummies</code> method from the Pandas library to perform one-hot encoding.</p><p id="a49d45b0-8017-499f-a921-d750fdc4222d" class=""><strong>Example Code</strong>:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b69f416a-c3b4-41e4-9cff-c5b5263ec81f" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import pandas as pd
+
+# Sample data
+df = pd.DataFrame({&#x27;fuel&#x27;: [&#x27;gas&#x27;, &#x27;diesel&#x27;, &#x27;gas&#x27;]})
+
+# One-hot encoding
+dummy_variable = pd.get_dummies(df[&#x27;fuel&#x27;])
+
+# Combine with original dataframe
+df = pd.concat([df, dummy_variable], axis=1)
+
+print(df)</code></pre><p id="79d336ac-254b-48d6-8552-29eb0e7f1a51" class=""><strong>Output</strong>:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a39a9afb-80d2-4714-80cb-301195a38158" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">     fuel  diesel  gas
+0     gas       0    1
+1  diesel       1    0
+2     gas       0    1</code></pre><p id="88de21fc-b3c9-47ed-9540-96bb2926e6bf" class="">
+</p><figure id="031205c5-4709-426c-aa89-3ede7f05f1c3" class="image"><a href="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%2010.png"><img style="width:708px" src="Module%202%20Data%20Wrangling%20dd9746acb9c04d729eece51f11bd601d/Untitled%2010.png"/></a></figure><h3 id="27926653-e01f-4e26-a256-5f010a619f38" class="">Indicator Variable</h3><p id="12d0b87b-4101-4f02-a81e-10f1f9e807b8" class=""><strong>What is an indicator variable?</strong><br/>An indicator variable (or dummy variable) is a numerical variable used to label categories. They are called &#x27;dummies&#x27; because the numbers themselves don&#x27;t have inherent meaning.<br/></p><p id="3b84e07a-c252-4dd0-8fcc-181d323998af" class=""><strong>Why use indicator variables?</strong><br/>You use indicator variables so you can use categorical variables for regression analysis in later modules.<br/></p><p id="0489bc24-1ce9-4775-920a-724d0cfe36d9" class=""><strong>Example</strong></p><p id="f73456dd-46df-47a5-bbfb-61f42e11d4f6" class="">The column &quot;fuel-type&quot; has two unique values: &quot;gas&quot; or &quot;diesel&quot;. Regression doesn&#x27;t understand words, only numbers. To use this attribute in regression analysis, you can convert &quot;fuel-type&quot; to indicator variables.</p><p id="8d6b92f6-1cfc-4407-a347-1e93629cc273" class="">Use the Pandas method &#x27;get_dummies&#x27; to assign numerical values to different categories of fuel type.</p><h3 id="0fcde5c1-365f-4ba5-975a-d896c9b75785" class="">Conclusion</h3><p id="db58faba-2fe5-4a30-b054-39d04e3cfdf1" class="">Converting categorical variables into quantitative variables is crucial for statistical analysis and model training. One-hot encoding is a simple yet effective method to achieve this transformation, allowing categorical data to be used in numerical computations.</p><hr id="3e86117b-e52f-4808-9591-eae95d591c15"/><h1 id="5d2f6cc2-ce51-4a27-873e-b2bba7d619e9" class="">Cheat Sheet:<strong> Data Wrangling</strong></h1><h2 id="dd3ad17f-de89-46f5-b698-34204555b051" class="">Replace missing data with frequency</h2><p id="569e5f00-f96a-4e19-a47b-3eced195b972" class="">Replace missing values with the mode (most frequent value) of the column.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c8043752-9b15-49f7-91bc-c157ad080c09" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">MostFrequentEntry = df[&#x27;attribute_name&#x27;].value_counts().idxmax()
+df[&#x27;attribute_name&#x27;].replace(np.nan, MostFrequentEntry, inplace=True)</code></pre><h2 id="e8e4371f-6b6a-46f8-8d0b-7750927f2127" class="">Replace missing data with mean</h2><p id="08954042-fa53-4c1e-ae74-49f4f75a39fa" class="">Replace missing values with the mean of the column.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5cb607a3-d3f3-48f8-bb71-33aadb2526bb" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">AverageValue = df[&#x27;attribute_name&#x27;].astype(data_type).mean(axis=0)
+df[&#x27;attribute_name&#x27;].replace(np.nan, AverageValue, inplace=True)</code></pre><h2 id="82b10359-9e94-410e-b6ae-706df6fa8683" class="">Fix the data types</h2><p id="bbf00622-f53e-4a62-9c79-66feb7f90c34" class="">Convert columns to the specified data type (e.g., int, float, str).</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6b717593-e181-4047-a058-b7f005d372b8" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[[&#x27;attribute1_name&#x27;, &#x27;attribute2_name&#x27;, ...]] = df[[&#x27;attribute1_name&#x27;, &#x27;attribute2_name&#x27;, ...]].astype(&#x27;data_type&#x27;)</code></pre><h2 id="767c84fa-c696-42c7-a847-b4d05032702e" class="">Data Normalization</h2><p id="9422ec8b-472a-4870-b0eb-a7ca507022bf" class="">Normalize values in a column between 0 and 1.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3c947797-6a91-4c51-bf71-4c88f1ad0a10" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;attribute_name&#x27;] = df[&#x27;attribute_name&#x27;] / df[&#x27;attribute_name&#x27;].max()</code></pre><h2 id="548fd515-6e4f-4ca3-9fa6-2d9c89cc35f9" class="">Binning</h2><p id="9f21b257-c0b3-4b9c-a6a3-4fea56223c4c" class="">Group data into bins for better analysis and visualization.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="de686be9-fac7-4c74-ade4-a1794b636ad6" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">bins = np.linspace(min(df[&#x27;attribute_name&#x27;]), max(df[&#x27;attribute_name&#x27;]), n)
+GroupNames = [&#x27;Group1&#x27;, &#x27;Group2&#x27;, &#x27;Group3&#x27;, ...]
+df[&#x27;binned_attribute_name&#x27;] = pd.cut(df[&#x27;attribute_name&#x27;], bins, labels=GroupNames, include_lowest=True)</code></pre><h2 id="bd7b85f4-9e46-452e-9d7e-a1d27a9eedc5" class="">Change column name</h2><p id="cf95456e-2cd1-4e9b-a277-4a9865f0f8be" class="">Rename a column in the dataframe.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ae3789cf-5277-4abe-848d-3634649e20e3" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df.rename(columns={&#x27;old_name&#x27;: &#x27;new_name&#x27;}, inplace=True)</code></pre><h2 id="83ded405-a1a0-4353-ae4f-38f906635339" class="">Indicator Variables</h2><p id="f2a7cc17-518b-43f1-8373-e28b7b013209" class="">Create dummy variables for categorical data.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="416aa257-080e-4ab3-9d6e-e1c0bd4ff0b9" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">dummy_variable = pd.get_dummies(df[&#x27;attribute_name&#x27;])
+df = pd.concat([df, dummy_variable], axis=1)</code></pre><hr id="52f34d15-95e2-4015-be7d-ea04eff033f0"/></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

@@ -1,0 +1,862 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Module 5: Model Evaluation and Refinement</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+/* For Edge (based on WebKit) */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(249, 228, 188, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="9a8a43a7-0219-4b27-b7f4-88fa7a09643c" class="page sans"><header><img class="page-cover-image" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/photo-1613677135043-a2512fbf49fa.jpeg" style="object-position:center 14.229999999999999%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/science_orange.svg"/></div><h1 class="page-title">Module 5: Model Evaluation and Refinement</h1><p class="page-description"></p></header><div class="page-body"><h1 id="9ff38522-2991-4e47-8ee5-325c246bcca0" class="">Model Evaluation</h1><h2 id="c1ddff87-e18a-427c-bb03-664a52b22e3e" class="">In-Sample vs. Out-of-Sample Evaluation</h2><ul id="75d1cedb-e162-46c2-8288-b4b0e486c0ef" class="bulleted-list"><li style="list-style-type:disc"><strong>In-Sample Evaluation</strong>: Measures how well the model fits the training data. It does not estimate how well the model will perform on new, unseen data.</li></ul><ul id="c625dd83-e15b-4a02-8de6-cd3593973cc0" class="bulleted-list"><li style="list-style-type:disc"><strong>Out-of-Sample Evaluation</strong>: Assesses how the model performs on new data. This is achieved by splitting the data into training and testing sets.</li></ul><figure id="f4880f97-0c94-440e-912a-bee9a64291b8" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled.png"><img style="width:1743px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled.png"/></a></figure><h3 id="fbbe0e31-5750-4f3e-bfda-20ae01fc3b0d" class="">Data Splitting</h3><ol type="1" id="7b0d9287-6103-4017-bbb8-d4b6fcfb9335" class="numbered-list" start="1"><li><strong>Training Data</strong>: Used to build and train the model. Typically, a larger portion of the dataset.</li></ol><ol type="1" id="62363a0f-9144-463d-b10a-5c12339d955b" class="numbered-list" start="2"><li><strong>Testing Data</strong>: Used to evaluate the model&#x27;s performance. Usually, a smaller portion of the dataset, such as 30%.</li></ol><figure id="f4b6eb9a-e524-46a2-af3d-7d48b5aa961c" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%201.png"><img style="width:708px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%201.png"/></a></figure><p id="62b133e2-6061-45e7-a81c-7f105474455c" class=""><strong>Example Code</strong>:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="eaee5d87-fb71-4b7d-8b60-0798c85b28c4" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.model_selection import train_test_split
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# X_train: Training data for the predictors
+# X_test: Testing data for the predictors
+# y_train: Training data for the target variable
+# y_test: Testing data for the target variable
+# test_size=0.3: 30% of the data will be used for testing, and 70% will be used for training
+# random_state=42:Ensures reproducibility of the split. Using the same random state will produce the same split every time</code></pre><h2 id="a5916549-fb3a-4260-81b8-0057c30c7aa1" class="">Generalization Error</h2><ul id="2534b4b5-47db-4ccb-9c83-0ee83f1cf49a" class="bulleted-list"><li style="list-style-type:disc"><strong>Generalization Error</strong>: Measures how well the model predicts new data. The error obtained using testing data approximates this error.</li></ul><h2 id="81a4fe91-527f-4d68-ab9d-4aeec55a05c3" class="">Cross-Validation</h2><p id="592ee8bc-4a48-408a-998d-99f30aa6fc09" class=""><strong>Cross-Validation</strong>: A technique to assess the model&#x27;s performance and estimate generalization error by splitting the data into multiple folds.</p><figure id="6d327c17-2a0f-4ffb-bc5e-4c9a8d8c56d6" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%202.png"><img style="width:1745px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%202.png"/></a></figure><ol type="1" id="07cf9020-01ec-4c74-a81f-1adc264af557" class="numbered-list" start="1"><li><strong>Splitting Data</strong>: The dataset is divided into <em>k</em> equal parts (folds). Each fold is used once as a testing set while the remaining <em>k − 1</em> folds are used as the training set.</li></ol><ol type="1" id="2720a505-b523-4e13-bd79-54104ef4cf40" class="numbered-list" start="2"><li><strong>Using </strong><code><strong>cross_val_score</strong></code>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="afa64140-5026-4383-bdce-eb2c48f93ff1" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import LinearRegression
+
+model = LinearRegression()
+scores = cross_val_score(model, X, y, cv=3)  # 3-fold cross-validation
+mean_score = np.mean(scores)</code></pre></li></ol><figure id="f7eb279f-5218-4f68-8f7a-79e997537cdb" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%203.png"><img style="width:708px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%203.png"/></a></figure><figure id="c213fa98-c5c4-4cb9-998a-e2409bd73f7c" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%204.png"><img style="width:708px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%204.png"/></a></figure><h2 id="2d1ab53a-f4cb-46ee-885f-0c9af00f0258" class="">Cross-Val Predict</h2><p id="e3b2bcdf-1c6d-40d7-89bb-45e3165e874a" class=""><strong>cross_val_predict</strong> is used when you want to obtain the predicted values for each test fold during the cross-validation process. It returns the prediction for each data point when it was in the test set. This is useful for:</p><ol type="1" id="8edbb435-e265-4140-9dfa-4cbf804c283d" class="numbered-list" start="1"><li><strong>Visualizing Predictions</strong>: You can plot the predicted values against the actual values to see how well the model performs across the entire dataset.</li></ol><ol type="1" id="beb183ad-69c4-4c85-a86c-d06ce69cc012" class="numbered-list" start="2"><li><strong>Diagnostics</strong>: It helps in analyzing the residuals (differences between actual and predicted values) to diagnose model performance.</li></ol><h3 id="51ccbcf1-8544-4ed0-9e99-1533c0c6a815" class="">Example in Python</h3><p id="1602447c-699e-48b4-bfdc-89a01d13377a" class="">Here&#x27;s an example using <code>cross_val_predict</code>:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fd8cde9d-92bc-44bd-801b-c1bff69c52d3" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.model_selection import cross_val_predict
+from sklearn.linear_model import LinearRegression
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Example dataset
+X = np.random.rand(100, 5)
+y = np.random.rand(100)
+
+# Initialize the model
+model = LinearRegression()
+
+# Get cross-validated predictions
+y_pred = cross_val_predict(model, X, y, cv=5)
+
+# Plot actual vs. predicted values
+plt.scatter(y, y_pred)
+plt.xlabel(&#x27;Actual Values&#x27;)
+plt.ylabel(&#x27;Predicted Values&#x27;)
+plt.title(&#x27;Cross-Validated Predictions&#x27;)
+plt.show()</code></pre><p id="50aefac6-f132-4df6-8a41-287777c1925f" class="">In this example:</p><ul id="c99c2c3d-a57d-4cec-b0b4-89399b98cad6" class="bulleted-list"><li style="list-style-type:disc"><code>cross_val_predict</code> returns the predicted values for each test fold during the 5-fold cross-validation.</li></ul><ul id="727f8416-10fa-44d5-a0ce-6d15506afd1b" class="bulleted-list"><li style="list-style-type:disc">A scatter plot is created to visualize the actual vs. predicted values.</li></ul><h3 id="9644dd7d-4f75-4571-89da-aa686ecdb890" class="">Summary</h3><ul id="1a226ea1-de9f-4cbe-910d-caefbf696d5b" class="bulleted-list"><li style="list-style-type:disc"><strong>Training Set</strong>: Used to build the model.</li></ul><ul id="5f6fb248-b95e-4675-b7b4-bd0a6815e6c8" class="bulleted-list"><li style="list-style-type:disc"><strong>Testing Set</strong>: Used to evaluate model performance.</li></ul><ul id="2da916ad-ba47-449f-a853-e1025822bb7f" class="bulleted-list"><li style="list-style-type:disc"><strong>Cross-Validation</strong>: Provides a robust estimate of model performance by averaging results across multiple folds.</li></ul><hr id="4d604629-b2b2-4c3f-b281-57d358489dc8"/><h1 id="f115bdcc-cfc9-4023-bade-f38d474a9e5c" class="">Model Selection and Polynomial Regression</h1><p id="cff31845-89cb-413e-a05e-1f839df40445" class="">When selecting the best polynomial order, our goal is to provide the best estimate of the</p><p id="4950b3cd-653a-412d-bba7-ffa89084b8a9" class="">function <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">y(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span></span></span></span></span><span>﻿</span></span>.</p><h2 id="849bcf9e-19bd-45a4-963c-40cb0634cd28" class="">Noise in Data</h2><p id="2ed24de1-edd1-4d0b-b14c-93b5a10e2fa1" class=""><strong>Noise</strong> in data refers to random variations or errors that obscure the true underlying patterns or relationships. It can come from various sources and affects the accuracy of models.</p><h2 id="576bd35f-2ee8-4113-bcba-f047f7decdde" class=""><strong>Underfitting</strong> </h2><p id="cb338986-d97e-44d4-acba-8485f51c167c" class=""><strong>Underfitting</strong> occurs when the model is too simple to fit the data:</p><ul id="ca15b5fe-0018-42ba-bb5d-2feb2e9cb3ac" class="bulleted-list"><li style="list-style-type:disc">Example: Fitting a linear function to data generated from a higher-order polynomial plus noise results in many errors.</li></ul><figure id="efe0a3bf-69ba-4eb1-8584-eba0b99b72b9" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%205.png"><img style="width:672px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%205.png"/></a></figure><h2 id="9cea1cdd-8eb4-4a1c-8be8-d07459ec947a" class=""><strong>Overfitting</strong></h2><p id="1430ac02-8b69-48be-9142-cb13bc311247" class=""><strong>Overfitting</strong> occurs when the model is too flexible and fits the noise rather than the function:</p><ul id="3569596f-b931-4677-9787-ed47142dbcae" class="bulleted-list"><li style="list-style-type:disc">Example: Using a 16th order polynomial, the model does well on training data but performs poorly at estimating the function, especially where there is little training data.</li></ul><figure id="7f48ad0d-8092-4868-958d-14f2f7888ebf" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%206.png"><img style="width:708px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%206.png"/></a></figure><h2 id="98622e29-bdca-4a27-8105-264c6560ccb6" class=""><strong>Optimal Polynomial Order</strong></h2><ul id="ef7803bc-e45a-42da-95f9-1ee543fa11ab" class="bulleted-list"><li style="list-style-type:disc">To determine the best order, we use the mean square error (MSE) for training and testing sets.</li></ul><ul id="b2a34475-18d7-4b4a-b1f2-e392ff0a04d0" class="bulleted-list"><li style="list-style-type:disc">The best order minimizes the test error.</li></ul><ul id="d8868149-958e-4ea5-b63a-5a3f8068433a" class="bulleted-list"><li style="list-style-type:disc">Errors on the left indicate underfitting, while errors on the right indicate overfitting.</li></ul><figure id="b1d5f2ab-73fc-4241-b603-70cc95251979" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%207.png"><img style="width:708px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%207.png"/></a></figure><h2 id="aefdfd20-1fe5-4e25-9aac-2f211edf73fb" class=""><strong>Irreducible Error</strong></h2><ul id="a11ae7e9-36c6-4973-b180-2a4b4ead0039" class="bulleted-list"><li style="list-style-type:disc">Noise in the data contributes to the error, which is unpredictable and cannot be reduced.</li></ul><figure id="2a0b38e4-08f9-4671-846a-13f3a7c140db" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%208.png"><img style="width:708px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%208.png"/></a></figure><h2 id="a3ef4eb8-4ce5-462e-bf0d-ddd7cfe67081" class=""><strong>Example with Real Data</strong></h2><ul id="01529137-4e44-4b82-a075-43d33499fd09" class="bulleted-list"><li style="list-style-type:disc">When using horsepower data:<ul id="66efb104-3f41-4f48-9788-8576ba085d35" class="bulleted-list"><li style="list-style-type:circle">A linear function fits the data better than just using the mean.</li></ul><figure id="17b6f54b-e84b-47f8-80e2-78f018fb2444" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%209.png"><img style="width:680px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%209.png"/></a></figure><ul id="d6f40464-4e83-45f7-8241-2fee7432a69f" class="bulleted-list"><li style="list-style-type:circle">A second and third order polynomial improve the fit.</li></ul><figure id="106d3887-ccfb-49ce-b3a0-709e97686c65" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2010.png"><img style="width:680px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2010.png"/></a></figure><ul id="ed9a370d-6122-4245-997b-fb806a36540d" class="bulleted-list"><li style="list-style-type:circle">A fourth order polynomial shows erroneous behavior.</li></ul><figure id="befcf5c7-6552-41ea-a56c-63bbf3dd46ff" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2011.png"><img style="width:680px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2011.png"/></a></figure></li></ul><h2 id="dfb128c3-358d-4257-aac8-481260a1c260" class=""><strong>R-squared Analysis</strong></h2><ul id="7ad545f7-fdcb-4625-885f-e47a87ba2e3f" class="bulleted-list"><li style="list-style-type:disc">Plot the R^2 value against the order of polynomial models.</li></ul><ul id="13e5abaf-08c9-4d0e-a303-9bcd90eae236" class="bulleted-list"><li style="list-style-type:disc">The optimal order has an R^2 close to one.</li></ul><ul id="28f503ac-d694-4ed8-8677-aeaef1ecfd30" class="bulleted-list"><li style="list-style-type:disc">A drastic decrease in R^2 beyond the optimal order indicates overfitting.</li></ul><figure id="c867abe5-0e33-4b0d-974d-9cc53399f381" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2012.png"><img style="width:708px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2012.png"/></a></figure><h2 id="bc08da75-4489-42bb-9c1b-7665cad6363a" class=""><strong>Calculating R-squared Values</strong></h2><ol type="1" id="ebefa65e-eb0c-47f9-9e25-ee123e6db710" class="numbered-list" start="1"><li>Create an empty list to store R^2 values.</li></ol><ol type="1" id="e69ec136-ed2f-43f4-a06a-9abeb4c54017" class="numbered-list" start="2"><li>Create a list of different polynomial orders.</li></ol><ol type="1" id="a19f7ae7-d0f2-4a64-b18b-36ee47105569" class="numbered-list" start="3"><li>Iterate through the list using a loop:<ul id="a3463840-b7b2-4cd2-a9fa-a84e625f779d" class="bulleted-list"><li style="list-style-type:disc">Create a polynomial feature object with the order as a parameter.</li></ul><ul id="69dba065-6423-4c04-b3a2-3b3e4b7bd6d3" class="bulleted-list"><li style="list-style-type:disc">Transform the training and test data into polynomial features using the <code>fit_transform</code> method.</li></ul><ul id="8ed2688a-2741-4518-8e92-40a95faf3347" class="bulleted-list"><li style="list-style-type:disc">Fit the regression model using the transformed data.</li></ul><ul id="b31a2c6a-644a-458b-8e98-c081d24eb6e8" class="bulleted-list"><li style="list-style-type:disc">Calculate the R^2 value using the test data and store it in the list.</li></ul></li></ol><p id="86ae56b5-71b0-44c5-a185-87aa377565e1" class="">Here&#x27;s an example of how you can implement this in Python:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9cf5c06c-b05b-4b0a-ad1f-455fc934690c" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+
+# Sample data
+x = np.array([1, 2, 3, 4, 5])
+y = np.array([1, 4, 9, 16, 25])
+
+# Store R^2 values
+r2_values = []
+
+# List of polynomial orders
+orders = [1, 2, 3, 4]
+
+# Iterate through polynomial orders
+for order in orders:
+    # Create polynomial features
+    poly = PolynomialFeatures(degree=order)
+    x_poly = poly.fit_transform(x.reshape(-1, 1))
+
+    # Fit the model
+    model = LinearRegression()
+    model.fit(x_poly, y)
+
+    # Predict and calculate R^2
+    y_pred = model.predict(x_poly)
+    r2 = r2_score(y, y_pred)
+    r2_values.append(r2)
+
+# Plot R^2 values
+plt.plot(orders, r2_values, marker=&#x27;o&#x27;)
+plt.xlabel(&#x27;Order of Polynomial&#x27;)
+plt.ylabel(&#x27;R^2 Value&#x27;)
+plt.title(&#x27;R^2 Value vs. Polynomial Order&#x27;)
+plt.show()</code></pre><p id="8a7a5e97-97d3-45ee-986f-18c6771ad3cb" class="">Output:</p><figure id="d1fedea3-abde-405c-973e-37157db81dfd" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2013.png"><img style="width:564px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2013.png"/></a></figure><p id="110f7959-287c-45d0-b977-30cf228b7bd7" class="">This process helps in identifying the best polynomial order that minimizes the generalization error and avoids underfitting or overfitting.</p><hr id="60364699-e4ca-4694-be0a-f7c834c2e298"/><h1 id="23a4991a-df19-4867-b7f7-5502e1408516" class=""><strong>Introduction to Ridge Regression</strong></h1><p id="471779f3-5bcd-4854-9376-8568f52855c9" class="">For models with multiple independent features and ones with polynomial feature extrapolation, it is common to have colinear combinations of features. Left unchecked, this multicollinearity of features can lead the model to overfit the training data. To control this, the feature sets are typically regularized using hyperparameters.</p><p id="3de4b0e0-2cc8-41d3-9e9a-e57c96510347" class="">Ridge regression is the process of regularizing the feature set using the hyperparameter alpha Ridge regression can be utilized to regularize and reduce standard errors and avoid over-fitting while using a regression model.</p><figure id="e4d2ba3a-023e-4836-8979-3a101fc24acb" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2014.png"><img style="width:1839px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2014.png"/></a></figure><figure id="9295f1e3-138c-4ba0-a015-398e6f536b0e" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2015.png"><img style="width:708px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2015.png"/></a></figure><figure id="ba0891fa-468e-4e50-aa99-2278a6ac4979" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2016.png"><img style="width:708px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2016.png"/></a></figure><h2 id="5482f418-585b-423f-bfd3-0889affc3e8c" class="">Ridge Regression</h2><p id="a540077c-ff90-4db4-9d21-5fcd609a1121" class=""><strong>Overview</strong>: Ridge regression is a technique used to prevent overfitting in polynomial regression by controlling the magnitude of polynomial coefficients.</p><h2 id="d85d8adf-e74d-4612-8fd2-87145b51022d" class="">Key Concepts</h2><ol type="1" id="e9b13b69-6d77-4345-876a-9ae8a8e3d041" class="numbered-list" start="1"><li><strong>Overfitting</strong>:<ul id="0e349c87-255a-4b66-b24a-1818a524f67c" class="bulleted-list"><li style="list-style-type:disc"><strong>Problem</strong>: Higher-order polynomials can fit training data very well, but might overfit, especially in the presence of outliers or noisy data.</li></ul><ul id="9d236b69-5404-406f-b24c-0d8c9da6a833" class="bulleted-list"><li style="list-style-type:disc"><strong>Example</strong>: A 10th-order polynomial fitting data with an outlier may produce large coefficients, which can misrepresent the true function.</li></ul><figure id="7ac320d9-ca4c-414f-9dda-9095cbbeadca" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2017.png"><img style="width:1534px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2017.png"/></a></figure></li></ol><ol type="1" id="a0b8120d-864c-42d6-9ad9-ca63de1ea77c" class="numbered-list" start="2"><li><strong>Ridge Regression</strong>:<ul id="f5f89ee5-9cd0-4cd6-a797-1384f6599745" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose</strong>: Ridge regression addresses overfitting by introducing a parameter, Alpha (<style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span></span><span>﻿</span></span>), which penalizes large coefficients.</li></ul><ul id="c70d450c-4d3c-4e8b-86f5-2d6bac218469" class="bulleted-list"><li style="list-style-type:disc"><strong>Effect</strong>: As Alpha increases, the magnitude of the coefficients decreases, which can prevent overfitting.</li></ul><ul id="cb08aa1d-94ee-4faf-be16-e226dd3ce698" class="bulleted-list"><li style="list-style-type:disc"><strong>Alpha Selection</strong>:<ul id="36d2c250-aa1e-4f60-b0a7-8a70b9e366ff" class="bulleted-list"><li style="list-style-type:circle"><strong>Too Small Alpha</strong>: Might still overfit the data.</li></ul><figure id="736d76f3-4849-4138-a5f1-8715601c2186" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2018.png"><img style="width:652px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2018.png"/></a></figure><ul id="ca2564cf-fe7d-4af8-9d99-e8b102190bd5" class="bulleted-list"><li style="list-style-type:circle"><strong>Too Large Alpha</strong>: Can lead to underfitting as the model becomes too simple.</li></ul><figure id="4149c7b0-eba4-47fd-a1cd-a197a1b035d5" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2019.png"><img style="width:652px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2019.png"/></a></figure></li></ul></li></ol><ol type="1" id="66bbfc9b-84b6-4283-8371-27ad4fb4072b" class="numbered-list" start="3"><li><strong>Model Training</strong>:<ul id="1ec9e415-7979-4b31-8138-10090b470609" class="bulleted-list"><li style="list-style-type:disc"><strong>Procedure</strong>: Use cross-validation to select the optimal Alpha. Split the data into training and validation sets.</li></ul><ul id="0cb23c44-2e22-4e60-ba44-df57476e3398" class="bulleted-list"><li style="list-style-type:disc"><strong>Steps</strong>:<ol type="1" id="2f113c36-8e8f-42d3-a2ae-4f9ef682fde0" class="numbered-list" start="1"><li><strong>Train Model</strong>: Fit the model using different values of Alpha.</li></ol><ol type="1" id="c1579c8c-c601-4396-b6cb-832bdb41f95e" class="numbered-list" start="2"><li><strong>Predict &amp; Evaluate</strong>: Use validation data to make predictions and calculate the R^2 or other metrics.</li></ol><ol type="1" id="db59e67b-dd17-4663-b491-24dc8ca92155" class="numbered-list" start="3"><li><strong>Select Alpha</strong>: Choose the Alpha that maximizes the R^2 on validation data.</li></ol></li></ul></li></ol><ol type="1" id="61bfd57a-c9ee-4c00-8799-a8f11f5e6ec9" class="numbered-list" start="4"><li><strong>Implementation in Python</strong>:<ul id="bf7a5a95-70d6-4791-8805-663d808c601a" class="bulleted-list"><li style="list-style-type:disc"><strong>Import</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="85dc2ee7-b8e7-4f88-8b48-7e448b6e54f9" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.linear_model import Ridge</code></pre></li></ul><ul id="24a2ca74-ca36-4e46-b4e1-b1e48c7eb3d7" class="bulleted-list"><li style="list-style-type:disc"><strong>Create &amp; Fit Model</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="697d8111-210b-4a11-b013-bb63c86a836a" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">ridge = Ridge(alpha=1.0)  # Set the desired alpha value
+ridge.fit(X_train, y_train)</code></pre></li></ul><ul id="67bfff6e-7c8c-44e1-95c3-214a503b5e3c" class="bulleted-list"><li style="list-style-type:disc"><strong>Predict</strong>:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="aa403b20-2616-45c4-ae02-3aad6f80c2ea" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">y_pred = ridge.predict(X_test)</code></pre></li></ul></li></ol><ol type="1" id="f1ddecb9-3f25-49ae-bd7d-3fa9f84b26e2" class="numbered-list" start="5"><li><strong>Cross-Validation</strong>:<ul id="0245ffb2-cc06-4c52-9263-c81f44d42c86" class="bulleted-list"><li style="list-style-type:disc"><strong>Purpose</strong>: Used to determine the best Alpha by comparing performance metrics (e.g., R^2) across different Alpha values.</li></ul><ul id="637ce0e2-3522-4695-b980-2daf216aa08a" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>: Train with various Alpha values, evaluate with validation data, and select the best-performing Alpha.</li></ul><figure id="5a803e1b-11f4-40fe-a1b9-46239b64a4fd" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2020.png"><img style="width:1703px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2020.png"/></a></figure></li></ol><ol type="1" id="78c4a006-b506-4a9f-91d9-db833d327129" class="numbered-list" start="6"><li><strong>Example Visualization</strong>:<ul id="30424de1-7314-4159-9252-ac2b02ffddd3" class="bulleted-list"><li style="list-style-type:disc"><strong>Plot</strong>: Shows R^2 values vs. different Alpha values for training and validation data.</li></ul><ul id="e0712904-dac3-4163-964b-b3b3a7c2ef85" class="bulleted-list"><li style="list-style-type:disc"><strong>Interpretation</strong>:<ul id="5d1caa5d-47a3-4cf1-b0b4-3dc313396ef2" class="bulleted-list"><li style="list-style-type:circle"><strong>Training Data</strong>: R^2 might increase with Alpha but eventually converge.</li></ul><ul id="d6d9a4c0-5c7f-4d3a-95f4-50d3ac955e6a" class="bulleted-list"><li style="list-style-type:circle"><strong>Validation Data</strong>: R^2 may decrease with high Alpha due to reduced model flexibility.</li></ul></li></ul></li></ol><hr id="6f2f66bc-e618-41c8-baea-abb0bc708ab0"/><h1 id="953ca87d-5b64-4722-b844-7fa1b996b319" class="">Grid Search for Hyperparameter Tuning</h1><h2 id="7b88ebed-1647-48cf-afd1-3cdb077b4c0a" class=""><strong>Grid Search</strong></h2><p id="2b4c5913-56d1-49e8-ab09-a9b7643e44d8" class="">A method for finding the best hyperparameters for a model by systematically evaluating different combinations.</p><ul id="6f68864e-67c8-486f-9b99-5e17c897c6fc" class="bulleted-list"><li style="list-style-type:disc"><strong>Hyperparameters</strong>: Values like Alpha in Ridge Regression that are not learned from the data but set before the training process.</li></ul><ul id="e3b92521-3518-4986-9616-88f7f13edcca" class="bulleted-list"><li style="list-style-type:disc"><strong>Process</strong>:<ol type="1" id="ee88719e-1086-4cd0-8936-65346d47d00c" class="numbered-list" start="1"><li><strong>Define Hyperparameters</strong>: Set up a grid of hyperparameter values to test. For Ridge Regression, this might include values for Alpha and normalization options.</li></ol><ol type="1" id="fc26bd0d-02f8-4c6a-8ecb-1845cf696d00" class="numbered-list" start="2"><li><strong>Train and Evaluate</strong>: Train the model using each combination of hyperparameters. Evaluate each model using cross-validation, typically using metrics like R² or Mean Squared Error (MSE).</li></ol><ol type="1" id="bcde90e5-10f0-4369-a139-45e262667de1" class="numbered-list" start="3"><li><strong>Select Best Parameters</strong>: Choose the hyperparameters that give the best performance based on the evaluation metric.</li></ol></li></ul><h2 id="cbb69022-0845-4ace-aa2b-529fc888b602" class=""><strong>Implementation in Scikit-learn</strong></h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="678cd483-3072-4466-a27a-e3b29ef0fed8" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import numpy as np
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import GridSearchCV
+
+# Sample data
+X = np.array([[1], [2], [3], [4], [5]])
+y = np.array([1, 4, 9, 16, 25])
+
+# Define parameter grid
+param_grid = {
+    &#x27;alpha&#x27;: [0.1, 1, 10],
+    &#x27;normalize&#x27;: [True, False]
+}
+
+# Initialize Ridge model
+ridge = Ridge()
+
+# Initialize GridSearchCV
+grid_search = GridSearchCV(estimator=ridge, param_grid=param_grid, scoring=&#x27;r2&#x27;, cv=5)
+
+# Fit GridSearchCV
+grid_search.fit(X, y)
+
+# Get best parameters
+best_params = grid_search.best_params_
+best_score = grid_search.best_score_
+best_estimator = grid_search.best_estimator_
+cv_results = grid_search.cv_results_
+
+# Results
+print(&quot;Best Parameters:&quot;, best_params)
+print(&quot;Best Score:&quot;, best_score)
+print(&quot;Best Estimator:&quot;, best_estimator)
+print(&quot;CV Results:&quot;, cv_results)</code></pre><p id="4353a0db-227b-4745-aab1-8b1270f17c38" class=""><strong>Example Result:</strong></p><figure id="541bf0cd-52e2-4101-95a0-3a21623f3947" class="image"><a href="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2021.png"><img style="width:1770px" src="Module%205%20Model%20Evaluation%20and%20Refinement%209a8a43a702194b27b7f488fa7a09643c/Untitled%2021.png"/></a></figure><ul id="195f174e-879f-4a5b-9dd8-b05f3d2db567" class="bulleted-list"><li style="list-style-type:disc"><strong>Key Attributes</strong>:<ul id="2c1d30f2-30c8-4d9b-8ad9-d14027cc72a0" class="bulleted-list"><li style="list-style-type:circle"><code><strong>best_estimator_</strong></code>: Best model found.</li></ul><ul id="4460edf5-14eb-4bb9-bbf1-d2167bab9cd8" class="bulleted-list"><li style="list-style-type:circle"><code><strong>cv_results_</strong></code>: Detailed results for each hyperparameter combination, including scores and parameters.</li></ul></li></ul><ul id="6ff24aff-00d5-4db9-9370-16b88dc0812f" class="bulleted-list"><li style="list-style-type:disc"><strong>Advantages</strong>: Efficiently explores multiple hyperparameter values to find the best combination, reducing the manual effort required for model tuning.</li></ul><hr id="05371720-9383-44b6-9dc7-25e6fe9d7599"/><h1 id="046d7be4-4f56-48a2-ad9f-9171cd7eefc9" class="">Cheat Sheet: Model Evaluation and Refinement</h1><h2 id="2ccb2c12-4918-40ac-915c-0091f1aefe9c" class="">Splitting Data for Training and Testing</h2><p id="c71eabe8-af43-4559-a4cb-7206ca281399" class="">The process involves separating the target attribute from the rest of the data, treating it as the output, and the rest as input. Then, split these into training and testing subsets.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8498ebc4-b226-4bb0-8a12-b885fbaa906e" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.model_selection import train_test_split
+
+# Define target and features
+y_data = df[&#x27;target_attribute&#x27;]
+x_data = df.drop(&#x27;target_attribute&#x27;, axis=1)
+
+# Split into training and testing sets
+x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.10, random_state=1)</code></pre><h2 id="c628837a-4e3b-485b-a5dd-33c66f7bc534" class="">Cross Validation Score</h2><p id="6d499420-6eb2-44fa-8477-520d33454ab4" class="">Cross-validation involves creating multiple subsets of training and testing data to evaluate the model’s performance using the R² value.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5afefe61-7025-450b-b751-541cea959a21" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import LinearRegression
+
+# Initialize the model
+lre = LinearRegression()
+
+# Perform cross-validation
+Rcross = cross_val_score(lre, x_data[[&#x27;attribute_1&#x27;]], y_data, cv=n)
+
+# Calculate mean and standard deviation of scores
+Mean = Rcross.mean()
+Std_dev = Rcross.std()</code></pre><h2 id="46dcfc8f-4671-4f8a-847f-51f0bbaab71f" class="">Cross Validation Prediction</h2><p id="76732c2a-6434-443d-999d-239b55fd10d5" class="">Generate predictions using a cross-validated model.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="244a19cb-92ce-4909-b841-68f12794816d" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.model_selection import cross_val_predict
+from sklearn.linear_model import LinearRegression
+
+# Initialize the model
+lre = LinearRegression()
+
+# Perform cross-validation prediction
+yhat = cross_val_predict(lre, x_data[[&#x27;attribute_1&#x27;]], y_data, cv=4)</code></pre><h2 id="00f9e04c-57a4-4a5a-99c4-bd19e3d5d379" class="">Ridge Regression and Prediction</h2><p id="85d3a04b-8e24-4f01-a040-e74820e04f42" class="">Use Ridge regression to create a model that avoids overfitting by adjusting the alpha parameter and making predictions.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3afafb11-a2b5-4dda-bc04-41f289a46942" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.linear_model import Ridge
+from sklearn.preprocessing import PolynomialFeatures
+
+# Initialize polynomial features
+pr = PolynomialFeatures(degree=2)
+
+# Transform features
+x_train_pr = pr.fit_transform(x_train[[&#x27;attribute_1&#x27;, &#x27;attribute_2&#x27;]])
+x_test_pr = pr.transform(x_test[[&#x27;attribute_1&#x27;, &#x27;attribute_2&#x27;]])
+
+# Initialize Ridge model
+RigeModel = Ridge(alpha=1)
+
+# Fit the model
+RigeModel.fit(x_train_pr, y_train)
+
+# Make predictions
+yhat = RigeModel.predict(x_test_pr)</code></pre><h2 id="9b8f0a9b-3f8e-4263-9a94-e0898a2fb404" class="">Grid Search</h2><p id="d88e1d38-a4c3-428e-830a-e3c7ee249dd4" class="">Use Grid Search to find the optimal alpha value for Ridge regression by performing cross-validation.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8243dc78-7aaf-40e8-830e-bc7d31279555" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from sklearn.model_selection import GridSearchCV
+from sklearn.linear_model import Ridge
+
+# Define parameter grid
+parameters = [{&#x27;alpha&#x27;: [0.001, 0.1, 1, 10, 100, 1000, 10000]}]
+
+# Initialize Ridge model
+RR = Ridge()
+
+# Initialize GridSearchCV
+Grid1 = GridSearchCV(RR, parameters, cv=4)
+
+# Fit GridSearchCV
+Grid1.fit(x_data[[&#x27;attribute_1&#x27;, &#x27;attribute_2&#x27;]], y_data)
+
+# Get the best model
+BestRR = Grid1.best_estimator_
+
+# Evaluate the model
+score = BestRR.score(x_test[[&#x27;attribute_1&#x27;, &#x27;attribute_2&#x27;]], y_test)</code></pre><hr id="022beeac-bc3c-4f24-8b6c-e08d65b5a199"/></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

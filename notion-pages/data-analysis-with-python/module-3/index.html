@@ -1,0 +1,757 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Module 3: Exploratory Data Analysis</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+/* For Edge (based on WebKit) */
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(249, 228, 188, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="7699f4b9-7b15-482c-8ec1-17eafebba2d1" class="page sans"><header><img class="page-cover-image" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/photo-1613677135043-a2512fbf49fa.jpeg" style="object-position:center 13.919999999999998%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/science_orange.svg"/></div><h1 class="page-title">Module 3: Exploratory Data Analysis</h1><p class="page-description"></p></header><div class="page-body"><h1 id="8cc5bc9c-842a-4920-92b4-7c11b55820fc" class="">Exploratory Data Analysis (EDA) using Python</h1><p id="54252634-65e2-4b03-8d5d-11e27071aa4a" class="">Exploratory Data Analysis (EDA) is an essential step in understanding and summarizing the main characteristics of a dataset. It helps uncover relationships between variables and identifies key factors impacting the target variable.</p><h2 id="d1f9ed48-c712-43a9-9b16-4806ad97c856" class="">1. Descriptive Statistics</h2><p id="00b0d12a-d779-41f4-860f-aadf60431e66" class="">Descriptive statistics provide a summary of the data&#x27;s main characteristics. It includes measures like mean, median, mode, and standard deviation.</p><h2 id="3d7849e6-03e0-4403-8641-1a95f7cb7a7b" class="">2. GroupBy Operations</h2><p id="d365c9b5-9776-4251-8d31-33a6f73ac8d6" class="">GroupBy operations allow us to group data based on categorical variables and perform aggregations or transformations.</p><h2 id="90b3c739-1936-490b-840a-f5b3adb1d0c9" class="">3. Data Visualization Commands in Python</h2><p id="b6f8da6e-69b1-4424-997a-1e9f0255a925" class="">Visualizations play a key role in data analysis. Various forms of graphs and plots can be created with data in Python to aid in visualizing and analyzing data effectively. The two major libraries used for this purpose are matplotlib and seaborn.</p><h2 id="a69a4d69-5034-4034-bd2c-a92d66fa61ed" class="">4. Correlation Analysis</h2><p id="bf5a0ae2-e2ce-4c20-9f5b-f9635c1b5fc9" class="">Correlation analysis measures the relationship between variables. It helps identify how changes in one variable are associated with changes in another.</p><h2 id="f5fa8ed7-ed61-4ff9-9604-02a01342e39c" class="">5. Advanced Correlation Methods (<strong>Correlation Statistics)</strong></h2><h3 id="2f62b1fb-cb3b-47b7-8ed1-80829c1e2b34" class=""><strong>5.1 Pearson Correlation</strong></h3><p id="1e9de29d-641f-4e8d-bcc9-88eaab169466" class="">Pearson correlation coefficient measures the linear relationship between two variables. It ranges from -1 to 1, where 1 indicates a strong positive correlation, -1 indicates a strong negative correlation, and 0 indicates no linear correlation.</p><h3 id="97f81601-f90f-4627-a323-36a524ab96eb" class=""><strong>5.2 Correlation Heatmaps</strong></h3><p id="357da3ad-ae50-4ccf-8eb7-17d8285823b9" class="">Correlation heatmaps provide a visual representation of the correlation matrix. They use color gradients to indicate the strength and direction of correlations between variables</p><figure id="a2c62006-b789-47d4-94b6-69ba98a29f35" class="image"><a href="https://www.notion.soinsert_image_url_here"><img src="https://www.notion.soinsert_image_url_here"/></a></figure><hr id="05d3c378-a719-412f-9e95-6d8465f0cde7"/><h1 id="9a57e374-b003-46b5-b0da-70e211ac047c" class="">1. Descriptive Statistics in Data Analysis</h1><p id="4aef4db1-68f7-43a6-88a2-15fbd021cf31" class="">Descriptive statistics are a crucial first step in exploring your data before building complex models. They provide a summary of your dataset, helping you understand its basic features and distribution.</p><h2 id="9b79a92a-11b8-4594-a405-cce01616da1a" class="">Descriptive Statistical Analysis</h2><p id="320b3c88-0116-4f04-959c-4664c40cb38d" class="">Descriptive statistical analysis helps describe the basic features of a dataset, offering a summary of the sample and measures of the data</p><h2 id="30cfe03e-6eb9-49bb-83eb-549039a442e3" class="">Using <code>describe</code> Function</h2><p id="8fde6a76-ed8c-443b-b939-607f073e549c" class="">The <code>describe</code> function in pandas computes basic statistics for all numerical variables in your data frame, including:</p><ul id="c5263ca1-efa3-466f-b647-94804566ded3" class="bulleted-list"><li style="list-style-type:disc">Mean</li></ul><ul id="bdf96563-92aa-4e6c-b3df-d75814bd42d7" class="bulleted-list"><li style="list-style-type:disc">Total number of data points</li></ul><ul id="b7b3cda0-1d02-462b-be8a-ddbae7c1ee47" class="bulleted-list"><li style="list-style-type:disc">Standard deviation</li></ul><ul id="de4ca075-22c9-4dbb-8c17-27bb375bad5c" class="bulleted-list"><li style="list-style-type:disc">Quartiles</li></ul><ul id="29a00152-57fa-4ede-82a7-7b5922c3a597" class="bulleted-list"><li style="list-style-type:disc">Extreme values</li></ul><p id="ec7d3871-4296-487b-921c-ed5d9e35243d" class="">NaN values are automatically skipped in these statistics.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9fa7e537-231b-4219-a1bf-c90355882b21" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df.describe()</code></pre><h3 id="893375ed-f299-43c7-b0e9-03fb639b2a81" class="">Example Output</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f9f9b9b5-5b15-4925-9441-499ac26e7ddd" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">             price  engine-size  horsepower     length      width
+count      5.00000     5.000000    5.000000   5.000000   5.000000
+mean   15329.00000   132.600000  118.400000  170.100000  64.480000
+std     1570.38349    17.782794   21.800460   7.928386   0.396108
+min    13495.00000   109.000000  102.000000  157.300000  63.900000
+25%    13950.00000   130.000000  110.000000  168.800000  64.100000
+50%    15250.00000   136.000000  111.000000  171.200000  64.800000
+75%    16500.00000   136.000000  115.000000  176.600000  64.800000
+max    17450.00000   152.000000  154.000000  176.600000  64.800000</code></pre><h2 id="59eb861c-cecd-4343-9466-de57ac36c4dc" class="">Categorical Variables</h2><p id="c89bb257-abbb-461e-9a8a-2f7c35da4692" class="">Categorical variables can be divided into different categories or groups and have discrete values. For example, the drive system in a car dataset may consist of categories like forward wheel-drive, rear wheel-drive, and four wheel-drive.</p><h3 id="4d4c2442-0e24-45dc-9985-653e775728f9" class="">Summarizing Categorical Data</h3><p id="a129e352-0190-48d6-9417-c411df949a48" class="">The <code>value_counts</code> function summarizes categorical data.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="80b80849-3ded-4844-94dc-45fd31855b02" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[&#x27;drive-wheels&#x27;].value_counts()</code></pre><h3 id="e23867e8-2c86-4992-8e61-df6884625f84" class="">Example Output of <code>value_counts</code> Function</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19ca5985-c817-495f-95c1-ddbfbdffd63f" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">front-wheel-drive    118
+rear-wheel-drive      75
+four-wheel-drive       8
+Name: drive-wheels, dtype: int64</code></pre><h2 id="58495683-2020-47d3-ab27-3755634dea68" class="">Box Plots</h2><p id="a0934e66-ad31-448d-ad2c-187b8151a6da" class="">Box plots visualize numeric data distributions and highlight the following features:</p><ul id="d68bbc7c-408d-44a1-892a-2c4dea0363f4" class="bulleted-list"><li style="list-style-type:disc">Median</li></ul><ul id="cf5d859a-8289-4926-913e-e36c46d093c1" class="bulleted-list"><li style="list-style-type:disc">Upper quartile (75th percentile)</li></ul><ul id="df6769ff-72bf-4da9-97f0-0755b3e57aeb" class="bulleted-list"><li style="list-style-type:disc">Lower quartile (25th percentile)</li></ul><ul id="281e9ea0-5f91-43cd-8d5b-303ab253670f" class="bulleted-list"><li style="list-style-type:disc">Inter-quartile range (IQR)</li></ul><ul id="6ed28403-c2f6-44a4-a7ee-deb605385170" class="bulleted-list"><li style="list-style-type:disc">Lower and upper extremes (calculated as 1.5 times the IQR above the 75th percentile and below the 25th percentile)</li></ul><ul id="fcf3aee1-c267-4e1f-99b6-1e837ae29132" class="bulleted-list"><li style="list-style-type:disc">Outliers</li></ul><p id="399db387-0b64-406f-8209-c92dab8d3f54" class="">Box plots help compare distributions between groups.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="579e65a5-d919-4cf6-b852-12e5f0835915" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import seaborn as sns
+sns.boxplot(x=&#x27;drive-wheels&#x27;, y=&#x27;price&#x27;, data=df)</code></pre><figure id="122d730a-5ad4-4654-8e85-b848b176796d" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled.png"><img style="width:432px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled.png"/></a></figure><h2 id="62f59a07-35bf-4cbd-abf2-1cca94fa3f8c" class="">Scatter Plots</h2><p id="f76d936a-11ef-4ba0-89c7-5f2de23e12a1" class="">Scatter plots visualize the relationship between two continuous variables. They help identify how changes in one variable are associated with changes in another.</p><ul id="b4b3311a-58a4-4fda-a832-b60b02bdebef" class="bulleted-list"><li style="list-style-type:disc"><strong>Predictor Variable:</strong> The variable used to predict an outcome (e.g., engine size).</li></ul><ul id="fa6732f6-dea4-46f6-bbd2-94047adce473" class="bulleted-list"><li style="list-style-type:disc"><strong>Target Variable:</strong> The variable being predicted (e.g., car price).</li></ul><p id="5304e621-b9a7-4773-8bd9-c772f61b3397" class="">In a scatter plot:</p><ul id="90b26d94-2ee2-4bbc-a48e-33dab2c03d3e" class="bulleted-list"><li style="list-style-type:disc">Predictor variable is plotted on the x-axis.</li></ul><ul id="1d01eb0b-7620-4e3d-a2cc-d8bfe2c09505" class="bulleted-list"><li style="list-style-type:disc">Target variable is plotted on the y-axis.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7845ed63-2c30-4ae1-b4be-907efa555c41" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import matplotlib.pyplot as plt
+
+plt.scatter(df[&#x27;engine-size&#x27;], df[&#x27;price&#x27;])
+plt.xlabel(&#x27;Engine Size&#x27;)
+plt.ylabel(&#x27;Price&#x27;)
+plt.title(&#x27;Scatterplot of Engine Size vs Price&#x27;)
+plt.show()</code></pre><figure id="d8f8d5a2-ab69-40da-9cbe-6feac89c8fad" class="image"><a href="https://www.notion.soinsert_image_url_here"><img src="https://www.notion.soinsert_image_url_here"/></a></figure><figure id="b392a747-6aae-49c6-ad4f-e9f82695b9bf" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%201.png"><img style="width:480px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%201.png"/></a></figure><p id="d5f398d0-546b-4113-9a4b-65c645e8d884" class="">From the scatter plot, you can observe that as engine size increases, the price of the car also increases, indicating a positive linear relationship.</p><figure id="9fe47677-e07c-4e4a-805c-5604c042f960" class="image"><a href="https://www.notion.soinsert_image_url_here"><img src="https://www.notion.soinsert_image_url_here"/></a></figure><hr id="895b4335-8c9e-45e6-b5c3-79e2a2ab6edd"/><h1 id="b8925f78-1a0d-43ec-a300-088422dc3ff2" class="">2. Exploring GroupBy and Pivot Tables in Pandas</h1><h2 id="07b1993e-fc18-446f-8ae3-b98de7b63481" class="">Overview</h2><p id="abb379e0-4e49-4b32-a717-6c0f14ca56b4" class="">This guide covers the basics of grouping data and transforming datasets using Pandas. The focus is on understanding the relationship between different types of drive systems (forward, rear, and four-wheel drive) and the price of vehicles. It explores the <code>groupby</code> method, creating pivot tables, and visualizing data using heatmaps.</p><h2 id="99ae4293-1734-4164-86cf-6386304809c2" class="">Grouping Data with GroupBy</h2><p id="e9715e7d-b55a-44be-9b2d-89a8a08581c8" class="">The <code>groupby</code> method in Pandas is used to group data based on categorical variables, allowing for comparison of different categories by aggregating data. This example demonstrates how to group data by drive wheels and body style to find the average price of vehicles.</p><p id="efe613a7-8a99-4fb9-8262-002a1f2755ba" class=""><strong>Example Code</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="07bc7f58-30d5-4928-ab27-dd90a2b03171" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import pandas as pd
+
+# Selecting relevant columns
+df_group = df[[&#x27;drive-wheels&#x27;, &#x27;body-style&#x27;, &#x27;price&#x27;]]
+
+# Grouping by &#x27;drive-wheels&#x27; and &#x27;body-style&#x27;, then calculating the mean price
+grouped_test1 = df_group.groupby([&#x27;drive-wheels&#x27;, &#x27;body-style&#x27;], as_index=False).mean()
+grouped_test1 = grouped_test1[[&#x27;drive-wheels&#x27;, &#x27;body-style&#x27;, &#x27;price&#x27;]]
+grouped_test1.head()</code></pre><h3 id="c9cebbbb-1f86-4279-a36a-52b18b6f47fa" class="">Example Output</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e2f1cfcc-5ff4-4c35-9906-39a0ce002d8e" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">    drive-wheels   body-style   price
+0  4wd           hatchback     7603.0
+1  fwd           convertible   11595.0
+2  fwd           hardtop       8249.0
+3  fwd           hatchback     8396.4
+4  fwd           sedan         9811.5</code></pre><figure id="dfb0f92e-2fef-4abf-be6b-17fca3816ea8" class="image"><a href="https://www.notion.soplaceholder_for_image"><img src="https://www.notion.soplaceholder_for_image"/></a></figure><h2 id="38edcc60-12e6-4b78-ab24-cca230563e1b" class="">Creating Pivot Tables</h2><p id="81d2c2bf-ac14-43e8-a46d-597c2c56b480" class="">To make grouped data easier to understand, it can be transformed into a pivot table. A pivot table displays one variable along the columns and another variable along the rows, making the data easier to visualize and interpret.</p><h3 id="48b87e95-7f48-41e0-b47d-587b6dc67ef1" class=""><strong>Example Code</strong></h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b861003f-bbb9-4f84-9526-8d8114fe66b9" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all"># Creating a pivot table
+grouped_pivot = grouped_test1.pivot(index=&#x27;drive-wheels&#x27;, columns=&#x27;body-style&#x27;, values=&#x27;price&#x27;)</code></pre><h3 id="543062f9-f3ee-4bdd-8104-e90c534b5215" class=""><strong>Example Output</strong></h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1c813861-d0ae-4cb7-8117-b3cbac154e14" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">             price				
+body-style   convertible    hardtop    hatchback    sedan     wagon
+drive-wheels
+4wd              NaN         NaN       7603.0       NaN       NaN
+fwd           11595.0      8249.0      8396.4      9811.5    9997.8
+rwd           23949.6     15645.0     14364.4     21711.0    16994.2</code></pre><figure id="120a19af-7498-40ce-af3e-c0f5e892cdc5" class="image"><a href="https://www.notion.soplaceholder_for_image"><img src="https://www.notion.soplaceholder_for_image"/></a></figure><h2 id="8ed3e7ee-a056-43ce-bb16-faf70e57ff21" class="">Visualizing Data with Heatmaps</h2><p id="d0dece19-a929-4d1c-bd24-a2e12b25bd81" class="">Heatmaps provide a graphical representation of data where individual values are represented by colors, helping in identifying patterns and relationships in the data.</p><h3 id="33c91155-b8a3-44e7-9f32-65ba62136ba3" class=""><strong>Example Code</strong></h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1d8a8800-909d-4488-b60a-8b283a3ca379" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Creating a heatmap
+plt.figure(figsize=(8, 6))
+sns.heatmap(grouped_pivot, cmap=&#x27;RdBu&#x27;, annot=True)
+plt.title(&#x27;Title&#x27;)
+plt.show()</code></pre><h3 id="c3c917e3-0236-4f34-9c9a-522044e4a6e6" class=""><strong>Example Output</strong></h3><figure id="7bc9a396-0999-49f9-b5e9-185c20373dc9" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%202.png"><img style="width:542px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%202.png"/></a></figure><figure id="fcf5430b-5624-4d75-9f40-3a5f54d1674a" class="image"><a href="https://www.notion.soplaceholder_for_image"><img src="https://www.notion.soplaceholder_for_image"/></a></figure><p id="2aec57ff-a2fb-4e59-b2fa-2ae385b2156b" class="">
+</p><p id="3bec7b98-07c9-4f62-9d25-56411f99f4cf" class="">Using the <code>groupby</code> method, pivot tables, and heatmaps provides valuable insights into the relationships between different variables in the dataset.</p><hr id="362778b5-6c1f-4092-b397-a70766ef29b5"/><h1 id="c1f2fc47-bfcc-4b3c-86ef-87c689ffa086" class="">3. Data Visualization commands in Python</h1><p id="aee12db8-e70d-41c0-8a71-f4fb3c2e53b4" class="">Visualizations play a key role in data analysis. This section introduces various forms of graphs and plots that you can create with your data in Python, aiding in visualizing data for better analysis.</p><p id="1947e3c4-4593-49e2-9f0d-e2ce9a1d34a0" class="">The two major libraries used to create plots are Matplotlib and Seaborn. We will learn the prominent plotting functions of both these libraries as applicable to Data Analysis.</p><h2 id="54fd0a62-ce50-4d9c-9a33-b43daa1ca6a6" class="">Importing Libraries</h2><p id="88b1b928-7e66-4e91-9ebe-3cbeb36dcf5b" class="">You can import the libraries as shown below.</p><h3 id="52cfc580-7f93-443e-9b3b-dbba2d68d8af" class="">Matplotlib</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="45e746cb-9da5-4d67-a342-1d97bb3a377d" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from matplotlib import pyplot as plt</code></pre><p id="b4df419f-5987-483b-bdca-cf84880632a2" class="">Alternatively, the command can also be written as:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="06fbb6b3-3e30-480c-ae3c-7576a1feb590" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import matplotlib.pyplot as plt</code></pre><p id="02faf0a5-ca2b-4f5e-86e6-c32b88b533ce" class="">Most of the plots of interest are contained in the <code>pyplot</code> subfolder of the package. Matplotlib functions return a plot object which requires additional statements to display. While using Matplotlib in Jupyter Notebooks, it is essential to add the following &#x27;magic&#x27; statement after loading the library to display graphs inside the notebook interface.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="dc358000-549e-4439-a363-a16b130deb6e" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">%matplotlib inline</code></pre><h3 id="7208bf0a-18fd-4107-93c4-953a9619da65" class=""><strong>Seaborn</strong></h3><p id="88eabeaa-7050-489c-90fb-8d209c51efb5" class="">Seaborn is usually imported using the following statement:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6562ce98-24e9-43ca-b483-dcfb0a5afbf3" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import seaborn as sns</code></pre><h2 id="18987f9e-c610-48c2-8353-c35eee73a5ec" class="">Matplotlib Functions</h2><h3 id="274ce2e6-1a51-4f47-bc36-33224e12d4ec" class="">1. Standard Line Plot</h3><p id="89d54c9d-3d74-4214-980a-330ff9779ab3" class="">The simplest and most fundamental plot is a standard line plot. The function expects two arrays as input, <code>x</code> and <code>y</code>, both of the same size. <code>x</code> is treated as an independent variable and <code>y</code> as the dependent one. The graph is plotted as the shortest line segments joining the <code>x, y</code> point pairs ordered in terms of the variable <code>x</code>.</p><p id="a437aa86-1e46-404b-a924-0acf8292c4be" class=""><strong>Syntax:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ca144af1-b268-4bfe-9a9f-e8522367f6a6" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">plt.plot(x, y)</code></pre><p id="2792b9f6-967f-45ee-a008-cb7661fe838a" class=""><strong>Example Output:</strong></p><figure id="905335cb-c8b9-4c90-bb69-95d482d94d7c" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%203.png"><img style="width:708px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%203.png"/></a></figure><figure id="d373fb98-c9f3-4a9a-a8b0-978ca3c209a4" class="image"><a href="https://www.notion.so#"><img src="https://www.notion.so#"/></a></figure><hr id="2cb57fc9-7239-47a8-a581-383fd22732a7"/><h3 id="9881eeb8-debf-42dc-a607-fffcf041af85" class="">2. Scatter Plot</h3><p id="15ec5c39-b125-4130-b426-a29ac0c84f78" class="">Scatter plots present the relationship between two variables in a dataset. It represents data points on a two-dimensional plane. The independent variable or attribute is plotted on the X-axis, while the dependent variable is plotted on the Y-axis.</p><p id="0b8c9c98-9858-44e9-b81a-1befcb3211f1" class=""><strong>Syntax:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9ff90112-befc-49b0-8e58-f6bbc940b2e9" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">plt.scatter(x, y)</code></pre><p id="fe33299e-4f5d-447e-930d-170bf1231862" class=""><strong>Example Output:</strong></p><figure id="c3fa431b-a37a-494b-ad7e-09a0b1b641d2" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%204.png"><img style="width:708px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%204.png"/></a></figure><figure id="90bd01bf-60bd-4f5a-8f77-5fc0e6913094" class="image"><a href="https://www.notion.so#"><img src="https://www.notion.so#"/></a></figure><hr id="338ff14e-74ed-4a53-97f9-1c05b59b9829"/><h3 id="5db1c541-16c1-4ded-8292-17a6258db5de" class="">3. Histogram</h3><p id="a2b15647-7c0e-49c9-853b-59973d288657" class="">A histogram is an important visual representation of data in categorical form. To view the data in a &quot;Binned&quot; form, use the histogram plot with a number of bins required or with the data points that mark the bin edges. The x-axis represents the data bins, and the y-axis represents the number of elements in each bin.</p><p id="48b5f059-e6bb-42fc-9609-ee388c3014c2" class=""><strong>Syntax:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1108dddb-d0cb-4984-8123-61ed27ea672e" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">plt.hist(x, bins)</code></pre><p id="5c2e35b5-3754-489f-bd5b-47ff7ea8f001" class=""><strong>Example Output:</strong></p><figure id="73effe6e-2483-4393-894c-183ec8a552e8" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%205.png"><img style="width:708px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%205.png"/></a></figure><figure id="a178a177-1174-45c9-8200-10113cb0cfea" class="image"><a href="https://www.notion.so#"><img src="https://www.notion.so#"/></a></figure><p id="2e13d43e-83d0-4f60-ba47-0a7d475edf37" class="">Use an additional argument, <code>edgecolor</code>, for better clarity of plot.</p><hr id="85e98653-8906-4922-86e4-fbfd2b55c15f"/><h3 id="976b5e75-8209-4ac4-a4d4-5dbb8dd5760c" class="">4. Bar Plot</h3><p id="0255ee81-648a-45c6-9118-5b0ef3b426ea" class="">A bar plot is used for visualizing categorical data. The y-axis represents the number of values belonging to each category, while the x-axis represents the different categories.</p><p id="c06f18a8-edfb-431b-ad7a-450104c2dea8" class=""><strong>Syntax:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2604ccca-f518-4d6b-a115-13802c5cf3f3" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">plt.bar(x, height)</code></pre><p id="482223d4-e6ac-457e-aca3-0c2390a2f735" class=""><strong>Example Output:</strong></p><figure id="f8fbae9c-d2a1-4e51-8eb5-9aeced7e394f" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%206.png"><img style="width:708px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%206.png"/></a></figure><p id="c6da9fc6-7e8c-496b-9706-69fe10e754c2" class="">Here, <code>x</code> is the categorical variable, and <code>height</code> is the number of values belonging to the category. You can adjust the width of each bin using an additional <code>width</code> argument in the function.</p><figure id="dbca7ac4-ca4b-4e6a-a8c6-22402a9ed043" class="image"><a href="https://www.notion.so#"><img src="https://www.notion.so#"/></a></figure><hr id="fbb40001-35d2-4074-aa56-7d8c9998b890"/><h3 id="53639adf-1eb2-43eb-89c6-7249c8d9102a" class="">5. Pseudocolor Plot</h3><p id="6e9d0f67-32d9-4a95-a728-c9369f994093" class="">A pseudocolor plot displays matrix data as an array of colored cells (known as faces). This plot is created as a flat surface in the x-y plane. The surface is defined by a grid of x and y coordinates that correspond to the corners (or vertices) of the faces. Matrix <code>C</code> specifies the colors at the vertices.</p><p id="0fc3d7c0-1e04-4db5-8d6d-c51d4b68c513" class=""><strong>Syntax:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="46763a17-21a3-4769-a441-cca78177f484" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">plt.pcolor(C)</code></pre><p id="a57395b8-ae0a-4bad-bace-a97aff371d6d" class="">You can define an additional <code>cmap</code> argument to specify the color scheme of the plot.</p><p id="83f11f61-836c-49ab-86d2-eb8af6d9d9f3" class=""><strong>Example Output:</strong></p><figure id="1d474140-c963-4fcd-bd22-154512f0eb53" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%207.png"><img style="width:708px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%207.png"/></a></figure><figure id="aec0d8da-7431-4722-95a2-88e794a5bcf0" class="image"><a href="https://www.notion.so#"><img src="https://www.notion.so#"/></a></figure><hr id="908667a8-8fc6-48bc-982a-7eaa598b60f2"/><h2 id="f0690f7d-b99b-4bbe-8cb4-94e7db8f1104" class="">Seaborn Functions</h2><h3 id="71bc6466-7096-4b3d-99d1-ee136a40a1bf" class="">1. Regression Plot</h3><p id="e2f1042c-ec6f-4e80-827a-666a32e4695d" class="">A regression plot draws a scatter plot of two variables, <code>x</code> and <code>y</code>, and then fits the regression model and plots the resulting regression line along with a 95% confidence interval for that regression.</p><p id="4fa40ea2-83f7-4951-85df-f25bb81deb80" class=""><strong>Syntax:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f3bbd857-ce57-4840-821c-fd26c4636135" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">sns.regplot(x=&#x27;header_1&#x27;, y=&#x27;header_2&#x27;, data=df)</code></pre><p id="15ef862c-07d4-4655-8bb1-d5b5f777bab9" class=""><strong>Example Output:</strong></p><figure id="02f57612-5290-46e3-8060-04c115b33e5f" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%208.png"><img style="width:708px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%208.png"/></a></figure><figure id="505e62e9-d750-492e-b600-97b761a59d05" class="image"><a href="https://www.notion.so#"><img src="https://www.notion.so#"/></a></figure><hr id="aa0957cf-8b2d-440a-87f1-b4dc98aff757"/><h3 id="a811686d-ce2d-4ce3-b953-19d2217908a5" class="">2. Box and Whisker Plot</h3><p id="e1dee9ef-fe80-4fe3-bbbf-f329b488ac52" class="">A box plot shows the distribution of quantitative data in a way that facilitates comparisons between variables or across levels of a categorical variable. The box shows the quartiles of the dataset while the whiskers extend to show the rest of the distribution, except for points that are determined to be &quot;outliers&quot;.</p><p id="d16c4b76-9403-49be-b700-7056123d957a" class=""><strong>Syntax:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="584c5d6e-2afa-49c4-82f1-719c7a004efd" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">sns.boxplot(x=&#x27;header_1&#x27;, y=&#x27;header_2&#x27;, data=df)</code></pre><p id="66a1255a-a87c-46ea-a58d-21756943ac70" class=""><strong>Example Output:</strong></p><div id="5b30c31c-d875-4276-a07d-bf5b7f667e0d" class="column-list"><div id="33f51166-5ec0-42a9-8da4-94864efa63b7" style="width:31.25%" class="column"><figure id="60aa0c69-c22a-496f-a664-ef87c01bb5e5" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%209.png"><img style="width:240px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%209.png"/></a></figure></div><div id="bbe09d39-608f-4bd6-a2ec-2bb784d6a59f" style="width:68.75%" class="column"><figure id="e4b56561-cc79-4dd8-82ec-720048328a8b" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2010.png"><img style="width:480px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2010.png"/></a></figure></div></div><figure id="1f057ea2-4105-41ab-b6c7-65acaae480f7" class="image"><a href="https://www.notion.so#"><img src="https://www.notion.so#"/></a></figure><hr id="3ed17f5d-3f4b-4c5a-8fda-e56096b4550b"/><h3 id="1673de31-5487-4890-92db-8b7026c7339e" class="">3. Residual Plot</h3><p id="b10e9f91-a323-404a-a4d7-f9db6f2789aa" class="">A residual plot is used to display the quality of polynomial regression. This function regresses <code>y</code> on <code>x</code> as a polynomial regression and then draws a scatter plot of the residuals.</p><p id="c0b591cb-bdce-4521-bdb5-ce0f5c2711df" class=""><strong>Syntax:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="efe7104a-8da1-4fda-9bf7-98b4a1711917" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">sns.residplot(data=df, x=&#x27;header_1&#x27;, y=&#x27;header_2&#x27;)</code></pre><p id="bfb3fabe-4f33-4e73-9184-c43f6e72c794" class="">Alternatively:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="35864086-71cf-40ce-852b-4b6050b66448" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">sns.residplot(x=df[&#x27;header_1&#x27;], y=df[&#x27;header_2&#x27;])</code></pre><p id="b5a9d0c2-8bdb-4b51-9161-9f643abc59b2" class=""><strong>Example Output:</strong></p><figure id="326222e9-0e5c-44f0-80b2-10f235cbca94" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2011.png"><img style="width:1335px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2011.png"/></a></figure><figure id="72fd3093-05cd-424e-a9c1-6c30eadb31da" class="image"><a href="https://www.notion.so#"><img src="https://www.notion.so#"/></a></figure><hr id="cea2d925-19c5-442f-805a-209c2ae32b6e"/><h3 id="035525f1-fc26-4849-b749-f5fc116576f3" class="">4. KDE Plot</h3><p id="e13fbc2b-19f1-4d30-adc3-77a5c5bafcdd" class="">A Kernel Density Estimate (KDE) plot is a graph that creates a probability distribution curve for the data based upon its likelihood of occurrence on a specific value. This is created for a single vector of information.</p><p id="9531ff64-cac1-4255-96b5-d89dddb6740b" class=""><strong>Syntax:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="de26d6d9-601b-401e-a15f-d5e822a0b899" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">sns.kdeplot(X) || sns.kdeplot(df[&#x27;age&#x27;])</code></pre><p id="58f64254-b0e7-432c-be95-f982d806e71f" class=""><strong>Example Output:</strong></p><figure id="b659eff5-d6de-4e93-8906-e5e2ab4f6763" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2012.png"><img style="width:708px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2012.png"/></a></figure><figure id="1465c590-a781-4735-909c-2558722477f4" class="image"><a href="https://www.notion.so#"><img src="https://www.notion.so#"/></a></figure><hr id="58150a3b-80b8-4c10-8aec-76c64dea84fb"/><h3 id="ae0849fc-c69f-4d38-b6f9-cca9c0ac4634" class="">5. Distribution Plot</h3><p id="6123c12a-6f76-433f-b847-b80e54b8ab1b" class="">This plot has the capacity to combine the histogram and the KDE plots. This plot creates the distribution curve using the bins of the histogram as a reference for estimation. You can optionally keep or discard the histogram from being displayed.</p><p id="0a1607e6-89ff-44c0-899c-69213a724c17" class=""><strong>Syntax:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f424905e-9070-4b92-8529-93a8ddb59baf" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">sns.distplot(X, hist=False)</code></pre><p id="e2729aa4-1041-4380-a273-46e21de332e2" class="">Keeping the argument <code>hist</code> as <code>True</code> would plot the histogram along with the distribution plot.</p><p id="ae873442-16f4-4d08-ae1f-475dc4f4395c" class=""><strong>Example Output:</strong></p><figure id="0c6298b0-f3e4-49bd-8185-7e9dc6df8e80" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2013.png"><img style="width:708px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2013.png"/></a></figure><figure id="991238aa-6bcf-45df-834d-5eea8d619f0c" class="image"><a href="https://www.notion.so#"><img src="https://www.notion.so#"/></a></figure><hr id="2d395836-0458-458f-b681-85630234cefb"/><h1 id="c0513b47-c286-43f2-919e-bec6cb75a343" class="">4. Correlation Between Variables</h1><p id="fb8458de-9857-4ded-9ef8-e40af0f65ee0" class="">Correlation is a statistical measure of the extent to which different variables are interdependent. It indicates how changes in one variable are associated with changes in another variable over time.</p><h2 id="0158226c-636f-45c9-902c-e65637c8ec7b" class="">Positive Correlation</h2><p id="6315c33a-9406-45d8-8cf7-2a6cf720eab7" class="">Positive correlation indicates that as one variable increases, the other variable also tends to increase.</p><p id="8f4ca331-492c-4097-86df-a68194765fa5" class=""><strong>Example: Engine Size and Price</strong></p><ul id="824418bc-f913-435e-a59a-098bd1d6b2a6" class="bulleted-list"><li style="list-style-type:disc"><strong>Positive Correlation:</strong> Engine size increases, price also increases.</li></ul><ul id="fa09b31d-e0fb-4e1a-8dec-0e739f6a7fc6" class="bulleted-list"><li style="list-style-type:disc"><strong>Visualization:</strong> Scatter plot with a steep positive slope.<figure id="b65bad39-f563-4cd5-b7ff-4376ddea7361" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2014.png"><img src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2014.png"/></a></figure><p id="dad576f9-e5d4-4727-8c42-c5b5bc087289" class=""><strong>Explanation:</strong> When engine size increases, there is a corresponding increase in the price of the vehicle. This positive correlation suggests that larger engines tend to be associated with higher prices in the market.</p></li></ul><hr id="c4b5c900-bd17-4f56-a535-06d583c4e229"/><h2 id="0288a643-a15e-4779-af1e-3710d892bc71" class="">Negative Correlation</h2><p id="5e810949-1c2d-4940-91a7-0d13f04f4e22" class="">Negative correlation indicates that as one variable increases, the other variable tends to decrease.</p><p id="343bf82f-2fca-4ca3-ac07-bddf6fcbe9a7" class=""><strong>Example: Highway Miles per Gallon and Price</strong></p><ul id="42e3f477-0a12-404e-a262-907850bebc0e" class="bulleted-list"><li style="list-style-type:disc"><strong>Negative Correlation:</strong> As highway miles per gallon increases, price decreases.</li></ul><ul id="91d230df-5650-4056-a698-46c786180279" class="bulleted-list"><li style="list-style-type:disc"><strong>Visualization:</strong> Scatter plot with a steep negative slope.<figure id="27bb4637-c809-4607-b13c-c2618c59d4d8" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2015.png"><img src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2015.png"/></a></figure><p id="f99a2a75-3fd4-462b-8965-45d24eb0e0df" class=""><strong>Explanation:</strong> When highway miles per gallon increases, the price of the vehicle tends to decrease. This negative correlation suggests that cars with higher fuel efficiency (more miles per gallon) are generally priced lower in the market.</p></li></ul><hr id="b5ed7743-bcf6-4996-ba03-27c8cddc3498"/><h2 id="74f8d554-0dce-4b7c-b064-b12170b045b1" class="">Weak Correlation</h2><p id="dd52e81c-e2b4-4299-b19a-73de1cb0810b" class="">Weak correlation indicates a lack of strong relationship between the variables.</p><p id="b2a89f1f-5367-4c46-8097-7a74246703b4" class=""><strong>Example: RPM and Price</strong></p><ul id="d58db8ca-a1d8-4177-a362-66737cb71373" class="bulleted-list"><li style="list-style-type:disc"><strong>Weak Correlation:</strong> Low and high RPM values show varied prices, indicating no strong predictive relationship.</li></ul><ul id="5b3bd6a3-0b86-4319-a911-288cd5c2e50a" class="bulleted-list"><li style="list-style-type:disc"><strong>Visualization:</strong> Scatter plot with no clear trend or slope.<figure id="dc226931-d662-477a-aef4-2ccb1463c356" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2016.png"><img src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2016.png"/></a></figure><p id="7c41f08f-13bb-4bce-9722-d8345fefd316" class=""><strong>Explanation:</strong> RPM (engine revolutions per minute) does not strongly predict the price of the vehicle. Both low and high RPM values can be associated with a wide range of prices, indicating that RPM alone is not a reliable indicator of vehicle price.</p></li></ul><h2 id="436b17cc-8319-4f3e-b24f-aab403e709eb" class=""><strong>Important Note</strong></h2><p id="db172ef0-3d61-4980-ad06-04b885983fd9" class="">Correlation does not imply causation. It signifies a relationship but does not determine cause and effect.</p><hr id="0db30981-3893-42dc-8856-08e1be5fdf16"/><h1 id="91d6ed54-a7ee-41e6-93bf-7b5695235794" class="">5. Correlation Statistical Methods</h1><p id="bc69e0c3-1892-4266-8160-ae4f2a501ed3" class="">Introduction to various correlation statistical methods. One method to measure correlation between continuous numerical variables is Pearson Correlation.</p><h2 id="ddecbc36-59d5-48fc-b005-d1e9dcca2344" class="">Pearson Correlation</h2><p id="2dee95a5-6312-4dff-89e3-60ae7a0adbfc" class="">Pearson Correlation is a statistical measure that quantifies the strength and direction of the linear relationship between two continuous variables. It assesses how much one variable changes when the other variable changes. In other words, The Pearson Correlation measures the linear dependence between two variables <code>X</code> and <code>Y</code> . The resulting coefficient is a value between -1 and 1 inclusive. </p><p id="4ff8843e-3b7c-45b4-a0b1-58a2e8ba9a9b" class="">Pearson Correlation provides:</p><ul id="7a1ccb41-cfb3-495f-9900-e778d00afe48" class="bulleted-list"><li style="list-style-type:disc"><strong>Correlation Coefficient:</strong> Indicates strength and direction of correlation.</li></ul><ul id="932ccd67-1273-49ce-8de1-ea6155c27c7e" class="bulleted-list"><li style="list-style-type:disc"><strong>p-value:</strong> Indicates certainty of correlation coefficient.</li></ul><h3 id="95e1509f-a4a0-42af-af93-685036279832" class="">Interpreting Results</h3><ul id="cb20c2a9-866c-4efe-aef5-9ff89191119a" class="bulleted-list"><li style="list-style-type:disc"><strong>Correlation Coefficient:</strong><ul id="7a768e04-b524-42d4-b791-fa2f7866d380" class="bulleted-list"><li style="list-style-type:circle">Close to 1: Large positive correlation.</li></ul><ul id="31ed0cf4-feea-4856-92d4-4ed9d7d32480" class="bulleted-list"><li style="list-style-type:circle">Close to -1: Large negative correlation.</li></ul><ul id="263f71eb-99bb-4cec-8985-1563e2ae1fb6" class="bulleted-list"><li style="list-style-type:circle">Close to 0: No correlation.</li></ul></li></ul><ul id="af81e781-6643-413b-be93-ac3445c78d96" class="bulleted-list"><li style="list-style-type:disc"><strong>p-value:</strong><ul id="bbf02000-4045-4101-9541-20300354f393" class="bulleted-list"><li style="list-style-type:circle">&lt; 0.001: Strong certainty.</li></ul><ul id="af0e4080-c92b-40c7-800d-5fcd42f2e13f" class="bulleted-list"><li style="list-style-type:circle">0.001 - 0.05: Moderate certainty.</li></ul><ul id="a4ba5148-ebe8-4381-a4dd-e993d96dd5eb" class="bulleted-list"><li style="list-style-type:circle">0.05 - 0.1: Weak certainty.</li></ul><ul id="3952cf1c-8370-4a69-87b9-bd84695ca891" class="bulleted-list"><li style="list-style-type:circle">&gt; 0.1: No certainty.</li></ul></li></ul><h3 id="6da0b009-1efd-44ed-9779-1cdd4ea21afa" class="">Example: Horsepower and Car Price</h3><p id="43b80617-de78-4fca-8f8c-94f2119831f2" class="">Example examines correlation between horsepower and car price using Pearson Correlation. Correlation coefficient is approximately 0.8, indicating strong positive correlation. p-value is much &lt; 0.001, confirming strong certainty.</p><figure id="6ec50e27-efab-40c8-917c-91491fe98036" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2017.png"><img style="width:528px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2017.png"/></a></figure><hr id="102161f3-9981-4adc-813d-b6eedfddda49"/><h2 id="353412b6-364b-4140-962e-824a66755add" class="">Correlation Plot</h2><p id="b81c15d8-3199-46fa-a6e4-bfb5f15816d3" class="">Heatmap visualizes correlations among variables. Color scheme indicates Pearson correlation coefficients. Dark red diagonal line shows perfect correlation (value of 1) between variables and themselves.</p><p id="0fb6381a-aae2-44f2-b7d0-b586cfe47582" class="">This heatmap offers overview of variable relationships and their link with price.</p><figure id="5c22cecc-9832-48a7-b33a-5d8dd8b20811" class="image"><a href="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2018.png"><img style="width:708px" src="Module%203%20Exploratory%20Data%20Analysis%207699f4b97b15482c8ec117eafebba2d1/Untitled%2018.png"/></a></figure><p id="f3c46d76-bf2e-46a6-9979-8f1825fc9741" class="">
+</p><p id="5bf4e608-1906-4d43-830b-8bf738d7ed2c" class=""><strong>Note:</strong> To calculate the Pearson Correlation Coefficient and P-value, use statistical functions available in Python libraries like <code>scipy.stats.pearsonr</code>.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f6a4673f-f91f-42d5-8ddb-6ff249b6c4b4" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from scipy import stats
+
+# Example calculation
+x = df[&#x27;horsepower&#x27;]
+y = df[&#x27;price&#x27;]
+pearson_corr, p_value = stats.pearsonr(x, y)
+
+print(f&quot;Pearson Correlation Coefficient: {pearson_corr}&quot;)
+print(f&quot;P-value: {p_value}&quot;)</code></pre><hr id="d811098a-df8c-43e9-a49d-37c6cf4f9246"/><h1 id="35815d0c-7ab4-480f-971c-69bd4f303050" class="">Chi-Square Test for Categorical Variables</h1><h3 id="12f1d6b5-f0bb-4da4-9a2c-f9235bb1dee4" class="">Introduction</h3><p id="4dda97f0-ec69-4b20-8f12-9d3688bda50e" class="">The chi-square test is a statistical method used to determine if there is a significant association between two categorical variables. This test is widely employed in fields such as social sciences, marketing, and healthcare to analyze survey data, experimental results, and observational studies.</p><h3 id="d0f9cd3e-b633-43a0-bc93-960a42dc9f59" class="">Concept</h3><p id="0c8a8998-fa6a-4990-9be8-e86112db45dd" class="">The chi-square test assesses the association between two categorical variables by comparing observed and expected frequencies. It evaluates whether the observed deviations from expected frequencies could have occurred by chance.</p><h3 id="baf11932-c89d-4bd5-b9f8-4b4864b933f1" class="">Null Hypothesis and Alternative Hypothesis</h3><ul id="cdc8db4a-87a8-4e0b-9940-78a26d7c046e" class="bulleted-list"><li style="list-style-type:disc"><strong>Null Hypothesis (𝐻₀)</strong>: Assumes no association between variables, attributing differences to random chance.</li></ul><ul id="7db2fa68-edbb-4df0-8133-34c8ce9742db" class="bulleted-list"><li style="list-style-type:disc"><strong>Alternative Hypothesis (𝐻₁)</strong>: Assumes a significant association between variables, indicating observed differences are not due to chance alone.</li></ul><h3 id="f59d03e2-ac9a-4d29-a1da-ae6eb7624840" class="">Formula</h3><p id="cb36df44-c1d5-4784-9501-4ffd1533824a" class="">The chi-square statistic (𝜒²) is calculated as:</p><figure id="deaaa88e-8999-48c1-a41d-9e546e461f38" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>χ</mi><mn>2</mn><mo>=</mo><mo>∑</mo><mo stretchy="false">(</mo><mi>O</mi><mi>i</mi><mo>−</mo><mi>E</mi><mi>i</mi><mo stretchy="false">)</mo><mn>2</mn><mi>E</mi><mi>i</mi><msup><mi>χ</mi><mn>2</mn></msup><mo>=</mo><mo>∑</mo><mfrac><mrow><mo stretchy="false">(</mo><msub><mi>O</mi><mi>i</mi></msub><mo>−</mo><msub><mi>E</mi><mi>i</mi></msub><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><msub><mi>E</mi><mi>i</mi></msub></mfrac><mi>χ</mi><mn>2</mn><mo>=</mo><mo>∑</mo><mi>E</mi><mi>i</mi><mo stretchy="false">(</mo><mi>O</mi><mi>i</mi><mo>−</mo><mi>E</mi><mi>i</mi><mo stretchy="false">)</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">χ2=∑(Oi−Ei)2Ei\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}χ2=∑Ei(Oi−Ei)2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">χ</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.6em;vertical-align:-0.55em;"></span><span class="mop op-symbol large-op" style="position:relative;top:0em;">∑</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1141em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mord mathnormal">i</span><span class="mclose">)</span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mord mathnormal">i</span><span class="mord"><span class="mord mathnormal">χ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.3271em;vertical-align:-0.836em;"></span><span class="mop op-symbol large-op" style="position:relative;top:0em;">∑</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4911em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.836em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathnormal">χ</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.6em;vertical-align:-0.55em;"></span><span class="mop op-symbol large-op" style="position:relative;top:0em;">∑</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mord mathnormal">i</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mord mathnormal">i</span><span class="mclose">)</span><span class="mord">2</span></span></span></span></span></div></figure><p id="b8c669ae-4c59-40c5-85b2-02c07c4df43c" class="">where:</p><figure id="b2778528-e79d-4502-bb83-605c5bcd3487" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>O</mi><mi>i</mi></msub><mtext> = Observed frequency for category </mtext><mi>i</mi><mspace linebreak="newline"></mspace><msub><mi>E</mi><mi>i</mi></msub><mtext> = Expected frequency for category </mtext><mi>i</mi></mrow><annotation encoding="application/x-tex">O_i \text{ = Observed frequency for category } i \\ E_i \text{ = Expected frequency for category } i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord text"><span class="mord"> = Observed frequency for category </span></span><span class="mord mathnormal">i</span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord text"><span class="mord"> = Expected frequency for category </span></span><span class="mord mathnormal">i</span></span></span></span></span></div></figure><hr id="47e0ba41-6019-48c8-803a-386f6c51dd78"/><h1 id="04422ac9-5e6d-4546-893f-b24f33fb62db" class=""><strong>Cheat Sheet: Exploratory Data Analysis</strong></h1><h2 id="56458a11-4dd7-4dcb-b1ef-2707f21b8d80" class="">Complete Dataframe Correlation</h2><p id="8814b2bc-0ada-4d96-8b8b-3cdcfeaee28a" class="">Correlation matrix created using all attributes of the dataset.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="698f3002-5893-4793-8a5b-94ab38ec8db0" class="code"><code class="language-Scss" style="white-space:pre-wrap;word-break:break-all">df.corr()</code></pre><h2 id="419df7b1-ae50-4250-bfd1-8a7064659543" class="">Specific Attribute Correlation</h2><p id="096225b9-081d-4016-9e90-5cfb50dd02b3" class="">Correlation matrix created using specific attributes of the dataset.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="288e4949-956e-4335-b9e3-e0b3fbf55421" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">df[[&#x27;attribute1&#x27;, &#x27;attribute2&#x27;]].corr()</code></pre><h2 id="958abca2-2e25-47c6-a6ae-0b25a9bbc3cc" class="">Scatter Plot</h2><p id="9a2390b0-ba23-4840-a0c9-47301cab2691" class="">Create a scatter plot using the data points of the dependent variable along the x-axis and the independent variable along the y-axis.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="00b92fea-2489-4211-9f3c-2b1f39960005" class="code"><code class="language-Shell" style="white-space:pre-wrap;word-break:break-all">import matplotlib.pyplot as plt
+plt.scatter(df[&#x27;attribute1&#x27;], df[&#x27;attribute2&#x27;])</code></pre><h2 id="700f5d77-200c-4422-980b-8545d137ddf5" class="">Regression Plot</h2><p id="461e1f38-a385-41b7-9904-1fbdcd500ce2" class="">Uses the dependent and independent variables in a Pandas dataframe to create a scatter plot with a generated linear regression line for the data.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="627aa8f8-6903-473d-a505-290b3ac0d6b1" class="code"><code class="language-Kotlin" style="white-space:pre-wrap;word-break:break-all">import seaborn as sns
+sns.regplot(x=&#x27;attribute1&#x27;, y=&#x27;attribute2&#x27;, data=df)</code></pre><h2 id="861d63b3-2d96-4f27-9d25-557928d69cec" class="">Box Plot</h2><p id="cd50b985-d46c-4c31-a6f2-3db35f55c3da" class="">Create a box-and-whisker plot that uses the pandas dataframe, the dependent, and the independent variables.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d1079860-ac39-4f05-bde9-31323104814e" class="code"><code class="language-Kotlin" style="white-space:pre-wrap;word-break:break-all">import seaborn as sns
+sns.boxplot(x=&#x27;attribute1&#x27;, y=&#x27;attribute2&#x27;, data=df)</code></pre><h2 id="beb6bbc1-f9a7-4525-bfa0-417bb2aef582" class="">Grouping by Attributes</h2><p id="31f9823c-1715-4f07-8da1-eafea098c57d" class="">Create a group of different attributes of a dataset to create a subset of the data.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d696ab66-1025-4207-a45c-f6233b4d20db" class="code"><code class="language-Lua" style="white-space:pre-wrap;word-break:break-all">df_group = df[[&#x27;attribute1&#x27;, &#x27;attribute2&#x27;, ...]]</code></pre><h2 id="c8530848-63c1-48ec-9169-46d0201b36c0" class="">GroupBy Statements</h2><ul id="69cee303-0db7-45a9-a722-a3d2d4b41036" class="bulleted-list"><li style="list-style-type:disc">a. Group the data by different categories of an attribute, displaying the average value of numerical attributes with the same category.</li></ul><ul id="3455cc88-2796-4690-961e-945185b5369d" class="bulleted-list"><li style="list-style-type:disc">b. Group the data by different categories of multiple attributes, displaying the average value of numerical attributes with the same category.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3dfa113d-fcc5-4558-9a3a-eeb9347524fd" class="code"><code class="language-CSS" style="white-space:pre-wrap;word-break:break-all">a. df_group.groupby([&#x27;attribute1&#x27;], as_index=False).mean()
+b. df_group.groupby([&#x27;attribute1&#x27;, &#x27;attribute2&#x27;], as_index=False).mean()</code></pre><h2 id="fc29f5b8-fb1c-4107-9de2-c8649fbf0bc0" class="">Pivot Tables</h2><p id="532a0bbf-7ee6-4468-98e6-1b78c189100e" class="">Create Pivot tables for better representation of data based on parameters.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="33d7b3d8-2c66-46bc-b0b2-4487ebf32fe9" class="code"><code class="language-Perl" style="white-space:pre-wrap;word-break:break-all">df_group.pivot(index=&#x27;attribute1&#x27;, columns=&#x27;attribute2&#x27;)</code></pre><h2 id="2f6d2aa8-92a1-4c48-962d-ff693a87e528" class="">Pseudocolor Plot</h2><p id="db95159a-4b0c-4b2f-89b8-8a9a3703a5f6" class="">Create a heatmap image using a Pseudocolor plot (or pcolor) using the pivot table as data.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d7aad3c3-d93b-4575-86b3-38a3f5204298" class="code"><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">import matplotlib.pyplot as plt
+plt.pcolor(grouped_pivot, cmap=&#x27;RdBu&#x27;)</code></pre><h2 id="bc041720-ed00-4f15-8744-167c4991a2df" class="">Pearson Coefficient and p-value</h2><p id="63eae25e-3006-40f4-babf-7c859c7716d1" class="">Calculate the Pearson Coefficient and p-value of a pair of attributes.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3a2618ae-da7a-4dfc-a576-403436f98364" class="code"><code class="language-CSS" style="white-space:pre-wrap;word-break:break-all">from scipy import stats
+pearson_coef, p_value = stats.pearsonr(df[&#x27;attribute1&#x27;], df[&#x27;attribute2&#x27;])</code></pre><hr id="cd3b5783-4f98-4d2b-acec-a8ffa658d88b"/><p id="b4907771-77a9-4fd4-9958-9d6dba90d61f" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
