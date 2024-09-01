@@ -1,0 +1,698 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Module 3: Keras and Deep Learning Libraries</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 237, 214, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(249, 228, 188, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="5211e16b-1aa8-4da9-ad7b-b49d44e28a88" class="page sans"><header><img class="page-cover-image" src="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/Introduction_to_Deep_Learning__Neural_Networks_with_Keras.png" style="object-position:center 16.080000000000005%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://www.notion.so/icons/science_purple.svg"/></div><h1 class="page-title">Module 3: Keras and Deep Learning Libraries</h1><p class="page-description"></p></header><div class="page-body"><h1 id="c74145a7-8cc5-4f1c-bd82-b7475ba8ad50" class="">Deep Learning Libraries and Frameworks</h1><h2 id="18b1bf28-1134-4d0f-a12d-f294c8a371d3" class="">Overview</h2><p id="4aa09590-6fe8-4dba-a931-ad8dae8a236a" class="">Deep learning frameworks offer various functionalities for building, training, and deploying machine learning models. Below are some of the most popular libraries and their key features.</p><h3 id="1cf48ba0-97a7-49e2-9226-a456ae399417" class="">Popular Deep Learning Libraries</h3><ol type="1" id="318b1f8e-80b6-4c1a-87df-3b8aceab94f5" class="numbered-list" start="1"><li><strong>TensorFlow</strong></li></ol><ol type="1" id="381b24ce-a5c1-422b-9474-1e7451c18176" class="numbered-list" start="2"><li><strong>PyTorch</strong></li></ol><ol type="1" id="bec92102-c367-4ceb-9b12-a916c2fe943c" class="numbered-list" start="3"><li><strong>Keras</strong></li></ol><ol type="1" id="1690aab2-a50c-4053-8de1-a1eac8ef4b70" class="numbered-list" start="4"><li><strong>Theano</strong></li></ol><h2 id="9d196c01-24b8-476b-9654-68c22eeb9f07" class="">1. TensorFlow</h2><h3 id="eeb3f68e-3a01-4e9b-b49b-50e8333ac7af" class="">Description</h3><p id="6aac79a6-4b3d-4d27-86dc-c295a3fc7e0a" class="">TensorFlow is the most widely used deep learning library, developed by Google and released in 2015. It is mainly used in production and large-scale projects. TensorFlow supports a vast range of tools for deep learning and has an active community contributing to its continuous development.</p><h3 id="24ff3424-4555-4a81-b61a-85404c80a216" class="">Features</h3><ul id="7f2829da-72e4-448f-9c99-5892d0522066" class="bulleted-list"><li style="list-style-type:disc">High scalability for production</li></ul><ul id="e800db6a-8de5-4203-9743-0347f803f62a" class="bulleted-list"><li style="list-style-type:disc">Support for deployment on multiple platforms</li></ul><ul id="a6e00927-9409-489c-9c20-39f66d325953" class="bulleted-list"><li style="list-style-type:disc">Large, active community</li></ul><p id="f3ee4088-ea07-422e-8492-35077b83c91a" class=""><em>Additional Note:</em> GitHub link for TensorFlow - <a href="https://github.com/tensorflow/tensorflow">https://github.com/tensorflow/tensorflow</a> </p><figure id="125a3ce5-e5bd-4141-999c-c15873be5f90" class="image"><a href="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image.png"><img style="width:708px" src="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image.png"/></a></figure><h2 id="d48cf0a1-46ff-4754-a645-5810db51fc7c" class="">2. PyTorch</h2><h3 id="a1d9720f-66f4-4f93-890c-6be632203c32" class="">Description</h3><p id="87490a0b-8c5e-4488-88fd-7473397c2d9e" class="">PyTorch, developed by Facebook in 2016, has gained popularity in academic and research settings. It emphasizes flexibility and dynamic computation graphs, making it ideal for applications requiring custom deep learning models. PyTorch is a cousin of the Lua-Based Torch Framework, and is a strong competitor  </p><h3 id="65f6ce8a-0011-4a39-920a-1ab29357e0ff" class="">Features</h3><ul id="5447d66b-e19a-4819-b357-851e5c8595a2" class="bulleted-list"><li style="list-style-type:disc">Dynamic computational graph</li></ul><ul id="e4b1236d-3107-4827-9c73-d2ab901eaedc" class="bulleted-list"><li style="list-style-type:disc">Strong academic presence</li></ul><ul id="dfdef44b-dcf2-4f99-9cf2-f61a9f8e3ff1" class="bulleted-list"><li style="list-style-type:disc">Easier debugging and optimization</li></ul><figure id="86844a55-61c8-4878-818e-a9479683558c" class="image"><a href="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%201.png"><img style="width:708px" src="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%201.png"/></a></figure><h2 id="0aa086bc-8ae8-4299-9a8a-f5169a0d640c" class="">3. Keras</h2><h3 id="8204e965-8e1c-413e-81fb-6ebd16edafd2" class="">Description</h3><p id="a48d0636-58af-4f1e-a034-decf003dd622" class="">Keras is a high-level API for building neural networks. It runs on top of TensorFlow and simplifies model building with a user-friendly interface, making it a great option for beginners and rapid prototyping.</p><h3 id="09dabf67-addb-4783-a17d-9b07753921b8" class="">Features</h3><ul id="d69eb076-5ec6-4865-8f5c-4e2cb993255c" class="bulleted-list"><li style="list-style-type:disc">Simplified syntax for rapid development</li></ul><ul id="183b5f1b-0b7b-4ef7-b0f5-40af2107d751" class="bulleted-list"><li style="list-style-type:disc">Can run on top of TensorFlow or Theano</li></ul><ul id="8561e585-c76b-4a22-8ae3-e224beea1123" class="bulleted-list"><li style="list-style-type:disc">User-friendly and easy to learn</li></ul><figure id="6daf884c-b378-4aab-b524-e1a429f831ca" class="image"><a href="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%202.png"><img style="width:720px" src="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%202.png"/></a></figure><h2 id="70b7fa74-a5b7-479b-a53b-e3c2f9441a0e" class="">Comparison of Libraries</h2><ul id="ea68346e-0405-4f0c-b18d-cd2088f0766f" class="bulleted-list"><li style="list-style-type:disc"><strong>TensorFlow</strong>: Best for large-scale production environments.</li></ul><ul id="149eb633-2dc2-4f62-817d-3ed5452a1d0a" class="bulleted-list"><li style="list-style-type:disc"><strong>PyTorch</strong>: Ideal for research and academic settings.</li></ul><ul id="76c18ab3-9415-4216-b333-bd50f99d28fa" class="bulleted-list"><li style="list-style-type:disc"><strong>Keras</strong>: Preferred for beginners and fast prototyping.</li></ul><h2 id="8b2ad3e7-6150-473b-96f7-0839f26b900e" class="">Summary</h2><p id="d91679ee-361e-43b4-8655-d3016f4cd2df" class="">Deep learning libraries provide the foundation for building and optimizing neural networks. TensorFlow, PyTorch, and Keras are widely used, each suited for different applications depending on production needs, flexibility, and ease of use.</p><ul id="3c198417-5e64-4891-9e80-223a7bf4f9c7" class="bulleted-list"><li style="list-style-type:disc"><strong>TensorFlow</strong>: Developed by Google, TensorFlow is a deep learning library in Python. It is widely used in both research and production. TensorFlow supports static computational graphs and offers flexibility for large-scale machine learning tasks.</li></ul><ul id="f2780dda-493b-4f47-8ecc-2864c3ff57c2" class="bulleted-list"><li style="list-style-type:disc"><strong>PyTorch</strong>: Developed by Facebook, PyTorch is a deep learning library in Python known for its dynamic computational graph and ease of use, particularly in research and experimentation. PyTorch has gained significant popularity in academic settings and is often preferred for building custom deep learning models.</li></ul><ul id="05625825-d1fe-417a-9a6c-9897b924eefe" class="bulleted-list"><li style="list-style-type:disc"><strong>Keras</strong>: Keras is a high-level deep learning library written in Python. It acts as an API that runs on top of lower-level libraries like TensorFlow. Keras is known for its simplicity and ease of use, making it a great choice for beginners in deep learning.</li></ul><ul id="af04510e-983d-46fa-8401-55d00879a903" class="bulleted-list"><li style="list-style-type:disc"><strong>Theano</strong>: Theano is a deep learning library built in Python. It was one of the first libraries in this field, developed by the Montreal Institute for Learning Algorithms. While it was powerful for earlier deep learning development, it is now largely deprecated and no longer actively maintained.</li></ul><hr id="04b9877e-69e8-407e-a6a5-9d0e2cbe6cc8"/><h1 id="bd7e0c06-efe1-4f75-b706-25c059e06e3a" class="">Building Regression Models with Keras</h1><h2 id="77c7b407-4ac5-4ed9-aa5b-b32d0de5cd88" class="">Overview of Keras Library</h2><p id="c5aa7c3d-2baf-485d-ad8c-9255d42830f3" class="">The Keras library is a high-level API for building and training deep learning models. It simplifies the process of developing neural networks and can run on top of other deep learning libraries like TensorFlow.</p><h2 id="185f21c1-bf9e-498c-baad-ebb6854f90ad" class="">Importing and Using Keras</h2><ol type="1" id="7901fddd-8b98-40e5-bdc4-6478c03ae220" class="numbered-list" start="1"><li><strong>Importing Keras:</strong><ul id="5fb97e06-5457-4f48-9b2c-4c1c2c393158" class="bulleted-list"><li style="list-style-type:disc">Import the Keras library and check the backend:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="14ea8e3c-641d-493a-87f2-00c6d8f3dcbd" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">import keras
+print(&quot;Keras Backend:&quot;, keras.backend.backend())</code></pre></li></ul><ul id="dd0b3d5f-bc52-471b-94b1-0b0fa88663e9" class="bulleted-list"><li style="list-style-type:disc">The output will display the backend used, typically TensorFlow.</li></ul></li></ol><ol type="1" id="db038d91-7b43-4f52-bb60-81b9bcb44eda" class="numbered-list" start="2"><li><strong>Preparing the Data:</strong><ul id="2a04a49d-c3b3-4a27-b172-5b0ba657e131" class="bulleted-list"><li style="list-style-type:disc">Example data consists of the compressive strength of concrete samples based on their ingredients. The data is organized in a pandas DataFrame named <code>concrete_data</code>.</li></ul><ul id="2c714993-e204-408d-ba7c-2bdd21e68943" class="bulleted-list"><li style="list-style-type:disc">Split the DataFrame into predictors and target variables:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8864d88f-2b5d-47fd-8f0b-82668edb4c86" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">predictors = concrete_data[[&#x27;cement&#x27;, &#x27;slag&#x27;, &#x27;flyash&#x27;, &#x27;water&#x27;, &#x27;superplasticizer&#x27;, &#x27;coarseaggregate&#x27;, &#x27;fineaggregate&#x27;]]
+target = concrete_data[&#x27;strength&#x27;]</code></pre><figure id="6b30185a-c4b9-473f-bab5-83ee93f37c3a" class="image"><a href="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%203.png"><img style="width:1553px" src="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%203.png"/></a></figure></li></ul></li></ol><h2 id="100923e7-5f9c-4c5b-9732-7301fb8dbaaf" class="">Building a Regression Model</h2><ol type="1" id="7690e9b3-44bb-4ec5-bd61-a4877defa101" class="numbered-list" start="1"><li><strong>Creating the Model:</strong><ul id="439e6be2-54cb-4a0f-bd9f-e8d5a456a8f4" class="bulleted-list"><li style="list-style-type:disc">Import necessary modules:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="f3c14972-5541-414d-bc9a-0fc4b3911742" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from keras.models import Sequential
+from keras.layers import Dense</code></pre></li></ul><ul id="a1079496-d16c-4270-aaea-0d582a2a3ed9" class="bulleted-list"><li style="list-style-type:disc"><strong>Classes:</strong><ul id="4098d3d9-e1d8-4702-bdd6-7c1e7dafb0bb" class="bulleted-list"><li style="list-style-type:circle"><code><strong>Sequential</strong></code><strong> Model</strong>: A linear stack of layers where you add layers sequentially.</li></ul><ul id="bbb8922b-637b-4163-9abb-3534aa8ed26d" class="bulleted-list"><li style="list-style-type:circle"><code><strong>Dense</strong></code><strong> Layer</strong>: A fully connected layer in the network where each neuron in the layer is connected to every neuron in the previous layer.</li></ul></li></ul><ul id="eeb08415-38ed-493f-89b8-bc1502500de1" class="bulleted-list"><li style="list-style-type:disc">Initialize the Sequential model:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0d39bdad-390c-4d61-8d43-0497acfd6035" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">model = Sequential()</code></pre></li></ul></li></ol><ol type="1" id="572b0758-86c9-4e64-8b06-9d6fd516b5a7" class="numbered-list" start="2"><li><strong>Adding Layers:</strong><ul id="a09772ad-d6f3-47bb-a8a9-bee49cbbe957" class="bulleted-list"><li style="list-style-type:disc">Add hidden and output layers:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="eaccddf8-4d17-4167-8de4-29aa8198e149" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">model.add(Dense(5, input_shape=(8,), activation=&#x27;relu&#x27;))
+model.add(Dense(5, activation=&#x27;relu&#x27;))
+model.add(Dense(1))</code></pre></li></ul><ul id="b4d391c4-f20f-4e5c-835f-630642be2fcd" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameters Explained:</strong><ul id="81e8bf5f-85f5-4043-a153-38e842864e61" class="bulleted-list"><li style="list-style-type:circle"><code><strong>Dense(units, input_shape=None, activation=None)</strong></code>:<ul id="26176f7a-ea4c-4484-898f-3920fff07e7f" class="bulleted-list"><li style="list-style-type:square"><code>units</code>: Number of neurons in the layer.</li></ul><ul id="03c9d9a0-7c65-4f1e-80fc-0f3dcb87765e" class="bulleted-list"><li style="list-style-type:square"><code>input_shape</code>: Shape of input data (only needed for the first layer). For example, <code>input_shape=(8,)</code> indicates 8 features.</li></ul><ul id="4c66f256-71c6-474d-9a2b-14de6054f243" class="bulleted-list"><li style="list-style-type:square"><code>activation</code>: Activation function used by the layer. &#x27;relu&#x27; is used for hidden layers, and no activation function is specified for the output layer to allow continuous output.</li></ul></li></ul><figure id="9b256943-9ca1-44a9-9547-deac0fae4aa4" class="image"><a href="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%204.png"><img style="width:1558px" src="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%204.png"/></a></figure></li></ul></li></ol><ol type="1" id="665adfb1-7f9b-4b7d-b9da-d2ac9089687a" class="numbered-list" start="3"><li><strong>Compiling the Model:</strong><ul id="b06712fe-77de-4bd8-909f-c86872f3a323" class="bulleted-list"><li style="list-style-type:disc">Define the optimizer and loss function:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="cda42654-b3d2-4f4b-a5ba-2b02948fb505" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">model.compile(optimizer=&#x27;adam&#x27;, loss=&#x27;mean_squared_error&#x27;)</code></pre></li></ul><ul id="459a649d-544b-4a4f-b6f3-a20c7e20d9f5" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameters Explained:</strong><ul id="81fb5b34-8eee-42e1-ac98-603826c4bba7" class="bulleted-list"><li style="list-style-type:circle"><code><strong>optimizer</strong></code>: Optimization algorithm used for training. &#x27;adam&#x27; is an adaptive optimizer that adjusts the learning rate during training (itself).</li></ul><ul id="8b4dfc0b-62bc-4036-9522-639aa155a142" class="bulleted-list"><li style="list-style-type:circle"><code><strong>loss</strong></code>: Loss function used to measure the difference between predicted and actual values. &#x27;mean_squared_error&#x27; is used for regression tasks.</li></ul></li></ul></li></ol><ol type="1" id="c4261afc-39e1-4c3c-9f39-6a798eda4bc1" class="numbered-list" start="4"><li><strong>Training the Model:</strong><ul id="738be8b6-40ec-4122-af4d-a036f08f1b61" class="bulleted-list"><li style="list-style-type:disc">Fit the model to the data:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7765b574-43bb-43b7-9d7e-0a42a3e20e55" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">model.fit(predictors, target, epochs=100)</code></pre></li></ul><ul id="7be506f2-7564-4649-b31a-5df61bb93114" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameters Explained:</strong><ul id="04edb8b7-8a85-41dd-bb44-77d1d92e6a9e" class="bulleted-list"><li style="list-style-type:circle"><code><strong>predictors</strong></code>: Input data (features).</li></ul><ul id="9ed737af-e457-4e7f-95c9-bf959b8f38a0" class="bulleted-list"><li style="list-style-type:circle"><code><strong>target</strong></code>: Output data (labels).</li></ul><ul id="ec4a58d3-04c9-4edf-80eb-06c8c5389e2f" class="bulleted-list"><li style="list-style-type:circle"><code><strong>epochs</strong></code>: Number of iterations over the entire training data.</li></ul></li></ul></li></ol><ol type="1" id="07c34a56-c41a-45bf-9405-ba2f3ef34356" class="numbered-list" start="5"><li><strong>Making Predictions:</strong><ul id="fe588589-d6bf-4c64-b197-fa714c34148b" class="bulleted-list"><li style="list-style-type:disc">Use the model to predict new data:<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9a5f0c75-682b-4f37-8256-9261ceebf524" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">predictions = model.predict(new_data)</code></pre></li></ul><ul id="fed38c51-d74b-404f-9362-da72642501c6" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameters Explained:</strong><ul id="403f8493-04c5-4fe7-bf13-fc83428b7de4" class="bulleted-list"><li style="list-style-type:circle"><code><strong>new_data</strong></code>: New input data for which predictions are to be made.</li></ul><ul id="94c6810e-7015-4ea8-ae2c-2970b76d8e5e" class="bulleted-list"><li style="list-style-type:circle"><code><strong>predictions</strong></code>: The output from the model for the new data.</li></ul></li></ul></li></ol><figure id="fff34575-a838-80bc-8b39-da9e34a4d953" class="image"><a href="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%205.png"><img style="width:708px" src="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%205.png"/></a></figure><h2 id="4e3b4004-a6f2-479f-b844-fdf4e875f5af" class="">Conclusion</h2><p id="6fbf0f25-b7d5-4c9d-92a9-9476a7dadfda" class="">Keras simplifies the process of building and training neural networks. For regression tasks, a basic model can be built with just a few lines of code, making it accessible and efficient for rapid development. For more detailed information, refer to the Keras documentation on optimizers, models, and methods.</p><p id="e374832b-5f52-4bdf-a3fd-e1a2ef8b5c79" class="">
+</p><p id="b8d4acb8-821b-45b2-a5bd-fe935ec2ba89" class=""><em>Additional Notes:</em></p><p id="b2c29129-9d95-42bd-ad26-b00aaa800909" class="">Keras Activation Functions: <a href="https://keras.io/activations/">https://keras.io/activations/</a><br/>Keras Models: <br/><a href="https://keras.io/models/about-keras-models/#about-keras-models">https://keras.io/models/about-keras-models/#about-keras-models</a><br/>Keras Optimizers: <br/><a href="https://keras.io/optimizers/">https://keras.io/optimizers/</a><br/>Keras Metrics: <br/><a href="https://keras.io/metrics/">https://keras.io/metrics/</a></p><hr id="95f27803-c0af-47b1-b52a-a20f3eefee40"/><h1 id="44c5175f-eccf-4414-a0ed-64f6c05efb37" class="">Building Classification Models with Keras</h1><h2 id="3fd468a8-abe0-4e64-be02-cdb6713bdd6a" class=""><strong>Overview of Classification with Keras</strong></h2><p id="9c3931b4-a88e-4baf-9182-47ed953fa2c1" class="">The Keras library is a high-level API for building and training deep learning models. In this example, Keras is used to build a classification model that predicts whether purchasing a car is a good choice based on the car&#x27;s attributes.</p><p id="0118c0b8-bcda-417c-ad09-7fd1a0e433b8" class=""><strong>Setting Up Keras</strong></p><ol type="1" id="da97c7df-e259-4051-80c8-c01f539c8f36" class="numbered-list" start="1"><li><strong>Importing Necessary Libraries</strong>:<ul id="f5162006-3cca-421a-accd-a4cddfd0d4c7" class="bulleted-list"><li style="list-style-type:disc">Import the Keras library, the Sequential model, and the Dense layer:</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3ee2a64c-6ac7-496c-8575-022ec5e9cf42" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">from keras.models import Sequential
+from keras.layers import Dense
+from keras.utils import to_categorical</code></pre></li></ol><ol type="1" id="33695735-c7c4-4349-89f4-5f376d9fae26" class="numbered-list" start="2"><li><strong>Preparing the Data</strong>:<ul id="cbbf3ce9-02df-431d-a1d8-bed254017d0f" class="bulleted-list"><li style="list-style-type:disc">Example dataset: <code>car_data</code>, cleaned and one-hot encoded. The dataset includes features such as price, maintenance cost, and capacity.</li></ul><ul id="8d78c480-aacc-4732-ae34-8b43889c861c" class="bulleted-list"><li style="list-style-type:disc">Split the dataset into predictors and target variables:</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c51e92c7-565e-4782-ac4e-6749bb8a214a" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">predictors = car_data[[&#x27;price_high&#x27;, &#x27;price_medium&#x27;, &#x27;price_low&#x27;,
+                       &#x27;maint_high&#x27;, &#x27;maint_medium&#x27;, &#x27;maint_low&#x27;,
+                       &#x27;capacity_two&#x27;, &#x27;capacity_more&#x27;]]
+target = car_data[&#x27;decision&#x27;]</code></pre><ul id="10c5dbc7-a703-4c39-b8e7-862b960b835f" class="bulleted-list"><li style="list-style-type:disc"><strong>Transforming the Target Variable</strong>:<ul id="fc91871a-db41-41de-9405-eab4bdb9e516" class="bulleted-list"><li style="list-style-type:circle">Convert the target variable into one-hot encoded format using <code>to_categorical</code>:</li></ul></li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="37516745-98d2-4409-a4d8-65f521fcf7a6" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">target = to_categorical(target)</code></pre></li></ol><figure id="e7aad3a5-62c7-4c23-b00f-a76148b35c2a" class="image"><a href="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%206.png"><img style="width:720px" src="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%206.png"/></a></figure><h2 id="ebd452f4-b4e3-4f3a-a647-ed029db2c64b" class=""><strong>Building a Classification Model</strong></h2><ol type="1" id="4be2e014-3675-473c-8487-bd5ce1e1bf0c" class="numbered-list" start="1"><li><strong>Creating the Model</strong>:<ul id="dc1a09db-efc0-4c7e-96d4-21f103455397" class="bulleted-list"><li style="list-style-type:disc">Initialize the Sequential model:</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c33f867a-0708-414e-b302-67fd91555458" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">model = Sequential()</code></pre></li></ol><ol type="1" id="20d9dfdf-789e-4018-9f5a-34fa8b264010" class="numbered-list" start="2"><li><strong>Adding Layers</strong>:<ul id="47896dfa-b981-4c3f-95e4-ff9660f7a71f" class="bulleted-list"><li style="list-style-type:disc">Add hidden and output layers:</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0f4c5a9f-d3d6-4e7e-a8d5-03bf0f8aceb7" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">model.add(Dense(5, input_shape=(8,), activation=&#x27;relu&#x27;))
+model.add(Dense(5, activation=&#x27;relu&#x27;))
+model.add(Dense(4, activation=&#x27;softmax&#x27;))</code></pre><p id="9298abcc-9cea-428e-8261-0d42733977cd" class=""><strong>Parameters Explained</strong>:</p><ul id="65a6618b-5578-4cb5-934c-e172f45b4846" class="bulleted-list"><li style="list-style-type:disc"><code>Dense(units, input_shape=None, activation=None)</code>:<ul id="00d13a9c-4ce8-4011-9e25-22136c5f0595" class="bulleted-list"><li style="list-style-type:circle"><strong>units</strong>: Number of neurons in the layer.</li></ul><ul id="763d68d3-14a9-4d65-b887-be64c7681c65" class="bulleted-list"><li style="list-style-type:circle"><strong>input_shape</strong>: Shape of input data (only needed for the first layer). For example, <code>input_shape=(8,)</code> indicates 8 features.</li></ul><ul id="ee7d645d-ffd5-4bd7-b33d-38e6f46cb52e" class="bulleted-list"><li style="list-style-type:circle"><strong>activation</strong>: Activation function used by the layer. &#x27;relu&#x27; is used for hidden layers, and &#x27;softmax&#x27; is used for the output layer to provide probabilities for each class.</li></ul></li></ul></li></ol><ol type="1" id="d177bb5f-d750-4dc8-bca0-69012fc6612b" class="numbered-list" start="3"><li><strong>Compiling the Model</strong>:<ul id="d6ad2eac-dde3-42c1-80cc-7ca733d23a6f" class="bulleted-list"><li style="list-style-type:disc">Define the optimizer and loss function:</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b222d804-fd9d-4fc9-879a-b29e6b6a21f1" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">model.compile(optimizer=&#x27;adam&#x27;, loss=&#x27;categorical_crossentropy&#x27;, metrics=[&#x27;accuracy&#x27;])</code></pre><p id="eb932aa0-16c2-485c-b077-dfbb47c3fa8a" class=""><strong>Parameters Explained</strong>:</p><ul id="4f78d354-b77e-4679-a0c3-a186799212d8" class="bulleted-list"><li style="list-style-type:disc"><code>optimizer</code>: Optimization algorithm used for training. &#x27;adam&#x27; is an adaptive optimizer that adjusts the learning rate during training.</li></ul><ul id="4a25e59c-b8c8-4d55-ac17-fa09e5c7f1d9" class="bulleted-list"><li style="list-style-type:disc"><code>loss</code>: Loss function used to measure the difference between predicted and actual values. &#x27;categorical_crossentropy&#x27; is used for multi-class classification tasks.</li></ul><ul id="16d51f89-58cc-4345-8a5e-80ea43769378" class="bulleted-list"><li style="list-style-type:disc"><code>metrics</code>: Evaluation metric used to measure model performance. &#x27;accuracy&#x27; is a built-in metric in Keras.</li></ul></li></ol><ol type="1" id="8aa844ca-3cc4-4cf1-ab44-58953526b06f" class="numbered-list" start="4"><li><strong>Training the Model</strong>:<ul id="6ac6ea67-6537-4de1-b257-cae6964f1bc6" class="bulleted-list"><li style="list-style-type:disc">Fit the model to the data:</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="04cb0dd0-4643-4d1f-878b-7892de3d3b32" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">model.fit(predictors, target, epochs=100)</code></pre><p id="d6971edc-c81c-47af-a449-e62d84a6e9ba" class=""><strong>Parameters Explained</strong>:</p><ul id="b44ed348-87f5-4154-afc8-767c6cc2501b" class="bulleted-list"><li style="list-style-type:disc"><code><strong>predictors</strong></code>: Input data (features).</li></ul><ul id="e26ccc07-c1a5-47c4-81b4-270772461ae3" class="bulleted-list"><li style="list-style-type:disc"><code><strong>target</strong></code>: Output data (labels).</li></ul><ul id="6ee57d69-a364-4ca9-8c7e-1d4c467f4b2b" class="bulleted-list"><li style="list-style-type:disc"><code><strong>epochs</strong></code>: Number of iterations over the entire training data.</li></ul></li></ol><ol type="1" id="5442f4dd-4fc8-4d4e-b378-a75bb29866ee" class="numbered-list" start="5"><li><strong>Making Predictions</strong>:<ul id="a4e0b97a-788c-438b-972c-a75c70f5fce5" class="bulleted-list"><li style="list-style-type:disc">Use the model to predict new data:</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a10e734f-4c25-42ae-9780-76ca8cc2fc75" class="code"><code class="language-Python" style="white-space:pre-wrap;word-break:break-all">predictions = model.predict(new_data)</code></pre><p id="e32a7cc2-c7b7-4381-9a82-229b515e3b6f" class=""><strong>Parameters Explained</strong>:</p><ul id="9feeb480-c5b8-473d-b933-1b09da657a43" class="bulleted-list"><li style="list-style-type:disc"><code><strong>new_data</strong></code>: New input data for which predictions are to be made.</li></ul><ul id="0951b029-e3cd-43c0-a729-186636ae9b79" class="bulleted-list"><li style="list-style-type:disc"><code><strong>predictions</strong></code>: The output from the model for the new data. Each prediction will be a probability distribution over the classes.</li></ul></li></ol><figure id="370c165b-9b9b-4c29-9c83-de804644becb" class="image"><a href="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%207.png"><img src="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%207.png"/></a></figure><figure id="25fad942-75bd-4459-a849-fcfe9bfd0b14" class="image"><a href="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%208.png"><img style="width:708px" src="Module%203%20Keras%20and%20Deep%20Learning%20Libraries%205211e16b1aa84da9ad7bb49d44e28a88/image%208.png"/></a></figure><h2 id="e915d645-e486-437f-9c95-f68e627f7c28" class=""><strong>Conclusion</strong></h2><p id="3d9d7807-4993-4e79-8425-516402dd8912" class="">Keras provides a straightforward approach to building and training classification models. For classification tasks, the model architecture and training process are similar to those used for regression, with the key differences being the activation functions and loss functions used. For more detailed information, refer to the Keras documentation on optimizers, models, and methods.</p><hr id="7789397c-8ca6-495a-88ed-f4e0e96542de"/><p id="aa3aa7ad-052a-47ac-aa78-31e40f6bb9da" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
