@@ -2,7 +2,7 @@ name: directory-listing
 on:
   push:
     branches:
-      - main  # Adjust if your default branch is named differently
+      - master  # Adjust if your default branch is named differently
 
 jobs:
   generate-directory-listings:
@@ -11,7 +11,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          ref: main  # Adjust if necessary
+          ref: master  # Adjust if necessary
 
       - name: List all directories
         id: list-dirs
