@@ -34,4 +34,4 @@ jobs:
         run: |
           git add .
           git commit -m 'Add directory listings'
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/aykhan019/media.aykhan.net.git
