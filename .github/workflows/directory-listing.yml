@@ -3,54 +3,32 @@ name: Generate Directory Listings
 on:
   push:
     branches:
-      - master  # Change to 'main' if that is your default branch name
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    # Set permissions to write to repository contents
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
-
     steps:
-      # Checkout the repository
-      - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      # Download the directory listing script
-      - name: Download Directory Listing Script
-        run: wget https://raw.githubusercontent.com/caendesilva/php-directory-listing/master/directory-listing.php -O directory-listing.php
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 7.4
 
-      # Run the directory listing script
-      - name: Run Directory Listing Script
-        run: php directory-listing.php
+    - name: Run directory listing generator
+      run: |
+        find . -type d | while read dir; do
+          cd "$dir"
+          php /path/to/directory-listing.php
+          cd - 
+        done
 
-      # Configure Git for committing changes
-      - name: Configure Git
-        run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
-
-      # Commit and Push Changes
-      - name: Commit and Push Changes
-        env:
-          ACTIONS_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-          git add .
-          git commit -m 'Add directory listings'
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
-
-      # Optional: Deploy to GitHub Pages (if needed)
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: '.'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+    - name: Commit and push changes
+      run: |
+        git config --local user.name "GitHub Actions"
+        git config --local user.email "actions@github.com"
+        git add .
+        git commit -m "Update directory listings"
+        git push
