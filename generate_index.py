@@ -7,6 +7,8 @@ INDEX_HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon"
+        href="https://res.cloudinary.com/dbriqxpaa/image/upload/v1680096853/Logo/logo-xl-ico_qzbf7d.ico" />
     <title>{title}</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -155,6 +157,9 @@ def get_full_url(root, folder_path):
         return "media.aykhan.net"
     return f"media.aykhan.net/{relative_path.replace(os.sep, '/')}"
 
+def to_title_case(s):
+    """Convert a string to title case."""
+    return s.replace('/', ' ').title().replace(' ', ' | ')
 
 def generate_index_html(folder_path):
     """
@@ -180,7 +185,7 @@ def generate_index_html(folder_path):
         else:
             full_url = get_full_url(root, folder_path)  # Generate full URL for the directory
             header_text = full_url
-            title = full_url
+            title = to_title_case(full_url)
             go_back_link = '<a href="../index.html" class="go-back">⬅️ Go Back</a>'
 
         # Create list of items (folders and files) for the current folder
