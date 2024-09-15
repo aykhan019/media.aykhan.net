@@ -21,8 +21,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@v1
         with:
-          path: |
-            notion-pages # Upload all directories with generated index files
+          path: 'notion-pages' # Upload all directories with generated index files
 
   deploy:
     needs: generate-directory-listings
