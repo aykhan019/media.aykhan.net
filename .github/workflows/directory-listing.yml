@@ -35,7 +35,7 @@ jobs:
         run: |
           git add .
           git commit -m 'Add directory listings'
-          git push
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/aykhan019/media.aykhan.net.git
 
       # Optional: Deploy to GitHub Pages
       - name: Setup Pages
