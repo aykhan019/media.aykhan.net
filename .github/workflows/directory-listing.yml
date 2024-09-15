@@ -5,14 +5,15 @@ on:
     branches:
       - master  # Change to 'main' if that is your default branch name
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    # Set permissions to write to repository contents
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
 
     steps:
       # Checkout the repository
@@ -32,7 +33,7 @@ jobs:
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
 
-      # Commit and push changes
+      # Commit and Push Changes
       - name: Commit and Push Changes
         env:
           ACTIONS_TOKEN: ${{ secrets.GH_TOKEN }}
