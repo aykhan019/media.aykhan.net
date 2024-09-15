@@ -2,7 +2,7 @@ name: Generate Directory Listings
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 permissions:
   contents: read
