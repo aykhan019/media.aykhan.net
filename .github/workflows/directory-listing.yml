@@ -1,0 +1,45 @@
+name: Generate Directory Listings
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Download the directory listing script
+      - name: Download Directory Listing Script
+        run: wget https://raw.githubusercontent.com/caendesilva/php-directory-listing/master/directory-listing.php -O directory-listing.php
+
+      # Run the directory listing script
+      - name: Run Directory Listing Script
+        run: php directory-listing.php
+
+      # Commit the generated files
+      - name: Commit and push directory listings
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'actions@github.com'
+          git add .
+          git commit -m 'Add directory listings'
+          git push
+
+      # Optional: Deploy to GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
