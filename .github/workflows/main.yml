@@ -1,38 +1,44 @@
 name: directory-listing
-on: [push]
+on:
+  push:
+    branches:
+      - main  # Adjust if your default branch is named differently
 
 jobs:
-  pages-directory-listing:
+  generate-directory-listings:
     runs-on: ubuntu-latest
-    name: Directory Listings Index
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
-          ref: master    #checkout different branch
+          ref: main  # Adjust if necessary
+
+      - name: List all directories
+        id: list-dirs
+        run: |
+          echo "::set-output name=dirs::$(find . -type d -not -path './.git*' -not -path './node_modules*')"
 
       - name: Generate Directory Listings
         uses: jayanta525/github-pages-directory-listing@v4.0.0
         with:
-          FOLDER: data      #directory to generate index
+          FOLDER: ${{ steps.list-dirs.outputs.dirs }}
 
-      - name: Upload artifact
+      - name: Upload artifacts
         uses: actions/upload-pages-artifact@v1
         with:
-          path: 'data'      # upload generated folder
-  
-  deploy:
-    needs: pages-directory-listing
-    permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
+          path: |
+            ${{ steps.list-dirs.outputs.dirs }}
 
-    # Deploy to the github-pages environment
+  deploy:
+    needs: generate-directory-listings
+    permissions:
+      pages: write
+      id-token: write
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    # Specify runner + deployment step
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
