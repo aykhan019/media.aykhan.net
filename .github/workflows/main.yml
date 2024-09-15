@@ -13,32 +13,15 @@ jobs:
         with:
           ref: master  # Adjust if necessary
 
-      - name: List all directories
-        id: list-dirs
-        run: |
-          dirs=$(find . -type d -not -path './.git*' -not -path './node_modules*')
-          echo "Directories found:"
-          echo "$dirs"
-          echo "::set-output name=dirs::$dirs"
-
-      - name: Generate Directory Listings
+      - name: Generate Directory Listings for notion-pages
         uses: jayanta525/github-pages-directory-listing@v4.0.0
         with:
-          FOLDER: ${{ steps.list-dirs.outputs.dirs }}
-
-      - name: Prepare directory paths for upload
-        id: prepare-paths
-        run: |
-          dirs="${{ steps.list-dirs.outputs.dirs }}"
-          cleaned_dirs=$(echo "$dirs" | sed 's/^\.\///g')
-          echo "Cleaned directories:"
-          echo "$cleaned_dirs"
-          echo "::set-output name=cleaned_dirs::$cleaned_dirs"
+          FOLDER: notion-pages  # Directory to generate index
 
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ${{ steps.prepare-paths.outputs.cleaned_dirs }}
+          path: 'notion-pages' # Upload all directories with generated index files
 
   deploy:
     needs: generate-directory-listings
