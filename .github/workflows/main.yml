@@ -23,14 +23,21 @@ jobs:
           # Save the directories into a multi-line string
           echo "$dirs" > dirs.txt
 
-      # Process directories one-by-one to generate index pages
-      - name: Generate Directory Listings
+      # Process directories one-by-one using a matrix to call the action for each directory
+      - name: Set up a matrix of directories
+        id: setup-matrix
         run: |
-          while IFS= read -r dir; do
-            echo "Generating index for $dir"
-            # Generate directory listings for each found directory
-            jayanta525/github-pages-directory-listing@v4.0.0 FOLDER=$dir
-          done < dirs.txt
+          dirs=$(cat dirs.txt)
+          echo "::set-output name=dirs::$dirs"
+
+      # Generate Directory Listings using matrix strategy
+      - name: Generate Directory Listings for each directory
+        uses: jayanta525/github-pages-directory-listing@v4.0.0
+        with:
+          FOLDER: ${{ matrix.dir }}
+        strategy:
+          matrix:
+            dir: ${{ steps.setup-matrix.outputs.dirs }}
 
       # Prepare cleaned paths for artifact upload
       - name: Prepare directory paths for upload
