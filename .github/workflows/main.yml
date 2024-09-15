@@ -18,23 +18,11 @@ jobs:
         with:
           FOLDER: notion-pages  # Directory to generate index
 
-      - name: Generate Directory Listings for assets
-        uses: jayanta525/github-pages-directory-listing@v4.0.0
-        with:
-          FOLDER: assets  # Subdirectory to generate index
-
-      - name: Generate Directory Listings for thumbnails
-        uses: jayanta525/github-pages-directory-listing@v4.0.0
-        with:
-          FOLDER: thumbnails  # Another subdirectory to generate index
-
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@v1
         with:
           path: |
-            notion-pages
-            assets
-            thumbnails  # Upload all directories with generated index files
+            notion-pages # Upload all directories with generated index files
 
   deploy:
     needs: generate-directory-listings
