@@ -2,7 +2,8 @@ name: Generate Directory Listings
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master  # Change to 'main' if that is your default branch name
 
 permissions:
   contents: read
@@ -14,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the repository
       - uses: actions/checkout@v3
 
       # Download the directory listing script
@@ -24,14 +26,30 @@ jobs:
       - name: Run Directory Listing Script
         run: php directory-listing.php
 
-      # Configure git user for committing changes
+      # Configure Git for committing changes
       - name: Configure Git
         run: |
-            git config --global user.name 'GitHub Actions'
-            git config --global user.email 'actions@github.com'
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
 
+      # Commit and push changes
       - name: Commit and Push Changes
+        env:
+          ACTIONS_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         run: |
           git add .
           git commit -m 'Add directory listings'
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/aykhan019/media.aykhan.net.git
+          git push https://x-access-token:${{ secrets.ACTIONS_TOKEN }}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
+
+      # Optional: Deploy to GitHub Pages (if needed)
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
