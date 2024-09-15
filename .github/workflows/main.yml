@@ -16,18 +16,31 @@ jobs:
       - name: List all directories
         id: list-dirs
         run: |
-          echo "::set-output name=dirs::$(find . -type d -not -path './.git*' -not -path './node_modules*')"
+          dirs=$(find . -type d -not -path './.git*' -not -path './node_modules*')
+          echo "Directories found:"
+          echo "$dirs"
+          echo "::set-output name=dirs::$dirs"
 
       - name: Generate Directory Listings
-        uses: jayanta525/github-pages-directory-listing@v4.0.0
-        with:
-          FOLDER: ${{ steps.list-dirs.outputs.dirs }}
+        id: generate-listings
+        run: |
+          IFS=$'\n'
+          for dir in ${{ steps.list-dirs.outputs.dirs }}
+          do
+            if [ -d "$dir" ]; then
+              echo "Generating listing for $dir"
+              # Ensure the directory exists before generating the listing
+              mkdir -p $dir
+              npx github-pages-directory-listing --folder "$dir"
+            fi
+          done
 
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@v1
         with:
           path: |
-            ${{ steps.list-dirs.outputs.dirs }}
+            $(echo ${{ steps.list-dirs.outputs.dirs }} | sed 's/^\.\///g')  # Remove leading './'
+            # Convert paths to relative paths if necessary
 
   deploy:
     needs: generate-directory-listings
