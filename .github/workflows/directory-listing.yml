@@ -24,11 +24,15 @@ jobs:
       - name: Run Directory Listing Script
         run: php directory-listing.php
 
-      # Commit the generated files
-      - name: Commit and push directory listings
+      # Configure git user for committing changes
+      - name: Configure Git
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'actions@github.com'
+
+      # Commit and push directory listings
+      - name: Commit and push directory listings
+        run: |
           git add .
           git commit -m 'Add directory listings'
           git push
