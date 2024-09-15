@@ -20,44 +20,44 @@ jobs:
           dirs=$(find . -type d -not -path './.git*' -not -path './node_modules*')
           echo "Directories found:"
           echo "$dirs"
-          # Save the directories into a multi-line string
-          echo "$dirs" > dirs.txt
-
-      # Process directories one-by-one using a matrix to call the action for each directory
-      - name: Set up a matrix of directories
-        id: setup-matrix
-        run: |
-          dirs=$(cat dirs.txt)
+          # Save the directories into a multi-line output
           echo "::set-output name=dirs::$dirs"
 
-      # Generate Directory Listings using matrix strategy
-      - name: Generate Directory Listings for each directory
+  generate-directory-listing-for-each-dir:
+    needs: generate-directory-listings
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dir: ${{ fromJson(needs.generate-directory-listings.outputs.dirs) }}
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          ref: master  # Adjust if necessary
+
+      # Generate Directory Listings for each directory
+      - name: Generate Directory Listing
         uses: jayanta525/github-pages-directory-listing@v4.0.0
         with:
           FOLDER: ${{ matrix.dir }}
-        strategy:
-          matrix:
-            dir: ${{ steps.setup-matrix.outputs.dirs }}
 
       # Prepare cleaned paths for artifact upload
       - name: Prepare directory paths for upload
         id: prepare-paths
         run: |
-          cleaned_dirs=$(cat dirs.txt | sed 's/^\.\///g')  # Remove leading './'
-          echo "Cleaned directories:"
-          echo "$cleaned_dirs"
-          # Save the cleaned directories into a file for upload
-          echo "$cleaned_dirs" > cleaned_dirs.txt
+          cleaned_dir=$(echo "${{ matrix.dir }}" | sed 's/^\.\///g')  # Remove leading './'
+          echo "Cleaned directory: $cleaned_dir"
+          echo "::set-output name=cleaned_dir::$cleaned_dir"
 
       # Upload the directories as artifacts
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@v1
         with:
-          path: |
-            $(cat cleaned_dirs.txt)
+          path: ${{ steps.prepare-paths.outputs.cleaned_dir }}
 
   deploy:
-    needs: generate-directory-listings
+    needs: generate-directory-listing-for-each-dir
     permissions:
       pages: write
       id-token: write
