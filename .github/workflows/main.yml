@@ -1,17 +1,19 @@
 name: main
-on: [push]
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch: # Allows manual triggering of the workflow
 
 jobs:
   pages-directory-listing:
     runs-on: ubuntu-latest
     name: Run Actions Template
     steps:
-      # To use this repository's private action,
-      # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: master 
+          ref: master
 
       - name: Generate Directory Listings
         uses: jayanta525/github-pages-directory-listing@main
@@ -21,21 +23,18 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          # Upload generator folder
           path: 'data'
 
   deploy:
     needs: pages-directory-listing
     permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
+      pages: write
+      id-token: write
 
-    # Deploy to the github-pages environment
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    # Specify runner + deployment step
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
