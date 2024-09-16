@@ -1,5 +1,6 @@
 import os
 import time
+from datetime import datetime, timezone
 
 # HTML template for the index.html file, with a signature comment
 INDEX_HTML_TEMPLATE = """<!DOCTYPE html>
@@ -22,14 +23,14 @@ INDEX_HTML_TEMPLATE = """<!DOCTYPE html>
             border-collapse: collapse;
         }}
         th, td {{
-            padding: 8px 13px;  /* Increased padding by 10% */
+            padding: 8px 13px; 
             border: 1px solid #ccc;
         }}
         th {{
             background-color: #f2f2f2;
         }}
         td.icon-col {{
-            width: 44px;  /* Increased width by 10% */
+            width: 44px; 
             text-align: center;
         }}
         a {{
@@ -40,17 +41,17 @@ INDEX_HTML_TEMPLATE = """<!DOCTYPE html>
             text-decoration: underline;
         }}
         .go-back {{
-            margin-bottom: 22px;  /* Increased margin-bottom by 10% */
-            margin-left: 11px;  /* Increased margin-left by 10% */
+            margin-bottom: 22px;  
+            margin-left: 11px;  
             display: inline-block;
         }}
         h1 {{
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            font-size: 1.65em;  /* Increased font-size by 10% */
+            font-size: 1.65em; 
             margin: 0;
-            padding: 11px;  /* Increased padding by 10% */
+            padding: 11px;  
         }}
         /* Dark mode styles */
         body.dark-mode {{
@@ -66,14 +67,14 @@ INDEX_HTML_TEMPLATE = """<!DOCTYPE html>
         /* Dark mode button styles */
         .dark-mode-toggle {{
             position: fixed;
-            bottom: 22px;  /* Increased bottom by 10% */
-            right: 22px;  /* Increased right by 10% */
+            bottom: 22px;  
+            right: 22px;  
             background-color: #007BFF;
             color: #fff;
             border: none;
-            padding: 11px 22px;  /* Increased padding by 10% */
+            padding: 11px 22px;  
             cursor: pointer;
-            border-radius: 5.5px;  /* Increased border-radius by 10% */
+            border-radius: 5.5px; 
             z-index: 1000;
         }}
         .dark-mode-toggle:hover {{
@@ -147,8 +148,12 @@ def format_size(size):
         size /= 1024.0
 
 def format_date(timestamp):
-    """Convert a timestamp to a readable date format"""
-    return time.strftime('%Y-%m-%d %H:%M', time.localtime(timestamp))
+    """Convert a timestamp to a readable date format with local time"""
+    # Convert timestamp to a datetime object in UTC
+    dt_utc = datetime.fromtimestamp(timestamp, tz=timezone.utc)
+    # Convert datetime to local timezone
+    dt_local = dt_utc.astimezone()
+    return dt_local.strftime('%Y-%m-%d %H:%M')
 
 def get_full_url(root, folder_path):
     """Generate a full URL based on the directory path relative to the root"""
@@ -156,6 +161,10 @@ def get_full_url(root, folder_path):
     if relative_path == ".":
         return "media.aykhan.net"
     return f"media.aykhan.net/{relative_path.replace(os.sep, '/')}"
+
+def to_header_case(s):
+    """Convert a string to title case."""
+    return s.replace('/', ' ').title().replace(' ', ' ➔ ')
 
 def to_title_case(s):
     """Convert a string to title case."""
@@ -184,7 +193,7 @@ def generate_index_html(folder_path):
             go_back_link = ""  # No go-back link on home
         else:
             full_url = get_full_url(root, folder_path)  # Generate full URL for the directory
-            header_text = full_url
+            header_text = to_header_case(full_url)
             title = to_title_case(full_url)
             go_back_link = '<a href="../index.html" class="go-back">⬅️ Go Back</a>'
 
