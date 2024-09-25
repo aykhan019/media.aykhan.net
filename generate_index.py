@@ -163,12 +163,12 @@ def get_full_url(root, folder_path):
     return f"media.aykhan.net/{relative_path.replace(os.sep, '/')}"
 
 def to_header_case(s):
-    """Convert a string to title case."""
-    return s.replace('/', ' ').title().replace(' ', ' ➔ ')
+    """Convert a string to header case, ensuring it is all lowercase."""
+    return s.replace('/', ' ').lower().replace(' ', ' ➔ ')
 
 def to_title_case(s):
-    """Convert a string to title case."""
-    return s.replace('/', ' ').title().replace(' ', ' | ')
+    """Convert a string to title case, ensuring it is all lowercase."""
+    return s.replace('/', ' ').lower().replace(' ', ' | ') 
 
 def generate_index_html(folder_path):
     """
