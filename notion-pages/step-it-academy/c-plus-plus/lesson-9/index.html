@@ -1,0 +1,992 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>9. Fundamentals of C++ Strings</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+body,
+html{
+	margin-top: 0 !important;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.highlight-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.block-color-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: undefined; }
+.select-value-color-pink { background-color: rgba(225, 136, 179, 0.27); }
+.select-value-color-purple { background-color: rgba(168, 129, 197, 0.27); }
+.select-value-color-green { background-color: rgba(123, 183, 129, 0.27); }
+.select-value-color-gray { background-color: rgba(84, 72, 49, 0.15); }
+.select-value-color-transparentGray { background-color: undefined; }
+.select-value-color-translucentGray { background-color: undefined; }
+.select-value-color-orange { background-color: rgba(224, 124, 57, 0.27); }
+.select-value-color-brown { background-color: rgba(210, 162, 141, 0.35); }
+.select-value-color-red { background-color: rgba(244, 171, 159, 0.4); }
+.select-value-color-yellow { background-color: rgba(236, 191, 66, 0.39); }
+.select-value-color-blue { background-color: rgba(93, 165, 206, 0.27); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="19434575-a838-80c5-a51c-f7425862d3d5" class="page sans"><header><img class="page-cover-image" src="../Water_9.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://cdn-icons-png.flaticon.com/512/6132/6132222.png"/></div><h1 class="page-title">9. Fundamentals of C++ Strings</h1><p class="page-description"></p></header><div class="page-body"><h1 id="19434575-a838-80f0-a25d-dbce62e95009" class="">C++ Strings</h1><p id="19434575-a838-80bd-906c-ca3f0d8a6695" class="">In this note, we explore how C++ strings work, covering topics such as <code>size</code>, <code>length</code>, <code>capacity</code>, <code>max_size</code>, and various string operations like <code>insert</code>, <code>push_back</code>, <code>pop_back</code>, <code>compare</code>, and more.</p><h2 id="19434575-a838-80ad-bd1e-c1b840011a9d" class="">1. Overview of C++ Strings</h2><p id="19434575-a838-80a0-852c-d6d6de646391" class="">In C++, the <code>std::string</code> class (defined in the <code>&lt;string&gt;</code> header) offers a convenient way to manipulate sequences of characters. Unlike C-style character arrays (<code>char*</code>), <code>std::string</code> manages memory automatically, resizing when needed and keeping track of its own length. This provides both convenience and safety compared to traditional C-strings.</p><h2 id="19434575-a838-809a-87b2-d2f7d51aeaae" class="">2. Fundamental Properties of <code>std::string</code></h2><h3 id="19434575-a838-8030-bd88-efa6a0b51c4d" class="">2.1. <code>size()</code> vs. <code>length()</code></h3><ul id="19434575-a838-804c-b3cf-d7f487f86f0d" class="bulleted-list"><li style="list-style-type:disc"><code><strong>size()</strong></code> returns the number of characters currently in the string.</li></ul><ul id="19434575-a838-8053-9cf6-d10e21834ea6" class="bulleted-list"><li style="list-style-type:disc"><code><strong>length()</strong></code> does the same thing—both functions are effectively identical.</li></ul><h3 id="19434575-a838-805a-b3f5-e141f47a611a" class="">2.2. <code>capacity()</code></h3><ul id="19434575-a838-8084-a247-cb62860a2c58" class="bulleted-list"><li style="list-style-type:disc"><code><strong>capacity()</strong></code> tells you how much memory (in characters) the string has currently allocated.</li></ul><ul id="19434575-a838-80fc-a24c-e6de96f11549" class="bulleted-list"><li style="list-style-type:disc">If you exceed the current capacity with more insertions, the string automatically allocates more memory.</li></ul><ul id="19434575-a838-8044-b11b-e70171a425ec" class="bulleted-list"><li style="list-style-type:disc">This behavior helps avoid constant reallocation every time a single character is added.</li></ul><h3 id="19434575-a838-80d4-89bc-ecc7e3895926" class="">2.3. <code>max_size()</code></h3><ul id="19434575-a838-80c7-9b38-e93ec5b70526" class="bulleted-list"><li style="list-style-type:disc"><code><strong>max_size()</strong></code> returns the maximum possible length of the string, which is typically a very large number (e.g., 2,147,483,647 on many systems).</li></ul><h2 id="19434575-a838-8092-87ae-d99f71a3b2e8" class="">3. Basic String Operations</h2><h3 id="19434575-a838-806b-bf90-fb713f048573" class="">3.1. Creating and Initializing Strings</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-80b3-9e9c-fa8bff2540fd" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    // Direct initialization
+    string text = &quot;Hello world!&quot;;
+    cout &lt;&lt; &quot;Text: &quot; &lt;&lt; text &lt;&lt; endl;
+
+    // Creating a string with a specific number of repeated characters
+    string stars(50, &#x27;*&#x27;);
+    cout &lt;&lt; &quot;Stars: &quot; &lt;&lt; stars &lt;&lt; endl;
+
+    return 0;
+}</code></pre><p id="19434575-a838-8089-97e6-cd6c34ec2796" class=""><strong>Output:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-80c3-9ee5-d747c294354a" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Text: Hello world!
+Stars: **************************************************</code></pre><h3 id="19434575-a838-80f3-bd65-d3e2a289c6df" class="">3.2. <code>resize()</code> and <code>shrink_to_fit()</code></h3><ul id="19434575-a838-8005-9592-f0eaa115ad13" class="bulleted-list"><li style="list-style-type:disc"><code><strong>resize(x)</strong></code> changes the string size to <code>x</code>. If <code>x</code> is smaller, the string is truncated. If <code>x</code> is larger, new characters (usually <code>&#x27;\0&#x27;</code> or implementation-defined) may be appended.</li></ul><ul id="19434575-a838-8095-9e97-d7ae7e20e5c2" class="bulleted-list"><li style="list-style-type:disc"><code><strong>shrink_to_fit()</strong></code> requests the string to reduce its capacity to fit its current size exactly.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-805d-ab9f-d4701bdf0e56" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string s(50, &#x27;*&#x27;); // Creates a string with 50 &#x27;*&#x27;
+    cout &lt;&lt; s &lt;&lt; endl;
+    cout &lt;&lt; &quot;Capacity before resize: &quot; &lt;&lt; s.capacity() &lt;&lt; endl;
+
+    // Resize down to 10 characters
+    s.resize(10);
+    // Shrink the capacity to match the new size
+    s.shrink_to_fit();
+
+    cout &lt;&lt; s &lt;&lt; endl;
+    cout &lt;&lt; &quot;Capacity after shrink_to_fit: &quot; &lt;&lt; s.capacity() &lt;&lt; endl;
+
+    return 0;
+}</code></pre><p id="19434575-a838-804c-a415-edd1a0742586" class=""><strong>Example Output:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-808b-9400-c405fb4ba7e0" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">**************************************************
+Capacity before resize: 63
+**********
+Capacity after shrink_to_fit: 15</code></pre><h3 id="19434575-a838-804a-88a0-f801fe82f13a" class="">3.3. <code>reserve()</code></h3><ul id="19434575-a838-803a-965f-d4c2c936488f" class="bulleted-list"><li style="list-style-type:disc"><code><strong>reserve(x)</strong></code> ensures that the string’s capacity is at least <code>x</code>.</li></ul><ul id="19434575-a838-800c-a399-cf147194e432" class="bulleted-list"><li style="list-style-type:disc">This can help optimize string operations if you know you’ll be adding a lot of characters.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-804a-95c1-d644401b250f" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string text = &quot;Apple&quot;;
+    cout &lt;&lt; &quot;Initial capacity: &quot; &lt;&lt; text.capacity() &lt;&lt; endl;
+
+    text.reserve(1000);
+    cout &lt;&lt; &quot;Capacity after reserve(1000): &quot; &lt;&lt; text.capacity() &lt;&lt; endl;
+
+    return 0;
+}</code></pre><p id="19434575-a838-80db-827e-fca52799f8b7" class=""><strong>Example Output:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-8055-b82d-ef61e3ab7b7f" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Initial capacity: 15
+Capacity after reserve(1000): 1007</code></pre><h3 id="19434575-a838-80d5-87f3-e37b464ebab1" class="">3.4. <code>clear()</code> and <code>empty()</code></h3><ul id="19434575-a838-8097-baab-da20221e0a27" class="bulleted-list"><li style="list-style-type:disc"><code><strong>clear()</strong></code> removes all characters from the string, making it empty.</li></ul><ul id="19434575-a838-8079-951e-eff7267cd31e" class="bulleted-list"><li style="list-style-type:disc"><code><strong>empty()</strong></code> returns a boolean indicating whether the string is empty.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-8037-bc46-f05956e2276e" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string text = &quot;Happy programmers day&quot;;
+    cout &lt;&lt; text &lt;&lt; endl;  // Output: Happy programmers day
+
+    text.clear();          // Clears the string
+
+    if (text.empty()) {
+        cout &lt;&lt; &quot;No Text&quot; &lt;&lt; endl;  // Output: No Text
+    } else {
+        cout &lt;&lt; text &lt;&lt; endl;
+    }
+
+    return 0;
+}</code></pre><h2 id="19434575-a838-8066-96fd-e278d891da40" class="">4. Appending and Inserting</h2><h3 id="19434575-a838-80a3-b4c3-c51a61e5a2b5" class="">4.1. <code>append()</code> vs. <code>operator+=()</code></h3><ul id="19434575-a838-8082-96f4-ee5730ed3a16" class="bulleted-list"><li style="list-style-type:disc"><code><strong>operator+=()</strong></code> concatenates a string or character to the existing string.</li></ul><ul id="19434575-a838-8067-91b7-cad8443cf90d" class="bulleted-list"><li style="list-style-type:disc"><code><strong>append()</strong></code> does the same but can be more flexible with arguments.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-805e-bb9b-ff3a526da192" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string text = &quot;Hi all&quot;;
+    cout &lt;&lt; text &lt;&lt; endl;          // Output: Hi all
+
+    // Using operator+=
+    text += &quot; , bye bye&quot;;
+    cout &lt;&lt; text &lt;&lt; endl;          // Output: Hi all , bye bye
+
+    // Using append()
+    text.append(&quot;Salam millet&quot;);
+    cout &lt;&lt; text &lt;&lt; endl;          // Output: Hi all , bye byeSalam millet
+
+    return 0;
+}</code></pre><h3 id="19434575-a838-806d-862b-dc885a6f26da" class="">4.2. <code>insert()</code></h3><ul id="19434575-a838-804a-9c27-df6811b2c06b" class="bulleted-list"><li style="list-style-type:disc"><code><strong>insert(iterator, char)</strong></code> inserts a character at the specified position, which is provided by an iterator.</li></ul><ul id="19434575-a838-809f-bbf3-f87862e88e53" class="bulleted-list"><li style="list-style-type:disc">Commonly used with <code>begin()</code>, <code>end()</code>, or <code>begin() + offset</code>.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-801c-9ea1-f167340f68c6" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string text = &quot;Happy programmers day&quot;;
+    cout &lt;&lt; text &lt;&lt; endl;
+
+    // Insert &#x27;E&#x27; at the beginning
+    text.insert(text.begin(), &#x27;E&#x27;);
+    cout &lt;&lt; text &lt;&lt; endl;
+
+    // Insert &#x27;E&#x27; after the 5th character
+    text.insert(text.begin() + 5, &#x27;E&#x27;);
+    cout &lt;&lt; text &lt;&lt; endl;
+
+    // Insert &#x27;A&#x27; before the last character
+    text.insert(text.end() - 1, &#x27;A&#x27;);
+    cout &lt;&lt; text &lt;&lt; endl;
+
+    return 0;
+}</code></pre><p id="19434575-a838-8078-8c30-d0840e35b43e" class=""><strong>Example Output:</strong></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-805f-85e2-d94c8ad60a7d" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Happy programmers day
+EHappy programmers day
+EHappEy programmers day
+EHappEy programmers daAy</code></pre><h2 id="19434575-a838-80ec-adc1-ed3151e1e0e3" class="">5. Accessing String Characters</h2><h3 id="19434575-a838-80df-9134-d49ea8d747a7" class="">5.1. Index Access and <code>at()</code></h3><ul id="19434575-a838-80f2-8a0b-d1d058ea9cb6" class="bulleted-list"><li style="list-style-type:disc"><code><strong>text[x]</strong></code> and <code><strong>text.at(x)</strong></code> both return the character at index <code>x</code>.</li></ul><ul id="19434575-a838-8043-be95-e644d3650975" class="bulleted-list"><li style="list-style-type:disc"><code>at()</code> performs bounds checking and throws an exception if <code>x</code> is out of range, whereas <code>text[x]</code> does not.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-80bb-9f07-f04c57954c31" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string text = &quot;Happy&quot;;
+    cout &lt;&lt; text[0] &lt;&lt; endl;      // H
+    cout &lt;&lt; text.at(0) &lt;&lt; endl;   // H
+
+    text[0] = &#x27;Z&#x27;;
+    cout &lt;&lt; text &lt;&lt; endl;         // Zappy
+
+    // Using a for loop to print each character
+    for (int i = 0; i &lt; text.size(); i++) {
+        cout &lt;&lt; text[i] &lt;&lt; endl;
+    }
+
+    return 0;
+}</code></pre><h3 id="19434575-a838-80ba-b051-e859adbe3cff" class="">5.2. <code>front()</code> and <code>back()</code></h3><ul id="19434575-a838-8078-b131-fffb7a48de2b" class="bulleted-list"><li style="list-style-type:disc"><code><strong>front()</strong></code> returns a reference to the first character.</li></ul><ul id="19434575-a838-8073-90ec-f2abae0c36e9" class="bulleted-list"><li style="list-style-type:disc"><code><strong>back()</strong></code> returns a reference to the last character.</li></ul><ul id="19434575-a838-80e8-8bbb-fef3f4905eee" class="bulleted-list"><li style="list-style-type:disc">You can also modify the characters directly through these references.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-8090-b65c-e938a64d5288" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string text = &quot;Happy&quot;;
+    cout &lt;&lt; text.front() &lt;&lt; endl; // H
+
+    text.front() = &#x27;P&#x27;;
+    cout &lt;&lt; text.front() &lt;&lt; endl; // P
+
+    cout &lt;&lt; text.back() &lt;&lt; endl;  // y
+    text.back() = &#x27;i&#x27;;
+    cout &lt;&lt; text.back() &lt;&lt; endl;  // i
+
+    cout &lt;&lt; text &lt;&lt; endl;         // Pappi
+
+    return 0;
+}</code></pre><h2 id="19434575-a838-80ee-ae41-e099d5833ae8" class="">6. Other Common Methods</h2><h3 id="19434575-a838-8035-bf03-e12685f2db77" class="">6.1. <code>substr()</code></h3><ul id="19434575-a838-8082-824a-f4f8b8765d32" class="bulleted-list"><li style="list-style-type:disc"><code><strong>substr(pos, n)</strong></code> returns a substring starting at index <code>pos</code> and spanning <code>n</code> characters.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-8025-8113-c5358900801c" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string text = &quot;Happy programmers day&quot;;
+    // From index 6, get 10 characters
+    cout &lt;&lt; text.substr(6, 10) &lt;&lt; endl;    // programmer
+    cout &lt;&lt; text &lt;&lt; endl;                  // Happy programmers day
+
+    return 0;
+}</code></pre><h3 id="19434575-a838-808c-b062-fa840bb821f6" class="">6.2. <code>pop_back()</code> and <code>push_back()</code></h3><ul id="19434575-a838-803f-9500-e4748c43ac05" class="bulleted-list"><li style="list-style-type:disc"><code><strong>pop_back()</strong></code> removes the last character of the string.</li></ul><ul id="19434575-a838-80a5-9370-de18301b5050" class="bulleted-list"><li style="list-style-type:disc"><code><strong>push_back(c)</strong></code> appends a character <code>c</code> to the end of the string.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-802e-80a6-ef0aaf6cdff9" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string text = &quot;SALAM SALAM&quot;;
+
+    text.pop_back();     // Removes the last character
+    cout &lt;&lt; text &lt;&lt; endl;  // SALAM SALA
+
+    text.push_back(&#x27;Z&#x27;); // Adds &#x27;Z&#x27; to the end
+    cout &lt;&lt; text &lt;&lt; endl;  // SALAM SALAZ
+
+    return 0;
+}</code></pre><h3 id="19434575-a838-80b3-9936-c1e7d3a431d1" class="">6.3. <code>compare()</code></h3><ul id="19434575-a838-8004-94e5-de3a8fd6f82a" class="bulleted-list"><li style="list-style-type:disc"><code><strong>compare()</strong></code> returns <code>0</code> if the strings are equal, a negative value if the first string is lexicographically less, and a positive value otherwise.</li></ul><ul id="19434575-a838-80fa-9153-e76867269c99" class="bulleted-list"><li style="list-style-type:disc"><code><strong>==</strong></code> can also be used to check for equality directly.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-8000-832a-f197e3503e2d" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string text1 = &quot;salam&quot;;
+    string text2 = &quot;Salam&quot;;
+
+    cout &lt;&lt; boolalpha &lt;&lt; (text1 == text2) &lt;&lt; endl;    // false
+    cout &lt;&lt; text1.compare(text2) &lt;&lt; endl;             // 1 (or a positive number)
+
+    return 0;
+}</code></pre><h3 id="19434575-a838-8032-9d26-d3b354ecdddb" class="">6.4. <code>assign()</code></h3><ul id="19434575-a838-80da-a96e-fd5451c1e540" class="bulleted-list"><li style="list-style-type:disc"><code><strong>assign()</strong></code> is an alternative to the assignment operator <code>=</code>.</li></ul><ul id="19434575-a838-80e7-ac22-cbaa1f9d36c8" class="bulleted-list"><li style="list-style-type:disc">Both achieve the same result.</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-80ae-b621-d90a8e84afa4" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string text;
+    text = &quot;Salam&quot;;
+    cout &lt;&lt; text &lt;&lt; endl;
+
+    string text2;
+    text2.assign(&quot;Salam&quot;);
+    cout &lt;&lt; text2 &lt;&lt; endl;
+
+    return 0;
+}</code></pre><h3 id="19434575-a838-801e-85c2-e6b6979db9b7" class="">6.5. <code>find()</code> and <code>rfind()</code></h3><ul id="19434575-a838-806c-acb5-ef5ca74c3e99" class="bulleted-list"><li style="list-style-type:disc"><code><strong>find(x)</strong></code> searches for the character or substring <code>x</code> from the left (beginning).</li></ul><ul id="19434575-a838-8035-8da9-f832b5263ba1" class="bulleted-list"><li style="list-style-type:disc"><code><strong>rfind(x)</strong></code> searches from the right (end).</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-8092-a4d9-d37d4b575ee3" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string text = &quot;Happy programmers day&quot;;
+    // find() returns the index of first occurrence, or string::npos if not found
+    cout &lt;&lt; text.find(&#x27;j&#x27;) &lt;&lt; endl;   // Might return a large number if &#x27;j&#x27; isn&#x27;t found
+    cout &lt;&lt; text.find(&#x27;H&#x27;) &lt;&lt; endl;   // 0 if &#x27;H&#x27; is the first character
+
+    // rfind() returns the index of the last occurrence
+    cout &lt;&lt; text.rfind(&#x27;j&#x27;) &lt;&lt; endl;
+    cout &lt;&lt; text.rfind(&#x27;y&#x27;) &lt;&lt; endl;
+
+    return 0;
+}</code></pre><h2 id="19434575-a838-808e-a423-d9f2748fc3d9" class="">7. Complete Example: Putting It All Together</h2><p id="19434575-a838-8086-b142-cc0eb4ed5ca7" class="">Below is a <strong>complete code</strong> example demonstrating multiple string operations in one program:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-80ba-9c70-d3ba101dee11" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    // 1. Create and initialize a string
+    string text = &quot;Hello C++ World!&quot;;
+    cout &lt;&lt; &quot;Initial text: &quot; &lt;&lt; text &lt;&lt; endl;
+
+    // 2. Check size and capacity
+    cout &lt;&lt; &quot;Size: &quot; &lt;&lt; text.size() &lt;&lt; endl;
+    cout &lt;&lt; &quot;Length: &quot; &lt;&lt; text.length() &lt;&lt; endl;
+    cout &lt;&lt; &quot;Capacity: &quot; &lt;&lt; text.capacity() &lt;&lt; endl;
+    cout &lt;&lt; &quot;Max Size: &quot; &lt;&lt; text.max_size() &lt;&lt; endl;
+    cout &lt;&lt; &quot;------------------------&quot; &lt;&lt; endl;
+
+    // 3. Modify the string with += and append
+    text += &quot; Let&#x27;s explore strings.&quot;;
+    text.append(&quot; Indeed!&quot;);
+    cout &lt;&lt; &quot;After appending: &quot; &lt;&lt; text &lt;&lt; endl;
+    cout &lt;&lt; &quot;Size now: &quot; &lt;&lt; text.size() &lt;&lt; endl;
+    cout &lt;&lt; &quot;Capacity now: &quot; &lt;&lt; text.capacity() &lt;&lt; endl;
+    cout &lt;&lt; &quot;------------------------&quot; &lt;&lt; endl;
+
+    // 4. Use reserve to pre-allocate memory
+    text.reserve(100);
+    cout &lt;&lt; &quot;Capacity after reserve(100): &quot; &lt;&lt; text.capacity() &lt;&lt; endl;
+    cout &lt;&lt; &quot;------------------------&quot; &lt;&lt; endl;
+
+    // 5. Using front(), back(), and at()
+    cout &lt;&lt; &quot;First character (front): &quot; &lt;&lt; text.front() &lt;&lt; endl;
+    cout &lt;&lt; &quot;Last character (back): &quot; &lt;&lt; text.back() &lt;&lt; endl;
+    cout &lt;&lt; &quot;Third character (at(2)): &quot; &lt;&lt; text.at(2) &lt;&lt; endl;
+    cout &lt;&lt; &quot;------------------------&quot; &lt;&lt; endl;
+
+    // 6. Insert characters
+    text.insert(text.begin(), &#x27;X&#x27;);
+    text.insert(text.begin() + 5, &#x27;Y&#x27;);
+    cout &lt;&lt; &quot;After insertions: &quot; &lt;&lt; text &lt;&lt; endl;
+    cout &lt;&lt; &quot;------------------------&quot; &lt;&lt; endl;
+
+    // 7. pop_back() and push_back()
+    text.pop_back();
+    text.push_back(&#x27;Z&#x27;);
+    cout &lt;&lt; &quot;After pop_back and push_back: &quot; &lt;&lt; text &lt;&lt; endl;
+    cout &lt;&lt; &quot;------------------------&quot; &lt;&lt; endl;
+
+    // 8. substr()
+    cout &lt;&lt; &quot;Substring (index 7, length 10): &quot; &lt;&lt; text.substr(7, 10) &lt;&lt; endl;
+    cout &lt;&lt; &quot;------------------------&quot; &lt;&lt; endl;
+
+    // 9. compare
+    string sample = &quot;XHello&quot;;
+    // Compare the first 6 characters of text with sample
+    cout &lt;&lt; &quot;Compare first 6 chars of text to sample: &quot;
+         &lt;&lt; text.compare(0, 6, sample) &lt;&lt; endl;
+
+    // 10. find and rfind
+    cout &lt;&lt; &quot;find(&#x27;C&#x27;): &quot; &lt;&lt; text.find(&#x27;C&#x27;) &lt;&lt; endl;
+    cout &lt;&lt; &quot;rfind(&#x27;C&#x27;): &quot; &lt;&lt; text.rfind(&#x27;C&#x27;) &lt;&lt; endl;
+    cout &lt;&lt; &quot;------------------------&quot; &lt;&lt; endl;
+
+    // 11. clear and check empty
+    text.clear();
+    if (text.empty()) {
+        cout &lt;&lt; &quot;text is now empty after clear()&quot; &lt;&lt; endl;
+    }
+
+    return 0;
+}</code></pre><h3 id="19434575-a838-8001-ad0f-f1c36e666957" class="">Possible Output (Will Vary Depending on Implementation)</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-80ea-88fb-e13974f0944f" class="code"><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Initial text: Hello C++ World!
+Size: 16
+Length: 16
+Capacity: 15
+Max Size: 2147483647
+------------------------
+After appending: Hello C++ World! Let&#x27;s explore strings. Indeed!
+Size now: 49
+Capacity now: 63
+------------------------
+Capacity after reserve(100): 100
+------------------------
+First character (front): H
+Last character (back): !
+Third character (at(2)): l
+------------------------
+After insertions: XHellYHello C++ World! Let&#x27;s explore strings. Indeed!
+------------------------
+After pop_back and push_back: XHellYHello C++ World! Let&#x27;s explore strings. IndeedZ
+------------------------
+Substring (index 7, length 10): llo C++ Wo
+------------------------
+Compare first 6 chars of text to sample: 1
+find(&#x27;C&#x27;): 12
+rfind(&#x27;C&#x27;): 12
+------------------------
+text is now empty after clear()</code></pre><h2 id="19434575-a838-8049-b21f-c866761194b8" class="">8. Additional Notes and Best Practices</h2><ol type="1" id="19434575-a838-80ef-a497-e9d11e6f5799" class="numbered-list" start="1"><li><strong>Avoid Out-of-Range Access</strong>:<ul id="19434575-a838-808c-8576-c095ce3b559d" class="bulleted-list"><li style="list-style-type:disc">Using <code>text.at(index)</code> throws an exception if <code>index</code> is out of bounds.</li></ul><ul id="19434575-a838-806d-ab57-d851e86b04ab" class="bulleted-list"><li style="list-style-type:disc">Using <code>text[index]</code> where <code>index</code> is out of bounds can lead to undefined behavior.</li></ul></li></ol><ol type="1" id="19434575-a838-807f-8d7c-e46014b1756d" class="numbered-list" start="2"><li><strong>Efficient Concatenation</strong>:<ul id="19434575-a838-80e0-85e8-e2600a65f17b" class="bulleted-list"><li style="list-style-type:disc">If you plan multiple concatenations, consider using <code>reserve()</code> to minimize reallocation overhead.</li></ul></li></ol><ol type="1" id="19434575-a838-80f8-a15d-c4576d57e2c7" class="numbered-list" start="3"><li><strong>Comparisons</strong>:<ul id="19434575-a838-8089-b2ca-d6c377976be2" class="bulleted-list"><li style="list-style-type:disc"><code>==</code> is straightforward for equality. For greater or less comparisons, use <code>compare()</code>.</li></ul></li></ol><ol type="1" id="19434575-a838-8045-9295-d6f219b7aace" class="numbered-list" start="4"><li><strong>Memory</strong>:<ul id="19434575-a838-8008-99c8-d09b105d8722" class="bulleted-list"><li style="list-style-type:disc">While <code>std::string</code> simplifies memory management, always be mindful of large strings. <code>max_size()</code> helps to identify potential limits.</li></ul></li></ol><ol type="1" id="19434575-a838-8084-b2d1-d7db29413662" class="numbered-list" start="5"><li><strong>Iterators</strong>:<ul id="19434575-a838-8051-8d36-c9fda1545e6f" class="bulleted-list"><li style="list-style-type:disc">Many string operations use iterators (<code>begin()</code>, <code>end()</code>), which are powerful for generic code that might also apply to other containers.</li></ul></li></ol><h2 id="19434575-a838-8125-8e25-da03c87995e7" class="">Reference</h2><p id="19434575-a838-8162-a1f4-e54e528891cc" class="">The content in this document is based on the original notes provided in Azerbaijani. For further details, you can refer to the original document using the following link:</p><p id="19434575-a838-8109-9115-c82ddc673249" class=""><a href="https://drive.google.com/drive/folders/1wbDoNU0TDhBs46L5WkryPIBxY-mQsLt0">Original Note - Azerbaijani Version</a></p><hr id="19434575-a838-8132-9251-cb4dfce6d81a"/></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

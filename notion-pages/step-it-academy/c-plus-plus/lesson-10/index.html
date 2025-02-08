@@ -1,0 +1,984 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>10.  Initializer Lists and Dynamic Data Structures</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+body,
+html{
+	margin-top: 0 !important;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.highlight-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.block-color-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: undefined; }
+.select-value-color-pink { background-color: rgba(225, 136, 179, 0.27); }
+.select-value-color-purple { background-color: rgba(168, 129, 197, 0.27); }
+.select-value-color-green { background-color: rgba(123, 183, 129, 0.27); }
+.select-value-color-gray { background-color: rgba(84, 72, 49, 0.15); }
+.select-value-color-transparentGray { background-color: undefined; }
+.select-value-color-translucentGray { background-color: undefined; }
+.select-value-color-orange { background-color: rgba(224, 124, 57, 0.27); }
+.select-value-color-brown { background-color: rgba(210, 162, 141, 0.35); }
+.select-value-color-red { background-color: rgba(244, 171, 159, 0.4); }
+.select-value-color-yellow { background-color: rgba(236, 191, 66, 0.39); }
+.select-value-color-blue { background-color: rgba(93, 165, 206, 0.27); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="19434575-a838-804c-add2-c52980e05d46" class="page sans"><header><img class="page-cover-image" src="../Water_9.jpg" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="https://cdn-icons-png.flaticon.com/512/6132/6132222.png"/></div><h1 class="page-title">10.  Initializer Lists and Dynamic Data Structures</h1><p class="page-description"></p></header><div class="page-body"><h2 id="19434575-a838-804a-af6c-d7f8741134e1" class="">Using <code>std::initializer_list</code></h2><p id="19434575-a838-80cd-9a72-e471a221c970" class=""><code><strong>std::initializer_list</strong></code> allows you to initialize an object with a list of values in a convenient way. This often appears in constructors where multiple arguments need to be passed without manually specifying individual parameters.</p><p id="19434575-a838-803c-b915-fa1e08d625aa" class=""><strong>Key Points</strong>:</p><ul id="19434575-a838-805b-824c-d37e99a727d4" class="bulleted-list"><li style="list-style-type:disc">It provides a lightweight array-like structure that can be iterated with range-based <strong>for</strong> loops.</li></ul><ul id="19434575-a838-80e5-91a5-db36d14b8516" class="bulleted-list"><li style="list-style-type:disc">You cannot directly access elements by index (e.g., <code>list[0]</code> is not allowed). Instead, use iterators or range-based loops.</li></ul><ul id="19434575-a838-800d-8828-f7c3df5ee6f4" class="bulleted-list"><li style="list-style-type:disc">Commonly used to simplify initialization.</li></ul><h3 id="19434575-a838-801f-a265-c3cbda90a7da" class="">Simple Example</h3><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-8032-8d3d-ee5acfb6f690" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;initializer_list&gt;
+using namespace std;
+
+class Example {
+public:
+    Example(initializer_list&lt;int&gt; list) {
+        cout &lt;&lt; &quot;Initializing with the following values:&quot; &lt;&lt; endl;
+        for (auto val : list) {
+            cout &lt;&lt; val &lt;&lt; &quot; &quot;;
+        }
+        cout &lt;&lt; endl;
+    }
+};
+
+int main() {
+    // This calls Example(initializer_list&lt;int&gt;)
+    Example ex{1, 2, 3, 4, 5};
+    return 0;
+}
+</code></pre><h2 id="19434575-a838-80cf-9cde-eb7e25a0e685" class="">Custom Fixed Array Example</h2><p id="19434575-a838-80c2-82dd-cd16845cc1fe" class="">Here’s a class <code><strong>FixedArray</strong></code> that uses an <code><strong>initializer_list</strong></code> for initialization. It stores a fixed number of elements in an internal array.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-80b1-b723-c38a23cd5e9a" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;initializer_list&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+template&lt;class T, int size&gt;
+class FixedArray {
+    T arr[size]{};
+    size_t mysize = 0;
+
+public:
+    // Constructor that initializes the array with a list of values
+    FixedArray(initializer_list&lt;T&gt; list) {
+        for (auto data : list) {
+            arr[mysize] = data;
+            mysize++;
+        }
+    }
+
+    void Show() const {
+        for (size_t x = 0; x &lt; mysize; x++) {
+            cout &lt;&lt; arr[x] &lt;&lt; &quot; &quot;;
+        }
+        cout &lt;&lt; endl;
+    }
+
+    // Overloaded operator[] to access elements by index
+    T&amp; operator[](int index) {
+        return arr[index];
+    }
+};
+
+int main() {
+    // Initialize the FixedArray with a list of integers
+    FixedArray&lt;int, 20&gt; myarray{1, 3, 4, 6, 2, 6, 2, 6};
+    myarray.Show();   // Displays the elements
+
+    return 0;
+}
+</code></pre><p id="19434575-a838-800f-8a20-ecddb07a05b8" class=""><strong>Key Takeaways</strong>:</p><ul id="19434575-a838-8072-93e4-c6f8ff597b66" class="bulleted-list"><li style="list-style-type:disc"><code><strong>initializer_list</strong></code> is ideal for passing multiple values in curly braces.</li></ul><ul id="19434575-a838-8033-a9b8-ddeceeed1b80" class="bulleted-list"><li style="list-style-type:disc"><strong>Fixed arrays</strong> are straightforward but have a limitation on size (e.g., <code>20</code> in this example).</li></ul><h2 id="19434575-a838-80f0-9a46-de05e5d1ea4c" class="">Dynamic Data Structures Overview</h2><p id="19434575-a838-8080-80f2-d12c195004cd" class="">When dealing with <strong>dynamic data structures</strong>, you decide how and where data is stored in memory—often on the heap—allowing flexible sizing and more complex behaviors. Common examples include:</p><ol type="1" id="19434575-a838-8006-85fd-cf64cb4e55cc" class="numbered-list" start="1"><li><strong>Stack</strong> (FILO: First In, Last Out)</li></ol><ol type="1" id="19434575-a838-80ae-a815-cd451f35b7cf" class="numbered-list" start="2"><li><strong>Queue</strong> (FIFO: First In, First Out)</li></ol><ol type="1" id="19434575-a838-80ff-be31-d58b8225a934" class="numbered-list" start="3"><li><strong>Dequeue</strong> (Double-Ended Queue)</li></ol><ol type="1" id="19434575-a838-80b7-8ef6-ff324732b8ec" class="numbered-list" start="4"><li><strong>Priority Queue</strong></li></ol><ol type="1" id="19434575-a838-8033-8760-c972d4c3a598" class="numbered-list" start="5"><li><strong>Linked List</strong> (Singly Linked, Doubly Linked, etc.)</li></ol><ol type="1" id="19434575-a838-80b7-bfaf-d70a6b6e2dab" class="numbered-list" start="6"><li><strong>Trees</strong> (Binary, AVL, Red-Black, etc.)</li></ol><h3 id="19434575-a838-80af-9c4a-c091e8762ce0" class="">Stack vs. Queue</h3><ul id="19434575-a838-800a-aff7-d73dfb808d3b" class="bulleted-list"><li style="list-style-type:disc">A <strong>Stack</strong> inserts/pushes elements on top and pops them from the top (Last element in → first out).</li></ul><ul id="19434575-a838-8058-b811-c664631e5871" class="bulleted-list"><li style="list-style-type:disc">A <strong>Queue</strong> enqueues elements from the back and dequeues from the front (First element in → first out).</li></ul><h2 id="19434575-a838-806d-a3ee-dd1d02367516" class="">Implementing a Custom Stack</h2><p id="19434575-a838-805c-8dbf-e74bbbec7d36" class="">Below is a simple <strong>Stack</strong> class that dynamically grows as items are pushed. This implementation uses templates to store any data type.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-80f5-a4b5-dd5592a80f43" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;assert.h&gt;
+using namespace std;
+
+template &lt;class T, int sizeLimit&gt;
+class Stack {
+private:
+    T* data;
+    size_t size;
+
+public:
+    Stack() : data(nullptr), size(0) {}
+
+    void push(const T&amp; value) {
+        cout &lt;&lt; &quot;Value added successfully!&quot; &lt;&lt; endl;
+        // Create a new array with one extra space
+        T* newarr = new T[size + 1] {};
+        for (size_t x = 0; x &lt; size; x++) {
+            newarr[x] = data[x];
+        }
+        newarr[size] = value;
+        // Clean up old memory
+        if (size != 0) {
+            delete[] data;
+        }
+        data = newarr;
+        newarr = nullptr;
+        size++;
+    }
+
+    T pop() {
+        assert(size &gt; 0 &amp;&amp; &quot;Cannot pop from an empty stack!&quot;);
+        // Create a smaller array
+        T* newarr = new T[size - 1] {};
+        for (size_t x = 0; x &lt; size - 1; x++) {
+            newarr[x] = data[x];
+        }
+        // Extract the last element
+        T last = data[size - 1];
+        delete[] data;
+        data = newarr;
+        newarr = nullptr;
+        size--;
+        return last;
+    }
+
+    // Returns the last element without removing it
+    T&amp; peek() {
+        assert(size &gt; 0 &amp;&amp; &quot;Cannot peek at an empty stack!&quot;);
+        return data[size - 1];
+    }
+
+    T&amp; operator[](int index) {
+        return data[index];
+    }
+
+    size_t GetSize() const {
+        return size;
+    }
+
+    void Clear() {
+        if (data == nullptr &amp;&amp; size == 0) {
+            return;
+        }
+        delete[] data;
+        data = nullptr;
+        size = 0;
+    }
+
+    ~Stack() {
+        delete[] data;
+    }
+};
+
+// Class to demonstrate storing objects in the stack
+class User {
+    string name;
+    string surname;
+public:
+    User() {}
+    User(const string&amp; name, const string&amp; surname) {
+        this-&gt;name = name;
+        this-&gt;surname = surname;
+    }
+    void ShowUser() const {
+        cout &lt;&lt; &quot;===== USER =====&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;Name: &quot; &lt;&lt; this-&gt;name &lt;&lt; endl;
+        cout &lt;&lt; &quot;Surname: &quot; &lt;&lt; this-&gt;surname &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Stack&lt;int, 10&gt; mystack;
+    mystack.push(10);
+    mystack.push(11);
+    mystack.push(12);
+
+    // Pop and display the last value
+    // int lastint = mystack.pop();
+    // cout &lt;&lt; &quot;Last int : &quot; &lt;&lt; lastint &lt;&lt; endl;
+
+    Stack&lt;char, 10&gt; mystack2;
+    mystack2.push(&#x27;A&#x27;);
+    mystack2.push(&#x27;B&#x27;);
+    mystack2.push(&#x27;C&#x27;);
+    char lastchar = mystack2.pop();
+    cout &lt;&lt; &quot;Last char : &quot; &lt;&lt; lastchar &lt;&lt; endl;
+
+    Stack&lt;User, 3&gt; mystack3;
+    User u1(&quot;Tofiq&quot;, &quot;Tofiqli&quot;);
+    User u2(&quot;A&quot;, &quot;Ali&quot;);
+    User u3(&quot;John&quot;, &quot;Johnlu&quot;);
+
+    mystack3.push(u1);
+    mystack3.push(u2);
+    mystack3.push(u3);
+
+    User lastuser = mystack3.pop();
+    cout &lt;&lt; &quot;Last User: &quot; &lt;&lt; endl;
+    lastuser.ShowUser();
+
+    return 0;
+}</code></pre><p id="19434575-a838-80bd-b017-d6f3112c0411" class=""><strong>Highlights</strong>:</p><ul id="19434575-a838-80e4-97f8-ea07bef78dbb" class="bulleted-list"><li style="list-style-type:disc"><code><strong>push()</strong></code> dynamically resizes the underlying array, copying over old elements, then adding the new one.</li></ul><ul id="19434575-a838-80e1-976e-ebaab3927abe" class="bulleted-list"><li style="list-style-type:disc"><code><strong>pop()</strong></code> removes the last element and decreases the array size by one.</li></ul><ul id="19434575-a838-8032-b917-fce1aa597047" class="bulleted-list"><li style="list-style-type:disc">We can store <strong>any data type</strong>—including user-defined objects.</li></ul><h2 id="19434575-a838-8026-924f-f5ed7a4e880b" class="">Implementing a Custom Queue</h2><p id="19434575-a838-8012-894d-e3a97444d6fa" class="">A <strong>Queue</strong> processes elements in the order they arrive (FIFO: First In, First Out). Here’s an example implementation using an array for storage:</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="19434575-a838-8064-b828-f680a0218889" class="code"><code class="language-C++" style="white-space:pre-wrap;word-break:break-all">#include &lt;iostream&gt;
+#include &lt;assert.h&gt;
+#include &lt;windows.h&gt;  // For Sleep()
+using namespace std;
+
+template &lt;class T&gt;
+class Queue {
+    T* arr;
+    int capacity;
+    int front;
+    int rear;
+    int count;
+
+public:
+    Queue(int size) {
+        arr = new T[size] {};
+        capacity = size;
+        front = 0;
+        rear = -1;
+        count = 0;
+    }
+
+    void enqueue(T value) {
+        assert(!IsFull() &amp;&amp; &quot;Queue is full!&quot;);
+        arr[++rear] = value;
+        ++count;
+    }
+
+    void dequeue() {
+        assert(!IsEmpty() &amp;&amp; &quot;Queue is empty!&quot;);
+        // Shift elements to remove the front
+        auto temp = new T[count - 1] {};
+        for (int x = 0; x &lt; count - 1; x++) {
+            temp[x] = arr[x + 1];
+        }
+        delete[] arr;
+        arr = temp;
+        temp = nullptr;
+        --count;
+        rear--;
+    }
+
+    T peek() {
+        assert(!IsEmpty() &amp;&amp; &quot;Queue is empty!&quot;);
+        return arr[front];
+    }
+
+    bool IsFull() {
+        return size() == capacity;
+    }
+
+    bool IsEmpty() const {
+        return size() == 0;
+    }
+
+    int size() const {
+        return count;
+    }
+
+    ~Queue() {
+        delete[] arr;
+    }
+};
+
+// Example class to enqueue
+class Person {
+    string name;
+    string surname;
+    double money;
+public:
+    Person() = default;
+    Person(const string&amp; name, const string&amp; surname, double money) {
+        SetName(name);
+        SetSurname(surname);
+        SetMoney(money);
+    }
+
+    void SetName(const string&amp; name) { this-&gt;name = name; }
+    void SetSurname(const string&amp; surname) { this-&gt;surname = surname; }
+    void SetMoney(double money) { this-&gt;money = money; }
+
+    string GetName() const { return name; }
+    string GetSurname() const { return surname; }
+    double GetMoney() const { return money; }
+
+    friend ostream&amp; operator&lt;&lt;(ostream&amp; out, const Person&amp; p) {
+        out &lt;&lt; &quot;======= PERSON INFO =======&quot; &lt;&lt; endl;
+        out &lt;&lt; &quot;Name: &quot; &lt;&lt; p.GetName() &lt;&lt; endl;
+        out &lt;&lt; &quot;Surname: &quot; &lt;&lt; p.GetSurname() &lt;&lt; endl;
+        out &lt;&lt; &quot;Money: &quot; &lt;&lt; p.GetMoney() &lt;&lt; endl;
+        return out;
+    }
+};
+
+int main() {
+    Person p1(&quot;John&quot;, &quot;Johnlu&quot;, 1000);
+    Person p2(&quot;Mike&quot;, &quot;Eliyev&quot;, 200);
+    Person p3(&quot;Hakuna&quot;, &quot;Matata&quot;, 100);
+
+    // Create a Queue with capacity 3
+    Queue&lt;Person&gt; persons(3);
+    persons.enqueue(p1);
+    persons.enqueue(p2);
+    persons.enqueue(p3);
+
+    // Process the queue
+    while (!persons.IsEmpty()) {
+        auto person = persons.peek();
+        cout &lt;&lt; person &lt;&lt; endl;
+        Sleep(1500); // Pause for 1.5 seconds
+        cout &lt;&lt; &quot;His work finished\n&quot; &lt;&lt; endl;
+        persons.dequeue();
+    }
+
+    return 0;
+}</code></pre><p id="19434575-a838-80b6-af8e-c859e159a2fd" class=""><strong>Key Aspects</strong>:</p><ul id="19434575-a838-80a9-a0e4-e31319fd5540" class="bulleted-list"><li style="list-style-type:disc"><code><strong>enqueue()</strong></code> adds an element to the end.</li></ul><ul id="19434575-a838-8094-9f4f-d62443f5f13b" class="bulleted-list"><li style="list-style-type:disc"><code><strong>dequeue()</strong></code> removes an element from the front.</li></ul><ul id="19434575-a838-805b-acb5-eeb113bea0a6" class="bulleted-list"><li style="list-style-type:disc"><code><strong>peek()</strong></code> returns the front element without removing it.</li></ul><ul id="19434575-a838-807f-be36-eb7445af6948" class="bulleted-list"><li style="list-style-type:disc">We shift elements in an array approach, which is simple to grasp but not the most efficient for large queues (linked-list or circular buffer might be more efficient).</li></ul><h2 id="19434575-a838-8013-8de3-ed39c757d412" class="">Other Data Structures</h2><p id="19434575-a838-80c2-a916-d14b94f0f371" class="">While <strong>Stacks</strong> and <strong>Queues</strong> are fundamental, you can also explore:</p><ul id="19434575-a838-809e-87b9-f84c7b87ad26" class="bulleted-list"><li style="list-style-type:disc"><strong>Dequeue (Double-Ended Queue)</strong>:<ul id="19434575-a838-8071-a84a-e82d2a3602d0" class="bulleted-list"><li style="list-style-type:circle">Elements can be added/removed from both the front and the back.</li></ul></li></ul><ul id="19434575-a838-8082-b31b-de2a6eb2e7f6" class="bulleted-list"><li style="list-style-type:disc"><strong>Priority Queue</strong>:<ul id="19434575-a838-80cf-a148-f72ea9a96eeb" class="bulleted-list"><li style="list-style-type:circle">Elements are ordered by priority. The highest (or lowest) priority gets dequeued first.</li></ul></li></ul><ul id="19434575-a838-8090-acc5-ef335fe2fd85" class="bulleted-list"><li style="list-style-type:disc"><strong>Linked Lists</strong>:<ul id="19434575-a838-8074-91c0-ddfe9d7b5a3c" class="bulleted-list"><li style="list-style-type:circle">Nodes are dynamically allocated; easy insertion and deletion at any position.</li></ul></li></ul><ul id="19434575-a838-806e-abdf-c1ae322e27ca" class="bulleted-list"><li style="list-style-type:disc"><strong>Binary Trees</strong> and beyond.</li></ul><h2 id="19434575-a838-81ab-bacf-deeb4a69004f" class="">Reference</h2><p id="19434575-a838-8161-9332-e6dc1e7370c8" class="">The content in this document is based on the original notes provided in Azerbaijani. For further details, you can refer to the original document using the following link:</p><p id="19434575-a838-81f4-860d-d7d895ae63a9" class=""><a href="https://drive.google.com/drive/folders/1ydx749-mrAMs5pUj43e-jVUjGVhOVkkX">Original Note - Azerbaijani Version</a></p><hr id="19434575-a838-814f-9d01-d7e52f84831c"/><p id="19434575-a838-8038-ba1c-f3302522eef8" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
