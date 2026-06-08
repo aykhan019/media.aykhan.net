@@ -1,5 +1,6 @@
 import os
 import time
+import json
 from datetime import datetime, timezone
 
 # HTML template for the index.html file, with a signature comment
@@ -246,6 +247,108 @@ def generate_index_html(folder_path):
 
         print(f'Updated {index_file_path}')
 
+# ---------------------------------------------------------------------------
+# Public media index (read-only, whitelist-based)
+# ---------------------------------------------------------------------------
+# Only the top-level folders in WHITELIST_DIRS are scanned, and only files with
+# a public media extension (images / video / audio) are indexed. Everything else
+# -- hidden files, .env, secrets, HTML directory listings, and PDFs -- is
+# ignored. The generated media-index.json therefore exposes public metadata only.
+
+BASE_URL = "https://media.aykhan.net"
+
+WHITELIST_DIRS = ["assets", "thumbnails", "notion-pages", "achievements", "books"]
+
+DENY_DIR_NAMES = {
+    ".git", ".github", "__pycache__", "node_modules",
+    "private", "drafts", "secrets", ".secrets",
+}
+
+# Extension -> MIME type. Acts as the file whitelist: anything not listed here
+# (e.g. .pdf, .html, .py) is never indexed.
+MEDIA_TYPES = {
+    ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
+    ".gif": "image/gif", ".webp": "image/webp", ".svg": "image/svg+xml",
+    ".ico": "image/x-icon", ".bmp": "image/bmp", ".avif": "image/avif",
+    ".mp4": "video/mp4", ".webm": "video/webm", ".mov": "video/quicktime",
+    ".m4v": "video/x-m4v",
+    ".mp3": "audio/mpeg", ".wav": "audio/wav", ".m4a": "audio/mp4",
+    ".ogg": "audio/ogg", ".flac": "audio/flac",
+}
+
+
+def _iter_media_files():
+    """Yield (path, ext) for whitelisted media files in whitelisted folders."""
+    for top in WHITELIST_DIRS:
+        if not os.path.isdir(top):
+            continue
+        for root, dirs, files in os.walk(top):
+            # prune hidden + denied directories in place
+            dirs[:] = [d for d in dirs
+                       if not d.startswith('.') and d not in DENY_DIR_NAMES]
+            for name in files:
+                if name.startswith('.'):
+                    continue
+                ext = os.path.splitext(name)[1].lower()
+                if ext in MEDIA_TYPES:
+                    yield os.path.join(root, name), ext
+
+
+def generate_media_index():
+    """Write media-index.json + build-report.json from whitelisted folders only."""
+    files_out = []
+    folders = set()
+    for path, ext in sorted(_iter_media_files()):
+        rel = path.replace(os.sep, '/').lstrip('./')
+        folders.add(os.path.dirname(rel))
+        files_out.append({
+            "path": rel,
+            "name": os.path.basename(rel),
+            "extension": ext,
+            "type": MEDIA_TYPES[ext],
+            "sizeBytes": os.path.getsize(path),
+            "url": f"{BASE_URL}/{rel}",
+        })
+
+    generated_at = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    folders = sorted(f for f in folders if f)
+
+    index = {
+        "service": "media",
+        "generatedAt": generated_at,
+        "baseUrl": BASE_URL,
+        "totalFiles": len(files_out),
+        "folders": folders,
+        "files": files_out,
+    }
+    with open("media-index.json", "w", encoding="utf-8") as f:
+        json.dump(index, f, indent=2, ensure_ascii=False)
+
+    indexed_top = sorted({f["path"].split('/')[0] for f in files_out})
+    all_top = sorted(d for d in os.listdir('.') if os.path.isdir(d))
+    skipped = [d for d in all_top
+               if d not in indexed_top and d not in DENY_DIR_NAMES]
+
+    report = {
+        "service": "media",
+        "generatedAt": generated_at,
+        "totalFiles": len(files_out),
+        "indexedFolders": indexed_top,
+        "skippedFolders": skipped,
+        "notes": [
+            "Whitelist-based: only top-level folders in WHITELIST_DIRS are scanned.",
+            "Only public media extensions are indexed (images, video, audio).",
+            "PDFs, HTML listings, hidden files, .env and secrets are excluded.",
+            "Indexed files are already public; this index exposes metadata only.",
+        ],
+    }
+    with open("build-report.json", "w", encoding="utf-8") as f:
+        json.dump(report, f, indent=2, ensure_ascii=False)
+
+    print(f"Wrote media-index.json ({len(files_out)} files) and build-report.json")
+
+
 if __name__ == "__main__":
     root_folder = '.'
     generate_index_html(root_folder)
+    generate_media_index()

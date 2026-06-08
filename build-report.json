@@ -1,0 +1,22 @@
+{
+  "service": "media",
+  "generatedAt": "2026-06-08T20:26:26Z",
+  "totalFiles": 1410,
+  "indexedFolders": [
+    "achievements",
+    "assets",
+    "books",
+    "notion-pages",
+    "thumbnails"
+  ],
+  "skippedFolders": [
+    "no-task-assigned",
+    "not-found"
+  ],
+  "notes": [
+    "Whitelist-based: only top-level folders in WHITELIST_DIRS are scanned.",
+    "Only public media extensions are indexed (images, video, audio).",
+    "PDFs, HTML listings, hidden files, .env and secrets are excluded.",
+    "Indexed files are already public; this index exposes metadata only."
+  ]
+}
