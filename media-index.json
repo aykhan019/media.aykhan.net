@@ -1,8 +1,8 @@
 {
   "service": "media",
-  "generatedAt": "2026-06-10T23:05:52Z",
+  "generatedAt": "2026-06-10T23:30:09Z",
   "baseUrl": "https://media.aykhan.net",
-  "totalFiles": 1438,
+  "totalFiles": 1439,
   "folders": [
     "achievements/badges/png",
     "achievements/certificates/png",
@@ -10237,6 +10237,14 @@
       "type": "image/png",
       "sizeBytes": 1485650,
       "url": "https://media.aykhan.net/thumbnails/projects/restaurant-2.png"
+    },
+    {
+      "path": "thumbnails/projects/statify.png",
+      "name": "statify.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1395499,
+      "url": "https://media.aykhan.net/thumbnails/projects/statify.png"
     },
     {
       "path": "thumbnails/projects/translate-2.png",
