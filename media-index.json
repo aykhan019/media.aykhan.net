@@ -1,8 +1,8 @@
 {
   "service": "media",
-  "generatedAt": "2026-06-10T22:11:08Z",
+  "generatedAt": "2026-06-10T22:36:05Z",
   "baseUrl": "https://media.aykhan.net",
-  "totalFiles": 1445,
+  "totalFiles": 1439,
   "folders": [
     "achievements/badges/png",
     "achievements/certificates/png",
@@ -9335,100 +9335,52 @@
       "url": "https://media.aykhan.net/thumbnails/notion/coursera/coursera.jpg"
     },
     {
-      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/ai-capstone-project-with-deep-learning-hq.png",
-      "name": "ai-capstone-project-with-deep-learning-hq.png",
+      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/ai-capstone.png",
+      "name": "ai-capstone.png",
       "extension": ".png",
       "type": "image/png",
-      "sizeBytes": 793699,
-      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/ai-capstone-project-with-deep-learning-hq.png"
+      "sizeBytes": 1502688,
+      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/ai-capstone.png"
     },
     {
-      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/ai-capstone-project-with-deep-learning.png",
-      "name": "ai-capstone-project-with-deep-learning.png",
+      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/computer-vision.png",
+      "name": "computer-vision.png",
       "extension": ".png",
       "type": "image/png",
-      "sizeBytes": 187476,
-      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/ai-capstone-project-with-deep-learning.png"
+      "sizeBytes": 1397117,
+      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/computer-vision.png"
     },
     {
-      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/building-deep-learning-models-with-tensorflow-hq.png",
-      "name": "building-deep-learning-models-with-tensorflow-hq.png",
+      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/deep-learning-keras.png",
+      "name": "deep-learning-keras.png",
       "extension": ".png",
       "type": "image/png",
-      "sizeBytes": 3639771,
-      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/building-deep-learning-models-with-tensorflow-hq.png"
+      "sizeBytes": 1649655,
+      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/deep-learning-keras.png"
     },
     {
-      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/building-deep-learning-models-with-tensorflow.png",
-      "name": "building-deep-learning-models-with-tensorflow.png",
+      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/ml-python.png",
+      "name": "ml-python.png",
       "extension": ".png",
       "type": "image/png",
-      "sizeBytes": 2131078,
-      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/building-deep-learning-models-with-tensorflow.png"
+      "sizeBytes": 1497717,
+      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/ml-python.png"
     },
     {
-      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/deep-neural-networks-with-pytorch-hq.png",
-      "name": "deep-neural-networks-with-pytorch-hq.png",
+      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/pytorch.png",
+      "name": "pytorch.png",
       "extension": ".png",
       "type": "image/png",
-      "sizeBytes": 2828841,
-      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/deep-neural-networks-with-pytorch-hq.png"
+      "sizeBytes": 1594788,
+      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/pytorch.png"
     },
     {
-      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/deep-neural-networks-with-pytorch.png",
-      "name": "deep-neural-networks-with-pytorch.png",
+      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/tensorflow.png",
+      "name": "tensorflow.png",
       "extension": ".png",
       "type": "image/png",
-      "sizeBytes": 1153817,
-      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/deep-neural-networks-with-pytorch.png"
-    },
-    {
-      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/introduction-to-computer-vision-and-image-processing-hq.png",
-      "name": "introduction-to-computer-vision-and-image-processing-hq.png",
-      "extension": ".png",
-      "type": "image/png",
-      "sizeBytes": 353092,
-      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/introduction-to-computer-vision-and-image-processing-hq.png"
-    },
-    {
-      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/introduction-to-computer-vision-and-image-processing.png",
-      "name": "introduction-to-computer-vision-and-image-processing.png",
-      "extension": ".png",
-      "type": "image/png",
-      "sizeBytes": 350772,
-      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/introduction-to-computer-vision-and-image-processing.png"
-    },
-    {
-      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/introduction-to-deep-learning-and-neural-networks-with-keras-hq.png",
-      "name": "introduction-to-deep-learning-and-neural-networks-with-keras-hq.png",
-      "extension": ".png",
-      "type": "image/png",
-      "sizeBytes": 2405325,
-      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/introduction-to-deep-learning-and-neural-networks-with-keras-hq.png"
-    },
-    {
-      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/introduction-to-deep-learning-and-neural-networks-with-keras.png",
-      "name": "introduction-to-deep-learning-and-neural-networks-with-keras.png",
-      "extension": ".png",
-      "type": "image/png",
-      "sizeBytes": 682289,
-      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/introduction-to-deep-learning-and-neural-networks-with-keras.png"
-    },
-    {
-      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/machine-learning-with-python-hq.png",
-      "name": "machine-learning-with-python-hq.png",
-      "extension": ".png",
-      "type": "image/png",
-      "sizeBytes": 146727,
-      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/machine-learning-with-python-hq.png"
-    },
-    {
-      "path": "thumbnails/notion/coursera/ibm/ibm-ai-engineering/machine-learning-with-python.png",
-      "name": "machine-learning-with-python.png",
-      "extension": ".png",
-      "type": "image/png",
-      "sizeBytes": 56644,
-      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/machine-learning-with-python.png"
+      "sizeBytes": 1496218,
+      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/tensorflow.png"
     },
     {
       "path": "thumbnails/notion/coursera/ibm/ibm-data-science/data-analysis-with-python-hq.jpg",
