@@ -1,8 +1,8 @@
 {
   "service": "media",
-  "generatedAt": "2026-06-10T21:50:24Z",
+  "generatedAt": "2026-06-10T22:11:08Z",
   "baseUrl": "https://media.aykhan.net",
-  "totalFiles": 1443,
+  "totalFiles": 1445,
   "folders": [
     "achievements/badges/png",
     "achievements/certificates/png",
@@ -10711,6 +10711,22 @@
       "url": "https://media.aykhan.net/thumbnails/step-it-academy/asp-net/thumbnail.png"
     },
     {
+      "path": "thumbnails/step-it-academy/cpp.png",
+      "name": "cpp.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1455841,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/cpp.png"
+    },
+    {
+      "path": "thumbnails/step-it-academy/csharp.png",
+      "name": "csharp.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1388504,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/csharp.png"
+    },
+    {
       "path": "thumbnails/step-it-academy/design-patterns.png",
       "name": "design-patterns.png",
       "extension": ".png",
@@ -10797,6 +10813,14 @@
       "type": "image/png",
       "sizeBytes": 59669,
       "url": "https://media.aykhan.net/thumbnails/step-it-academy/design-patterns/thumbnail.png"
+    },
+    {
+      "path": "thumbnails/step-it-academy/java-script.png",
+      "name": "java-script.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1483929,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/java-script.png"
     },
     {
       "path": "thumbnails/step-it-academy/java-script/task1.png",
@@ -10909,14 +10933,6 @@
       "type": "image/png",
       "sizeBytes": 101918,
       "url": "https://media.aykhan.net/thumbnails/step-it-academy/java-script/thumbnail.png"
-    },
-    {
-      "path": "thumbnails/step-it-academy/javascript.png",
-      "name": "javascript.png",
-      "extension": ".png",
-      "type": "image/png",
-      "sizeBytes": 1483929,
-      "url": "https://media.aykhan.net/thumbnails/step-it-academy/javascript.png"
     },
     {
       "path": "thumbnails/step-it-academy/network-programming.png",
