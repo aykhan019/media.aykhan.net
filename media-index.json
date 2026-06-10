@@ -1,8 +1,8 @@
 {
   "service": "media",
-  "generatedAt": "2026-06-08T21:19:28Z",
+  "generatedAt": "2026-06-10T15:12:12Z",
   "baseUrl": "https://media.aykhan.net",
-  "totalFiles": 1410,
+  "totalFiles": 1422,
   "folders": [
     "achievements/badges/png",
     "achievements/certificates/png",
@@ -10039,12 +10039,28 @@
       "url": "https://media.aykhan.net/thumbnails/notion/without-icons/water/water-9.jpg"
     },
     {
+      "path": "thumbnails/projects/battleship-2.png",
+      "name": "battleship-2.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1509362,
+      "url": "https://media.aykhan.net/thumbnails/projects/battleship-2.png"
+    },
+    {
       "path": "thumbnails/projects/battleship.jpg",
       "name": "battleship.jpg",
       "extension": ".jpg",
       "type": "image/jpeg",
       "sizeBytes": 328019,
       "url": "https://media.aykhan.net/thumbnails/projects/battleship.jpg"
+    },
+    {
+      "path": "thumbnails/projects/boss-2.png",
+      "name": "boss-2.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1344833,
+      "url": "https://media.aykhan.net/thumbnails/projects/boss-2.png"
     },
     {
       "path": "thumbnails/projects/c-sharp.jpeg",
@@ -10063,6 +10079,14 @@
       "url": "https://media.aykhan.net/thumbnails/projects/calculation-practise.png"
     },
     {
+      "path": "thumbnails/projects/chess-2.png",
+      "name": "chess-2.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1511590,
+      "url": "https://media.aykhan.net/thumbnails/projects/chess-2.png"
+    },
+    {
       "path": "thumbnails/projects/chess.png",
       "name": "chess.png",
       "extension": ".png",
@@ -10079,12 +10103,36 @@
       "url": "https://media.aykhan.net/thumbnails/projects/cinema-plus.jpg"
     },
     {
+      "path": "thumbnails/projects/cinemakhan-2.png",
+      "name": "cinemakhan-2.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1464553,
+      "url": "https://media.aykhan.net/thumbnails/projects/cinemakhan-2.png"
+    },
+    {
+      "path": "thumbnails/projects/cinemaplus-2.png",
+      "name": "cinemaplus-2.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1380447,
+      "url": "https://media.aykhan.net/thumbnails/projects/cinemaplus-2.png"
+    },
+    {
       "path": "thumbnails/projects/cpp.jpeg",
       "name": "cpp.jpeg",
       "extension": ".jpeg",
       "type": "image/jpeg",
       "sizeBytes": 192195,
       "url": "https://media.aykhan.net/thumbnails/projects/cpp.jpeg"
+    },
+    {
+      "path": "thumbnails/projects/dictionary-2.png",
+      "name": "dictionary-2.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1504655,
+      "url": "https://media.aykhan.net/thumbnails/projects/dictionary-2.png"
     },
     {
       "path": "thumbnails/projects/dictionary-v2.jpg",
@@ -10101,6 +10149,14 @@
       "type": "image/jpeg",
       "sizeBytes": 469040,
       "url": "https://media.aykhan.net/thumbnails/projects/dictionary.jpg"
+    },
+    {
+      "path": "thumbnails/projects/gas-2.png",
+      "name": "gas-2.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1474736,
+      "url": "https://media.aykhan.net/thumbnails/projects/gas-2.png"
     },
     {
       "path": "thumbnails/projects/khan-dictionary.png",
@@ -10151,6 +10207,38 @@
       "url": "https://media.aykhan.net/thumbnails/projects/python.png"
     },
     {
+      "path": "thumbnails/projects/quizbot-2.png",
+      "name": "quizbot-2.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1427818,
+      "url": "https://media.aykhan.net/thumbnails/projects/quizbot-2.png"
+    },
+    {
+      "path": "thumbnails/projects/restaurant-2.png",
+      "name": "restaurant-2.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1485650,
+      "url": "https://media.aykhan.net/thumbnails/projects/restaurant-2.png"
+    },
+    {
+      "path": "thumbnails/projects/translate-2.png",
+      "name": "translate-2.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1470326,
+      "url": "https://media.aykhan.net/thumbnails/projects/translate-2.png"
+    },
+    {
+      "path": "thumbnails/projects/uno-2.png",
+      "name": "uno-2.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1533110,
+      "url": "https://media.aykhan.net/thumbnails/projects/uno-2.png"
+    },
+    {
       "path": "thumbnails/projects/uno.jpg",
       "name": "uno.jpg",
       "extension": ".jpg",
@@ -10165,6 +10253,14 @@
       "type": "image/jpeg",
       "sizeBytes": 127699,
       "url": "https://media.aykhan.net/thumbnails/projects/wpf.jpg"
+    },
+    {
+      "path": "thumbnails/projects/zust-2.png",
+      "name": "zust-2.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1499839,
+      "url": "https://media.aykhan.net/thumbnails/projects/zust-2.png"
     },
     {
       "path": "thumbnails/projects/zust.png",
