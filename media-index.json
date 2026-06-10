@@ -1,8 +1,8 @@
 {
   "service": "media",
-  "generatedAt": "2026-06-10T22:36:05Z",
+  "generatedAt": "2026-06-10T23:05:52Z",
   "baseUrl": "https://media.aykhan.net",
-  "totalFiles": 1439,
+  "totalFiles": 1438,
   "folders": [
     "achievements/badges/png",
     "achievements/certificates/png",
@@ -9383,20 +9383,12 @@
       "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-ai-engineering/tensorflow.png"
     },
     {
-      "path": "thumbnails/notion/coursera/ibm/ibm-data-science/data-analysis-with-python-hq.jpg",
-      "name": "data-analysis-with-python-hq.jpg",
-      "extension": ".jpg",
-      "type": "image/jpeg",
-      "sizeBytes": 367315,
-      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-data-science/data-analysis-with-python-hq.jpg"
-    },
-    {
-      "path": "thumbnails/notion/coursera/ibm/ibm-data-science/data-analysis-with-python.png",
-      "name": "data-analysis-with-python.png",
+      "path": "thumbnails/notion/coursera/ibm/ibm-data-science/data-analysis.png",
+      "name": "data-analysis.png",
       "extension": ".png",
       "type": "image/png",
-      "sizeBytes": 140361,
-      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-data-science/data-analysis-with-python.png"
+      "sizeBytes": 1390685,
+      "url": "https://media.aykhan.net/thumbnails/notion/coursera/ibm/ibm-data-science/data-analysis.png"
     },
     {
       "path": "thumbnails/notion/coursera/ibm/ibm-v1.png",
