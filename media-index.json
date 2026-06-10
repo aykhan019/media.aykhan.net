@@ -1,8 +1,8 @@
 {
   "service": "media",
-  "generatedAt": "2026-06-10T15:12:12Z",
+  "generatedAt": "2026-06-10T21:33:26Z",
   "baseUrl": "https://media.aykhan.net",
-  "totalFiles": 1422,
+  "totalFiles": 1434,
   "folders": [
     "achievements/badges/png",
     "achievements/certificates/png",
@@ -10271,6 +10271,14 @@
       "url": "https://media.aykhan.net/thumbnails/projects/zust.png"
     },
     {
+      "path": "thumbnails/step-it-academy/ado-net.png",
+      "name": "ado-net.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1450756,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/ado-net.png"
+    },
+    {
       "path": "thumbnails/step-it-academy/ado-net/task1.png",
       "name": "task1.png",
       "extension": ".png",
@@ -10373,6 +10381,14 @@
       "type": "image/png",
       "sizeBytes": 20091,
       "url": "https://media.aykhan.net/thumbnails/step-it-academy/ado-net/thumbnail.png"
+    },
+    {
+      "path": "thumbnails/step-it-academy/asp-net.png",
+      "name": "asp-net.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1480985,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/asp-net.png"
     },
     {
       "path": "thumbnails/step-it-academy/asp-net/task1.png",
@@ -10623,6 +10639,14 @@
       "url": "https://media.aykhan.net/thumbnails/step-it-academy/asp-net/thumbnail.png"
     },
     {
+      "path": "thumbnails/step-it-academy/design-patterns.png",
+      "name": "design-patterns.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1496169,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/design-patterns.png"
+    },
+    {
       "path": "thumbnails/step-it-academy/design-patterns/task1.png",
       "name": "task1.png",
       "extension": ".png",
@@ -10815,6 +10839,22 @@
       "url": "https://media.aykhan.net/thumbnails/step-it-academy/java-script/thumbnail.png"
     },
     {
+      "path": "thumbnails/step-it-academy/javascript.png",
+      "name": "javascript.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1483929,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/javascript.png"
+    },
+    {
+      "path": "thumbnails/step-it-academy/network-programming.png",
+      "name": "network-programming.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1517559,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/network-programming.png"
+    },
+    {
       "path": "thumbnails/step-it-academy/network-programming/tas71.png",
       "name": "tas71.png",
       "extension": ".png",
@@ -10893,6 +10933,14 @@
       "type": "image/png",
       "sizeBytes": 27890,
       "url": "https://media.aykhan.net/thumbnails/step-it-academy/network-programming/thumbnail.png"
+    },
+    {
+      "path": "thumbnails/step-it-academy/react.png",
+      "name": "react.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1542089,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/react.png"
     },
     {
       "path": "thumbnails/step-it-academy/react/task1.png",
@@ -11031,6 +11079,14 @@
       "url": "https://media.aykhan.net/thumbnails/step-it-academy/react/thumbnail.png"
     },
     {
+      "path": "thumbnails/step-it-academy/sql.png",
+      "name": "sql.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1484203,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/sql.png"
+    },
+    {
       "path": "thumbnails/step-it-academy/sql/task1.png",
       "name": "task1.png",
       "extension": ".png",
@@ -11135,6 +11191,14 @@
       "url": "https://media.aykhan.net/thumbnails/step-it-academy/sql/thumbnail.png"
     },
     {
+      "path": "thumbnails/step-it-academy/system-programming.png",
+      "name": "system-programming.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1482842,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/system-programming.png"
+    },
+    {
       "path": "thumbnails/step-it-academy/system-programming/task1.png",
       "name": "task1.png",
       "extension": ".png",
@@ -11199,6 +11263,14 @@
       "url": "https://media.aykhan.net/thumbnails/step-it-academy/system-programming/thumbnail.png"
     },
     {
+      "path": "thumbnails/step-it-academy/team-management.png",
+      "name": "team-management.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1370811,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/team-management.png"
+    },
+    {
       "path": "thumbnails/step-it-academy/thumbnail.jpg",
       "name": "thumbnail.jpg",
       "extension": ".jpg",
@@ -11213,6 +11285,14 @@
       "type": "image/png",
       "sizeBytes": 70651,
       "url": "https://media.aykhan.net/thumbnails/step-it-academy/thumbnail.png"
+    },
+    {
+      "path": "thumbnails/step-it-academy/web-programming.png",
+      "name": "web-programming.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1466671,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/web-programming.png"
     },
     {
       "path": "thumbnails/step-it-academy/web-programming/task1.png",
@@ -11303,6 +11383,14 @@
       "url": "https://media.aykhan.net/thumbnails/step-it-academy/web-programming/thumbnail.png"
     },
     {
+      "path": "thumbnails/step-it-academy/windows-forms.png",
+      "name": "windows-forms.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1416025,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/windows-forms.png"
+    },
+    {
       "path": "thumbnails/step-it-academy/windows-forms/task1.png",
       "name": "task1.png",
       "extension": ".png",
@@ -11365,6 +11453,14 @@
       "type": "image/png",
       "sizeBytes": 33624,
       "url": "https://media.aykhan.net/thumbnails/step-it-academy/windows-forms/thumbnail.png"
+    },
+    {
+      "path": "thumbnails/step-it-academy/wpf.png",
+      "name": "wpf.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1359276,
+      "url": "https://media.aykhan.net/thumbnails/step-it-academy/wpf.png"
     },
     {
       "path": "thumbnails/step-it-academy/wpf/task1.png",
