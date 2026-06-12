@@ -6,138 +6,208 @@
     <link rel="icon" type="image/x-icon"
         href="https://res.cloudinary.com/dbriqxpaa/image/upload/v1680096853/Logo/logo-xl-ico_qzbf7d.ico" />
     <title>media.aykhan.net | notion-pages | coursera | ibm-ai-engineering | introduction-to-deep-learning-and-neural-networks-with-keras | module-2 | module | 2 | artificial | neural | networks | fff34575a83880ed85dec7c0a1cd2fb5</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        // Apply saved theme before paint to avoid a flash. Dark is the default.
+        (function () {
+            try {
+                if (localStorage.getItem('aykhan-listing-theme') === 'light') {
+                    document.documentElement.classList.add('light');
+                }
+            } catch (e) {}
+        })();
+    </script>
     <style>
+        /* Palette mirrors aykhan.net/terminal so all three properties match. */
+        :root {
+            --bg: #0d1117;
+            --panel: #11161d;
+            --bar: #1c232c;
+            --text: #c9d1d9;
+            --muted: #6e7681;
+            --accent: #f06449;
+            --green: #3fb950;
+            --link: #58a6ff;
+            --border: #21262d;
+            --selection: #234a6b;
+            --mono: "SF Mono", "Fira Code", "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
+        }
+        html.light {
+            --bg: #ffffff;
+            --panel: #f6f8fa;
+            --bar: #eaeef2;
+            --text: #1f2328;
+            --muted: #656d76;
+            --accent: #d03a1f;
+            --green: #1a7f37;
+            --link: #0969da;
+            --border: #d0d7de;
+            --selection: #ddf4ff;
+        }
+        * { box-sizing: border-box; }
         body {
-            font-family: 'Roboto', sans-serif;
-            font-weight: 400;
-            transition: background-color 0.3s, color 0.3s;
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--mono);
+            font-size: 14px;
+            line-height: 1.55;
+            padding: 0;
         }
-        table {
+        ::selection { background: var(--selection); }
+        .window {
             width: 100%;
-            border-collapse: collapse;
+            min-height: 100vh;
+            background: var(--panel);
+            border: 0;
+            border-radius: 0;
+            overflow: hidden;
         }
-        th, td {
-            padding: 8px 13px; 
-            border: 1px solid #ccc;
+        .titlebar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 14px;
+            background: var(--bar);
+            border-bottom: 1px solid var(--border);
         }
-        th {
-            background-color: #f2f2f2;
-        }
-        td.icon-col {
-            width: 44px; 
-            text-align: center;
-        }
-        a {
-            text-decoration: none;
-            color: #007BFF;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .go-back {
-            margin-bottom: 22px;  
-            margin-left: 11px;  
-            display: inline-block;
-        }
-        h1 {
+        .dot { width: 12px; height: 12px; border-radius: 50%; flex: 0 0 auto; }
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27c93f; }
+        .titlebar-text {
+            margin-left: 6px;
+            color: var(--muted);
+            font-size: 12.5px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            font-size: 1.65em; 
+        }
+        .crumb {
+            padding: 16px 18px 8px;
+        }
+        .crumb h1 {
             margin: 0;
-            padding: 11px;  
+            font-size: 1em;
+            font-weight: 400;
+            line-height: 1.7;
+            color: var(--text);
+            word-break: break-word;
         }
-        /* Dark mode styles */
-        body.dark-mode {
-            background-color: #333;
-            color: #f1f1f1;
+        .crumb h1::before {
+            content: "$ ls ";
+            color: var(--green);
         }
-        body.dark-mode th {
-            background-color: #555;
+        .crumb-current { color: var(--text); }
+        .crumb-sep { color: var(--muted); margin: 0 6px; }
+        table { width: 100%; border-collapse: collapse; }
+        thead th {
+            position: sticky;
+            top: 0;
+            text-align: left;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            background: var(--panel);
+            padding: 9px 14px;
+            border-bottom: 1px solid var(--border);
         }
-        body.dark-mode a {
-            color: #1e90ff;
+        tbody td {
+            padding: 7px 14px;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
         }
-        /* Dark mode button styles */
-        .dark-mode-toggle {
+        tbody tr:last-child td { border-bottom: 0; }
+        tbody tr:hover { background: var(--selection); }
+        td.icon-col { width: 34px; text-align: center; }
+        td:nth-child(3) { color: var(--muted); }
+        td:nth-child(4) { color: var(--muted); font-size: 12.5px; }
+        a { color: var(--link); text-decoration: none; }
+        a:hover { color: var(--accent); text-decoration: underline; }
+        .theme-toggle {
             position: fixed;
-            bottom: 22px;  
-            right: 22px;  
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            padding: 11px 22px;  
+            bottom: 20px;
+            right: 20px;
+            background: var(--panel);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-family: var(--mono);
+            font-size: 12.5px;
             cursor: pointer;
-            border-radius: 5.5px; 
             z-index: 1000;
         }
-        .dark-mode-toggle:hover {
-            background-color: #0056b3;
+        .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+        @media (max-width: 560px) {
+            thead th:nth-child(3), td:nth-child(3) { display: none; }
         }
     </style>
 </head>
 <body>
-    <h1>media.aykhan.net ➔ notion-pages ➔ coursera ➔ ibm-ai-engineering ➔ introduction-to-deep-learning-and-neural-networks-with-keras ➔ module-2 ➔ module ➔ 2 ➔ artificial ➔ neural ➔ networks ➔ fff34575a83880ed85dec7c0a1cd2fb5</h1>
-    <a href="../index.html" class="go-back">⬅️ Go Back</a>
-    <table>
-        <thead>
-            <tr>
-                <th class="icon-col">Icon</th>
-                <th>Name</th>
-                <th>Size</th>
-                <th>Last Modified</th>
-            </tr>
-        </thead>
-        <tbody>
-        <tr><td class="icon-col">📄</td><td><a href="thumbnail.png">thumbnail.png</a></td><td>666.3 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 11.png">image 11.png</a></td><td>346.0 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 14.png">image 14.png</a></td><td>161.4 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 5.png">image 5.png</a></td><td>340.5 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 8.png">image 8.png</a></td><td>410.2 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 1.png">image 1.png</a></td><td>178.8 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 4.png">image 4.png</a></td><td>292.9 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 7.png">image 7.png</a></td><td>341.2 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 9.png">image 9.png</a></td><td>417.0 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 13.png">image 13.png</a></td><td>834.8 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 2.png">image 2.png</a></td><td>312.6 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image.png">image.png</a></td><td>183.5 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 12.png">image 12.png</a></td><td>335.3 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 10.png">image 10.png</a></td><td>410.9 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 15.png">image 15.png</a></td><td>221.9 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 17.png">image 17.png</a></td><td>188.1 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 16.png">image 16.png</a></td><td>144.9 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 6.png">image 6.png</a></td><td>283.3 KB</td><td>2026-06-10 23:05</td></tr>
-        <tr><td class="icon-col">📄</td><td><a href="image 3.png">image 3.png</a></td><td>334.6 KB</td><td>2026-06-10 23:05</td></tr>
-        </tbody>
-    </table>
-    
     <!-- Auto-generated by Python script -->
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+    <div class="window">
+        <div class="titlebar">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="titlebar-text">media.aykhan.net | notion-pages | coursera | ibm-ai-engineering | introduction-to-deep-learning-and-neural-networks-with-keras | module-2 | module | 2 | artificial | neural | networks | fff34575a83880ed85dec7c0a1cd2fb5</span>
+        </div>
+        <div class="crumb">
+            <h1><a href="../../../../../../index.html">media.aykhan.net</a><span class="crumb-sep">/</span><a href="../../../../../index.html">notion-pages</a><span class="crumb-sep">/</span><a href="../../../../index.html">coursera</a><span class="crumb-sep">/</span><a href="../../../index.html">ibm-ai-engineering</a><span class="crumb-sep">/</span><a href="../../index.html">introduction-to-deep-learning-and-neural-networks-with-keras</a><span class="crumb-sep">/</span><a href="../index.html">module-2</a><span class="crumb-sep">/</span><span class="crumb-current">Module 2 Artificial Neural Networks fff34575a83880ed85dec7c0a1cd2fb5</span></h1>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th class="icon-col">·</th>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Last Modified</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr><td class="icon-col">📄</td><td><a href="image 1.png">image 1.png</a></td><td>178.8 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 10.png">image 10.png</a></td><td>410.9 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 11.png">image 11.png</a></td><td>346.0 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 12.png">image 12.png</a></td><td>335.3 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 13.png">image 13.png</a></td><td>834.8 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 14.png">image 14.png</a></td><td>161.4 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 15.png">image 15.png</a></td><td>221.9 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 16.png">image 16.png</a></td><td>144.9 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 17.png">image 17.png</a></td><td>188.1 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 2.png">image 2.png</a></td><td>312.6 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 3.png">image 3.png</a></td><td>334.6 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 4.png">image 4.png</a></td><td>292.9 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 5.png">image 5.png</a></td><td>340.5 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 6.png">image 6.png</a></td><td>283.3 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 7.png">image 7.png</a></td><td>341.2 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 8.png">image 8.png</a></td><td>410.2 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image 9.png">image 9.png</a></td><td>417.0 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="image.png">image.png</a></td><td>183.5 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+        <tr><td class="icon-col">📄</td><td><a href="thumbnail.png">thumbnail.png</a></td><td>666.3 KB</td><td>2025-02-08 12:02 UTC</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button class="theme-toggle" type="button" onclick="__toggleTheme()">☾ dark</button>
     <script>
-        function toggleDarkMode() {
-            const body = document.body;
-            const button = document.querySelector('.dark-mode-toggle');
-            body.classList.toggle('dark-mode');
-            const isDarkMode = body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDarkMode);
-
-            // Update button text based on current mode
-            button.textContent = isDarkMode ? '🌞 Light Mode' : '🌙 Dark Mode';
-        }
-
-        // Load dark mode setting from localStorage
-        document.addEventListener('DOMContentLoaded', () => {
-            const isDarkMode = localStorage.getItem('darkMode') === 'true';
-            const button = document.querySelector('.dark-mode-toggle');
-
-            if (isDarkMode) {
-                document.body.classList.add('dark-mode');
-                button.textContent = '🌞 Light Mode';
-            } else {
-                button.textContent = '🌙 Dark Mode';
+        (function () {
+            var KEY = 'aykhan-listing-theme';
+            function label() {
+                var b = document.querySelector('.theme-toggle');
+                if (!b) return;
+                b.textContent = document.documentElement.classList.contains('light') ? '☀ light' : '☾ dark';
             }
-        });
+            window.__toggleTheme = function () {
+                var light = !document.documentElement.classList.contains('light');
+                document.documentElement.classList.toggle('light', light);
+                try { localStorage.setItem(KEY, light ? 'light' : 'dark'); } catch (e) {}
+                label();
+            };
+            document.addEventListener('DOMContentLoaded', label);
+        })();
     </script>
 </body>
 </html>
