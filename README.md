@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://media.aykhan.net/assets/logos/aykhannet.ico" alt="aykhan.net logo" width="120" />
+<img src="https://media.aykhan.net/assets/logos/aykhannet-transparent-bg.svg" alt="aykhan.net logo" width="120" />
 
 # media.aykhan.net
 
