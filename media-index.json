@@ -1,8 +1,8 @@
 {
   "service": "media",
-  "generatedAt": "2026-07-03T10:41:10Z",
+  "generatedAt": "2026-07-03T10:41:48Z",
   "baseUrl": "https://media.aykhan.net",
-  "totalFiles": 1439,
+  "totalFiles": 1442,
   "folders": [
     "achievements/badges/png",
     "achievements/certificates/png",
@@ -119,6 +119,14 @@
       "url": "https://media.aykhan.net/achievements/badges/png/machine-learning-with-python-badge.png"
     },
     {
+      "path": "achievements/certificates/png/ai-fluency-certificate.png",
+      "name": "ai-fluency-certificate.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 168643,
+      "url": "https://media.aykhan.net/achievements/certificates/png/ai-fluency-certificate.png"
+    },
+    {
       "path": "achievements/certificates/png/data-analysis-with-python-certificate.png",
       "name": "data-analysis-with-python-certificate.png",
       "extension": ".png",
@@ -135,12 +143,28 @@
       "url": "https://media.aykhan.net/achievements/certificates/png/deep-learning-essentials-with-keras-certificate.png"
     },
     {
+      "path": "achievements/certificates/png/introduction-to-mcp-certificate.png",
+      "name": "introduction-to-mcp-certificate.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 162975,
+      "url": "https://media.aykhan.net/achievements/certificates/png/introduction-to-mcp-certificate.png"
+    },
+    {
       "path": "achievements/certificates/png/machine-learning-with-python-certificate.png",
       "name": "machine-learning-with-python-certificate.png",
       "extension": ".png",
       "type": "image/png",
       "sizeBytes": 505256,
       "url": "https://media.aykhan.net/achievements/certificates/png/machine-learning-with-python-certificate.png"
+    },
+    {
+      "path": "achievements/certificates/png/mcp-advanced-topics-certificate.png",
+      "name": "mcp-advanced-topics-certificate.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 174119,
+      "url": "https://media.aykhan.net/achievements/certificates/png/mcp-advanced-topics-certificate.png"
     },
     {
       "path": "assets/gifs/loading.gif",
