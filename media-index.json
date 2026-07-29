@@ -1,8 +1,8 @@
 {
   "service": "media",
-  "generatedAt": "2026-07-03T10:41:48Z",
+  "generatedAt": "2026-07-29T10:35:50Z",
   "baseUrl": "https://media.aykhan.net",
-  "totalFiles": 1442,
+  "totalFiles": 1443,
   "folders": [
     "achievements/badges/png",
     "achievements/certificates/png",
@@ -10229,6 +10229,14 @@
       "type": "image/png",
       "sizeBytes": 649064,
       "url": "https://media.aykhan.net/thumbnails/projects/khanlibrary.png"
+    },
+    {
+      "path": "thumbnails/projects/kwes.png",
+      "name": "kwes.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 4395590,
+      "url": "https://media.aykhan.net/thumbnails/projects/kwes.png"
     },
     {
       "path": "thumbnails/projects/notion-quiz-bot.jpg",
