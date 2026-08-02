@@ -1,14 +1,15 @@
 {
   "service": "media",
-  "generatedAt": "2026-07-29T11:13:01Z",
+  "generatedAt": "2026-08-02T17:22:55Z",
   "baseUrl": "https://media.aykhan.net",
-  "totalFiles": 1443,
+  "totalFiles": 1445,
   "folders": [
     "achievements/badges/png",
     "achievements/certificates/png",
     "assets/gifs",
     "assets/icons",
     "assets/images",
+    "assets/images/projects/kc2",
     "assets/images/step-it-academy/diploma-project",
     "assets/images/step-it-academy/diploma-project/advertisements",
     "assets/images/step-it-academy/diploma-project/flags/512",
@@ -437,6 +438,14 @@
       "type": "image/jpeg",
       "sizeBytes": 352936,
       "url": "https://media.aykhan.net/assets/images/media-aykhan-net-bg-image.jpg"
+    },
+    {
+      "path": "assets/images/projects/kc2/kc2-beacon-architecture.png",
+      "name": "kc2-beacon-architecture.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 322549,
+      "url": "https://media.aykhan.net/assets/images/projects/kc2/kc2-beacon-architecture.png"
     },
     {
       "path": "assets/images/step-it-academy/diploma-project/advertisements/advertisement_1.jpg",
@@ -10197,6 +10206,14 @@
       "type": "image/png",
       "sizeBytes": 1474736,
       "url": "https://media.aykhan.net/thumbnails/projects/gas-2.png"
+    },
+    {
+      "path": "thumbnails/projects/kc2.png",
+      "name": "kc2.png",
+      "extension": ".png",
+      "type": "image/png",
+      "sizeBytes": 1458590,
+      "url": "https://media.aykhan.net/thumbnails/projects/kc2.png"
     },
     {
       "path": "thumbnails/projects/khan-dictionary.png",
