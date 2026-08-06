@@ -1,6 +1,6 @@
 {
   "service": "media",
-  "generatedAt": "2026-08-02T17:23:23Z",
+  "generatedAt": "2026-08-06T13:09:54Z",
   "totalFiles": 1445,
   "indexedFolders": [
     "achievements",
@@ -11,7 +11,8 @@
   ],
   "skippedFolders": [
     "no-task-assigned",
-    "not-found"
+    "not-found",
+    "scripts"
   ],
   "notes": [
     "Whitelist-based: only top-level folders in WHITELIST_DIRS are scanned.",
