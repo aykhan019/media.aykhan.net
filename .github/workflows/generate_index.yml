@@ -4,29 +4,33 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - '**/index.html'
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0  # full history so generate_index.py can read per-file commit dates
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
-    - name: Run script
-      run: |
-        python generate_index.py  # Runs your Python script
+      - name: Generate index files
+        run: python generate_index.py
 
-    - name: Commit changes
-      uses: EndBug/add-and-commit@v9
-      with:
-        author_name: 'GitHub Actions'
-        author_email: 'actions@github.com'
-        message: 'Auto-update index.html files'
+      - name: Commit generated files
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: GitHub Actions
+          author_email: actions@github.com
+          message: Auto-update index.html files
