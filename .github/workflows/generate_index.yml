@@ -1,36 +1,45 @@
-name: Generate Index Files
+name: Build and deploy
 
 on:
   push:
-    branches:
-      - master
-    paths-ignore:
-      - '**/index.html'
+    branches: [master]
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
-
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0   # generate_index.py reads git log for commit times
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
       - name: Generate index files
         run: python generate_index.py
 
-      - name: Commit generated files
-        uses: EndBug/add-and-commit@v9
+      - name: Disable Jekyll and drop git history from the artifact
+        run: |
+          touch .nojekyll
+          rm -rf .git
+
+      - uses: actions/upload-pages-artifact@v3
         with:
-          author_name: GitHub Actions
-          author_email: actions@github.com
-          message: Auto-update index.html files
+          path: .
+
+      - id: deploy
+        uses: actions/deploy-pages@v4
