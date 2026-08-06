@@ -3,6 +3,14 @@ name: Build and deploy
 on:
   push:
     branches: [master]
+    paths-ignore:
+      - '.github/**'
+      - '**/.DS_Store'
+      - '**/desktop.ini'
+      - 'README.md'
+      - 'LICENSE'
+      - 'ENGINEERING_AUDIT.md'
+      - 'test_generate_index.py'
   workflow_dispatch:
 
 permissions:
@@ -20,10 +28,11 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
+
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # generate_index.py reads git log for commit times
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -37,7 +46,7 @@ jobs:
           touch .nojekyll
           rm -rf .git
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: .
 
